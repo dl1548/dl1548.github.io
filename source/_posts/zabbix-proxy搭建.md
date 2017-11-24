@@ -36,35 +36,14 @@ Server=zabbix server IP
 Server active=zabbix server IP
 Host name=zabbixproxy #(hsotname在server上添加监控的时候是要用到的)
 
-#DB 设定档
-DBName=zabbix
-DBUser=zabbix
-DBPassword=111111
-ProxyLocalBuffer=0 #设定为0小时，除非有其他第三方应用和插件需要调用
-ProxyOfflineBuffer=1 #proxy或者server无法连接时，保留离线的监控数据的时间，单位小时
-ConfigFrequency=600 #server和proxy配置修改同步时间间隔，设定5-10分钟即可。
-DataSenderFrequency=10 #数据发送时间间隔，10-30s；
-#网络传输质量越好，可以设定间隔时间越短，监控效果也越迅速；
-StartPollers=10 #开启多线程数，一般不要超过30个；
-StartPollersUnreachable=1 #该线程用来单独监控无法连接的主机，1个即可；
-StartTrappers=10 #trapper线程数
-StartPingers=1 #fping线程数
-CacheSize=64M #用来保存监控数据的缓存数，根据监控主机数量适当调整；
-Timeout=10 #超时时间，设定不要超过30s，不然会拖慢其他监控数据抓取时间；
-TrapperTimeout=30 #同上
-FpingLocation=/usr/sbin/fping #配合simple check icmp检测使用，如不需要可关闭；
-其他配置默认即可；
-
-
-
-
-
+#开启并开机启动服务
 
 #然后去server上添加主机
 配置---> 主机---> 创建主机---> 
 主机名:上述的hostname
 agent 接口 就是代理的IP地址
 #其余按需配置,不多赘述
+
 ```
 
 #### 配置proxy的mariadb
@@ -97,12 +76,37 @@ mysql -uroot -p zabbix_proxy < schema.sql
 
 #### 添加proxy
 
-```
+```bash
 #修改配置文件
 #vim /etc/zabbix/zabbix_proxy.conf
 Server=zabbix server IP
 Hostname=zabbixproxy
+
+
+#DB 设定档
+DBName=zabbix
+DBUser=zabbix
+DBPassword=111111
+ProxyLocalBuffer=0 #设定为0小时，除非有其他第三方应用和插件需要调用
+ProxyOfflineBuffer=1 #proxy或者server无法连接时，保留离线的监控数据的时间，单位小时
+ConfigFrequency=60 #server和proxy配置修改同步时间间隔，设定5-10分钟即可。
+DataSenderFrequency=10 #数据发送时间间隔，10-30s；
+#网络传输质量越好，可以设定间隔时间越短，监控效果也越迅速；
+StartPollers=10 #开启多线程数，一般不要超过30个；
+StartPollersUnreachable=1 #该线程用来单独监控无法连接的主机，1个即可；
+StartTrappers=10 #trapper线程数
+StartPingers=1 #fping线程数
+CacheSize=64M #用来保存监控数据的缓存数，根据监控主机数量适当调整；
+Timeout=10 #超时时间，设定不要超过30s，不然会拖慢其他监控数据抓取时间；
+TrapperTimeout=30 #同上
+FpingLocation=/usr/sbin/fping #配合simple check icmp检测使用，如不需要可关闭；
+其他配置默认即可；
+
+#开启并开机启动服务
+
 ```
+
+回到web端
 
 >     Administration-->Proxies-->Create proxy
 
@@ -111,3 +115,6 @@ hostname 与上述的要一致
 
 
 >   当我们再次创建主机的时候就可以通过 修改 *由agent代理程序监测(Monitored by proxy)* 选项进行选择了
+
+
+___

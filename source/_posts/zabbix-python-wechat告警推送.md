@@ -218,7 +218,6 @@ ID：{EVENT.ID}
 ```
 #!/usr/bin/env python3
 # coding: utf-8
-#authour lizili
 import sys
 import requests
 from time import sleep

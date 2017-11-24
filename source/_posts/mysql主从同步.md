@@ -94,4 +94,38 @@ MariaDB [(none)]> show slave status\G
 ```
 然后主服务器又任何操作，从服务器就同步过来了。
 
+
+### 其他
+
+#### 解除主从
+两个办法
+1. 彻底解除主从复制关系
+- stop slave;
+- reset slave; #或直接删除master.info和relay-log.info这两个文件
+- 修改my.cnf删除主从相关配置参数
+
+2. 让slave不随MySQL自动启动
+修改my.cnf
+在[mysqld]中增加 skip-slave-start 选项
+
+
+#### mysqldump需注意
+
+`mysqldump --master-data --single-transaction --user=username --password=password dbname> dumpfilename`
+
+这样就可以保留 `file` 和 `position` 的信息，在新搭建一个slave的时候，还原完数据库
+ file 和 position 的信息也随之更新，接着再start slave 就可以很迅速的完成增量同步！
+
+
+ #### 链条式同步
+ 如果想实现 主-从（主）-从 这样的链条式结构，需要设置：
+`log-slave-updates` #只有加上它，从前一台机器上同步过来的数据才能同步到下一台机器
+
+二进制日志也是必须开启的：
+`log-bin=/opt/mysql/binlogs/bin-log`
+`log-bin-index=/opt/mysql/binlogs/bin-log.index`
+
+还可以设置一个log保存周期：
+`expire_logs_days=14`
+
 ___

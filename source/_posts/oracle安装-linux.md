@@ -1,5 +1,5 @@
 ---
-title: oracle-11g安装-slinux
+title: oracle-11g安装-linux
 date: 2017-11-12 21:00:32
 tags: oracle
 categories: 数据库

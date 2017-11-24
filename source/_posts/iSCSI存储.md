@@ -194,14 +194,15 @@ UUID="64f589c2-2ac4-47f7-8d35-170913a2563f"     /mnt/iscsi   xfs     defaults,_n
 fstab一定呀写对，不然系统重启会启动不起来，特别注意。
 万一 启动不起来怎么办？
 重启虚拟机  按 e 进行编辑
-修改ro  rd........等  为 ro.break
+修改ro  rd........等  为 rd.break
 
 switch_root:/# mount –o remount,rw /sysroot/
 switch_root:/# chroot /sysroot/
 sh-4.2#vi /etc/fstab    #重新编辑
 ##这里还可以修改root密码。
-passwd root。
+passwd root
 
+如果开了seLinux.记得 touch /.autorelabel 这句是为了selinux生效,否则系统无法正常启动
 如果忘记密码也可用这个办法修改
 ```
 

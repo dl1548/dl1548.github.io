@@ -171,7 +171,9 @@ su - es
 /usr/local/elasticsearch-5.6.2/bin/elasticsearch -d #守护进程方式启动
 nohup /usr/local/elasticsearch-5.6.2/bin/elasticsearch > /var/log/es.log 2>&1 & #推荐
  ```
-######es报错解决方案
+
+##### es报错解决方案
+
  ```
 ERROR: [2] bootstrap checks failed
 [1]: max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]
@@ -193,6 +195,7 @@ vm.max_map_count=655360
 #运行命令生效
 sysctl -p
 ```
+
 #### 检查es启动状态,并访问
 ```json
 [root@master ~]# netstat -tnlp |grep java
@@ -218,6 +221,7 @@ tcp6       0      0 :::9300                 :::*                    LISTEN      
 
 此时目录下会多个data文件夹，默认的数据目录
 ```
+
 #### elasticsearch配置文件详解
 
 [此链接为出处](http://www.cnblogs.com/zlslch/p/6419948.html)
@@ -345,7 +349,9 @@ elasticsearch-.yml（中文配置详解）
 
 　　输入，http://192.168.80.200:9200/
 ```
+
 #### logstash和elasticsearch结合
+
 >结合有两种方法，直接结合，通过redis结合
 
 *直接结合*
@@ -362,6 +368,7 @@ output {
 
 ```
 *与redis结合*
+
 ```json
 # cat  config/logstash-redis.conf
 input {
@@ -425,11 +432,15 @@ output {
 
 ```
 ### Kinaba
+
 #### 安装kibana
+
 ```
 # tar zxf kibana--VERSION -C /usr/local
 ```
+
 #### 配置
+
 ```
 vim /usr/local/kibana-VERSION /config/kibana.yml
 #修改如下
@@ -439,7 +450,9 @@ elasticsearch_url: "http://es的IP地址:9200"
 #访问kibana地址
 http://10.1.27.23:5601
 ```
+
 #### 启动
+
 ```bash
 /usr/local/kibana-VERSION-linux-x64/bin/kibana
 ```
