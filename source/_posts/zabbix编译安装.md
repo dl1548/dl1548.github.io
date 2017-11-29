@@ -16,10 +16,10 @@ copyright: true
 #### 安装基础环境(依赖)
 平台在 centos 7+ （PHP 5.5）
 ```
-yum -y install php*   
-yum -y install mariadb*
+yum -y install php php-mysql php-common php-gd php-ldap php-odbc php-pear php-xml php-mcrypt php-xmlrpc php-devel php-mbstring php-snmp php-soap curl curl-devel php-bcmath
+yum -y install mariadb mariadb-server mariadb-libs mariadb-devel
 yum install -y httpd-manual httpd  mod_ssl mod_perl mod_auth_mysql
-yum install -y fping mysql mysql-server  mysql-connector-odbc mysql-devel libdbi-dbd-mysql libssh2 libxml2 libxml2-devel libssh2-devel unixODBC unixODBC-devel
+yum install -y fping mysql-connector-odbc mysql-devel libdbi-dbd-mysql libssh2 libxml2 libxml2-devel libssh2-devel unixODBC unixODBC-devel
 yum install -y iksemel*
 yum install -y net-snmp-devel net-snmp-utils curl-devel OpenIPMI OpenIPMI-devel rpm-build openldap openldap-devel java java-devel
 yum install -y pam-devel (目的是为了安装monit来监控heartbeat等服务)
@@ -35,7 +35,7 @@ rpm -ivh http://mirrors.sohu.com/fedora-epel/6/x86_64/epel-release-6-8.noarch.rp
 
 然后安装支持PHP5.4 以上的源 并安装PHP 相关的服务
 rpm -Uvh http://mirror.webtatic.com/yum/el6/latest.rpm
-yum install -y httpd mysql mysql-server
+yum install -y httpd mysql mysql-server mysql-devel
 yum install php55w  php55w-bcmath php55w-cli php55w-common  php55w-devel php55w-fpm    php55w-gd php55w-imap  php55w-ldap php55w-mbstring php55w-mcrypt php55w-mysql   php55w-odbc   php55w-pdo php55w-pear  php55w-pecl-igbinary  php55w-xml php55w-xmlrpc php55w-opcache php55w-intl php55w-pecl-memcache 
 
 其他的安装包同7
