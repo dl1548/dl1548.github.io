@@ -85,12 +85,11 @@ menu:
   categories: /categories/ || th
   archives: /archives/ || archive
   board: /board/ || book
-  #about: /about/ || user
+  about: /about/ || user
   #other: /categories/other || lock
   #schedule: /schedule/ || calendar
   #sitemap: /sitemap.xml || sitemap
   #commonweal: /404/ || heartbeat
-
 # Enable/Disable menu icons.
 menu_icons:
   enable: true
