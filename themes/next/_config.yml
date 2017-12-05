@@ -115,7 +115,7 @@ scheme: Mist
 # Value before `||` delimeter is the target permalink.
 # Value after `||` delimeter is the name of FontAwesome icon. If icon (with or without delimeter) is not specified, globe icon will be loaded.
 social:
-  微博: http://weibo.com/lizili958 || weibo
+  #微博: http://weibo.com/lizili958 || weibo
   #GitHub: https://github.com/dl1548 || github
   #Google: https://plus.google.com/yourname || google
   #Twitter: https://twitter.com/yourname || twitter
@@ -165,8 +165,8 @@ toc:
 
 sidebar:
   # Sidebar Position, available value: left | right (only for Pisces | Gemini).
-  position: left
-  #position: right
+  #position: left
+  position: right
 
   # Sidebar Display, available value (only for Muse | Mist):
   #  - post    expand on posts automatically. Default.
