@@ -5,7 +5,7 @@
   <span class="with-love">
     <i class="fa fa-{{ theme.footer.icon }}"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">{{ theme.footer.copyright || config.author }}</span>
+  <span class="author" itemprop="copyrightHolder">{{ theme.footer.copyright || config.author }} 豫ICP备17037562号</span>
 
   {% if theme.post_wordcount.totalcount %}
     <span class="post-meta-divider">|</span>

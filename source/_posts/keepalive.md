@@ -3,7 +3,6 @@ title: keepalive
 date: 2017-06-06 20:16:08
 tags: keepalive
 categories:
-    - web
     - linux
 copyright: true
 ---
