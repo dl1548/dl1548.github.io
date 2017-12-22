@@ -1,5 +1,5 @@
 ---
-title: docker学习(未完待续)
+title: docker学习
 date: 2017-12-15 21:15:06
 tags: docker
 categories:
