@@ -1,6 +1,6 @@
 ---
 title: zabbix自定义key
-date: 2017-04-25 18:42:57
+date: 2017-12-23 18:42:57
 tags: zabbix
 categories: zabbix
 copyright: true

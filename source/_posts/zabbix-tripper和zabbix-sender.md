@@ -1,6 +1,6 @@
 ---
 title: zabbix tripper和zabbix_sender
-date: 2017-06-24 18:50:04
+date: 2017-12-24 20:50:04
 tags: zabbix
 categories: zabbix
 copyright: true

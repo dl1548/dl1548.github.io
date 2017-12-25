@@ -24,7 +24,7 @@ mysqldump -uusername -ppassword DatabaseName | gzip > /home/backup/DatabaseName_
 
 #### -mtime
 ```
-查找 并移动
+查找 并移动3天前的
 find /net-log/ -mtime +3 -name "*.*" -exec mv {} /tmp/ \;
 
 命令可写到定时任务中,对长时间不读取文件进行删除
@@ -32,10 +32,10 @@ crontab -e
 * * * * *  + 程序 +命令或脚本
 #如果是bash命令 可直接写.
 例:每天0点执行test.py
-0 0 * * *  /usr/binpython3   /script/test.py 
+0 0 * * *  /usr/bin/python3   /script/test.py 
 ```
 
-#### ssh快捷登录s
+#### ssh快捷登录
 ```
 zili@Ubuntu:~$ cat ~/.ssh/config 
 Host study
