@@ -9,7 +9,7 @@
         if('{{ page.password }}'){
             if (prompt('请输入文章密码') !== '{{ page.password }}'){
                 alert('密码错误！');
-                location="http://dl1548.site";
+                location="http://blog.dl1548.site";
             }
         }
     })();
