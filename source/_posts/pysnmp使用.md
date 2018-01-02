@@ -120,6 +120,10 @@ def info(self,oid,ip,commu):
 #### 简单例子
 
 ```python
+#!/usr/bin/env python
+#coding: utf-8
+#authou: lizili
+#from pysnmp.hlapi import *
 from pysnmp.entity.rfc3413.oneliner import cmdgen
 import json
 
@@ -139,7 +143,6 @@ class GetSnmp():
             cmdgen.UdpTransportTarget((ip, 161)),
             oid,
         )
-
         if errorIndication:
             print(errorIndication)
         else:
@@ -150,36 +153,50 @@ class GetSnmp():
                     )
                 )
             else:
+                var_dict={}
                 for varBindTableRow in varBindTable:
                     for name, val in varBindTableRow:
-                        return ('%s = %s' % (name.prettyPrint(), val.prettyPrint()))
-         
+                        var_dict[name.prettyPrint()]=str(val.prettyPrint())
+                return var_dict
+
     #循环oid表，提取整理信息
     def get_info(self,oid,ip,commu='public'):
-        info_list=[]
-        print oid
+        info_list={}
         for o in oid:
             info = self.info(o,ip,commu)
-            l = info.split('=')
-            info_list.append(l)
-        result ={value[0]:value[1] for value in info_list}
-        info_json = json.dumps(result,indent=4)
+            info_list[o]=info
+        info_json=json.dumps(info_list,indent=4)
         return info_json
-if __name__ == "__main__":
-    sysDescr = "1.3.6.1.2.1.1.1"
-    sysUpTime = "1.3.6.1.2.1.1.3"
-    sysName  = "1.3.6.1.2.1.1.5"
-    ifMtu = "1.3.6.1.2.1.2.2.1.4"
-    ipAdEntAddr = "1.3.6.1.2.1.4.20.1.1"
 
+if __name__ == "__main__":
+    sysName  = "1.3.6.1.2.1.1.5"
+    sysDescr = "1.3.6.1.2.1.1.1"
+    ifNumber = "1.3.6.1.2.1.2.1"
+    ifDescr = "1.3.6.1.2.1.2.2.1.2"
+    ifInOctet = "1.3.6.1.2.1.2.2.1.10"
+    ifOutOctet = "1.3.6.1.2.1.2.2.1.16"
+    ifInUcastPkts = "1.3.6.1.2.1.2.2.1.11"
+    ifOutUcastPkts = "1.3.6.1.2.1.2.2.1.17"
+    ipNetToMediaPhysAddress = "1.3.6.1.2.1.4.22.1.2"
+    ipOperStatus = "1.3.6.1.2.1.2.2.1.8"
+    #实例化类
     test = GetSnmp()
+
+    #生成list
     oid_list = test.make_list(
-        sysDescr,
-        sysUpTime,
-        sysName,
-        ifMtu,
-        ipAdEntAddr,
-        ) 
+    #    sysName,
+    #    sysDescr,
+    #    ifNumber,
+    #    ifDescr,
+    #    ifInOctet,
+    #    ifOutOctet,
+    #    ifInUcastPkts,
+    #    ifOutUcastPkts,
+        ipNetToMediaPhysAddress,
+        ipOperStatus,
+        )
+    #输出信息 
     info = test.get_info(oid_list,"192.168.1.235")
     print info
+
 ```
