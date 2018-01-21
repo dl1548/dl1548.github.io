@@ -122,7 +122,8 @@ def info(self,oid,ip,commu):
 ```python
 #!/usr/bin/env python
 #coding: utf-8
-#authou: lizili
+#author: lizili
+
 #from pysnmp.hlapi import *
 from pysnmp.entity.rfc3413.oneliner import cmdgen
 import json
@@ -161,11 +162,11 @@ class GetSnmp():
 
     #循环oid表，提取整理信息
     def get_info(self,oid,ip,commu='public'):
-        info_list={}
+        info_dict={}
         for o in oid:
             info = self.info(o,ip,commu)
-            info_list[o]=info
-        info_json=json.dumps(info_list,indent=4)
+            info_dict[o]=info
+        info_json=json.dumps(info_dict,indent=4)
         return info_json
 
 if __name__ == "__main__":

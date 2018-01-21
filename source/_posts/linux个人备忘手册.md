@@ -1,6 +1,6 @@
 ---
 title: linux个人备忘手册
-date: 1111-11-11 11:11:11
+date: 1111-11-11 11:11:12
 tags: -个人备忘手册
 categories: linux
 copyright: true
@@ -48,9 +48,9 @@ zili@Ubuntu:~$ ssh study
 root@10.1.1.11's password: 
 ```
 
+#### mysql开启远程
 
-
-
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'youpassword' WITH GRANT OPTION;
 
 
 

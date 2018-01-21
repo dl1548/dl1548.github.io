@@ -24,6 +24,17 @@ yum install zabbix-server-mysql -y
 yum install zabbix-web-mysql -y
 yum -y install mariadb*
 ```
+
+
+#### 启动httpd,mysql
+```
+ systemctl enable mariadb
+ systemctl start mariadb
+ systemctl enable httpd
+ systemctl enable httpd
+```
+
+
 #### 设置mysql密码
 ```
 mysqladmin -uroot password 'password';
@@ -36,14 +47,6 @@ mysqladmin -uroot password 'password';
   c)取消root用户远程登录
   d)删除test库和对test库的访问权限
   e)刷新授权表使修改生效
-```
-
-#### 启动httpd,mysql
-```
- systemctl enable mariadb
- systemctl start mariadb
- systemctl enable httpd
- systemctl enable httpd
 ```
 
 #### 配置php
