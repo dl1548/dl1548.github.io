@@ -140,6 +140,7 @@ if __name__ == "__main__":
 
 
 后续调用zbx接口，将用户插入进去，即可完成LDAP单点登录。
+安装`requests`
 
 ```python
 #coding: utf-8
