@@ -45,7 +45,8 @@ IP hostname  #10.1.27.25 oracle
 ##### 软件包
 ```
 binutils
-compat-libstdc*
+compat-libcap1
+compat-libstdc++-33
 elfutils-libelf
 elfutils-libelf-devel
 gcc-4.1.2 
@@ -99,6 +100,12 @@ net.core.rmem_default = 262144
 net.core.rmem_max = 4194304 
 net.core.wmem_default = 262144 
 net.core.wmem_max = 1048586 
+
+#安装oracle 12C 内核有变动，值如下。
+shmmax  67286788096
+shmall 13141950
+
+
 2. 使核心参数生效
 # /sbin/sysctl –p
 ```
