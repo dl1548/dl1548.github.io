@@ -140,7 +140,9 @@ if __name__ == "__main__":
 
 
 后续调用zbx接口，将用户插入进去，即可完成LDAP单点登录。
-安装`requests`
+安装`requests` 
+
+
 
 ```python
 #coding: utf-8
@@ -267,4 +269,10 @@ for username in user_list:
     user.create_user(username,groupname)
 ```
 
+`ImportError: No module named 'requests.packages.urllib3'`
+
+执行
+`pip install requests  --force --upgrade`
+or
+`pip install requests urllib3 --force --upgrade`
 ---
