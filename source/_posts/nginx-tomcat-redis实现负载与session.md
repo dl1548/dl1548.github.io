@@ -249,8 +249,10 @@ rpm -e --nodeps java-1.7....... # -e 删除 --nodeps强行删除
 配置全局变量 vim /etc/profile  在末尾添家，注意路径！特别是JDK文件名字
 
 ```
-export JAVA_HOME=/usr/java/jdk1.8.0_45
-export JRE_HOME=/usr/java/jdk1.8.0_45/jre
+export RUN_AS_USER=root
+export JAVA_HOME=/usr/local/jdk1.8.0_45
+export CLASS_HOME=/usr/local/jdk1.8.0_45/lib:$JAVA_HOME/jre/lib
+#export JRE_HOME=/usr/local/jdk1.8.0_45/jre
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib:$CLASSPATH
 export PATH=$PATH:$JAVA_HOME/bin
 ```

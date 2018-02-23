@@ -8,6 +8,7 @@ tags:
 categories: 
     - python
 copyright: true
+password: woshizhu
 ---
 
 LDAP认证系统可再多系统间实现单点登录，免去多账户的烦恼。
