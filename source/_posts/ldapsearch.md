@@ -381,6 +381,44 @@ for username in zbx_user_list:
 
 执行
 `pip install requests  --force --upgrade`
+
 or
+
 `pip install requests urllib3 --force --upgrade`
+
+
+#### 其他
+当ldap挂了的时候,可通过修改数据库进行切换本地认证.
+当然,也可以通过,直接修改数据库进行认证的切换.
+
+
+```
+mysql> use zabbix;
+Database changed
+mysql> show tables;
+#用户和认证的信息涉及到四个表，分别是表config、users、users_groups、usrgrp
+#只用config表来配置认证切换
+mysql> desc config;
+
+#认证类型由 authentication_type，字段决定，值可以为0,1和2
+#0 代表Internal,1代表LDAP，2代表HTTP.
+
+mysql> update config set authentication_type=0;
+#即可切换为系统认证方式
+mysql> flush privileges;
+
+#穿插:修改用管理员密码的命令
+#查询Admin用户的ID:
+mysql> select * from users;
+#修改admin密码
+mysql> update users set passwd='zabbix' where userid=????;
+
+
+#切换LDAP信息,更换相关信息等.
+
+use zabbix;
+
+update config set authentication_type=1,ldap_host='ldap://192.168.1.xx',ldap_port='389',ldap_base_dn='DC=zbx,DC=com',ldap_bind_dn='cn=Admin,ou=zabbix,dc=zbx,dc=com',ldap_search_attribute='sAMAccountName',ldap_bind_password='xxxxxxxxx';
+
+```
 ---
