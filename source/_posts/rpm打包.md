@@ -4,7 +4,6 @@ date: 2018-02-28 08:42:06
 tags: rpm
 categories: linux
 copyright: true
-password: woshizhu
 ---
 
 > RPM（Redhat Package Manager）是用于Redhat、CentOS、Fedora等Linux 分发版（distribution）的常见的软件包管理器。因为它允许分发已编译的软件，所以用户只用一个命令就可以安装软件.
@@ -102,10 +101,12 @@ Source3:    zbx_parse_iostat_values.sh
 Source4:    tcp-status-params.conf
 Source5:    zbx_parse_iostat_values.conf
 
-BuildRequires:      gcc, gcc-c++            
+BuildRequires:      net-tools
+#gcc, gcc-c++            
 #制作rpm包时，所依赖的基本库
 
-Requires:   gcc, gcc-c++       
+Requires:      net-tools
+#gcc, gcc-c++       
 #安装rpm包时，所依赖的软件包
 
 %description                                
@@ -131,7 +132,6 @@ sed -i "/BASEDIR=\/usr\/local/c\BASEDIR=\/usr\/local\/%{name}" /etc/init.d/zabbi
 %preun                                      
 #rpm卸载前执行的脚本
 /etc/init.d/zabbix_agentd stop
-systemctl stop zabbix_agentd
 
 %postun                                     
 #rpm卸载后执行的脚本
@@ -184,13 +184,14 @@ rm -rf %{buildroot}
 
 ```
 
-脚本参考
+脚本参考(主要针对centos7 内核)
 ```
 #/usr/bin/bash
 #ip= ip addr |grep inet |egrep -v "inet6|127.0.0.1" |awk '{print $2}' |awk -F "/" '{print $1}'
 
 # get server ip
-echo "NOTICE! Check the package net-tools is installed"
+
+echo -e "\n NOTICE! Check the package net-tools is installed \n "
 read -p  "zabbix server ip：" zabbix_server
 if [ ! -n "$zabbix_server" ]; then
     echo "you have not input server ip, exit"
@@ -204,24 +205,35 @@ if [ ! -n "$local_ip" ]; then
     exit 1
 fi
 
+echo "start to install..."
+sleep 1
 #version centos7
 #cat /etc/*release | egrep -i "centos|rhel|red hat|redhat"
-if [[ $? -eq 0 ]];then
-# install agent
-    rpm -ivh zabbix-3.0.14-1.el7.centos.x86_64.rpm
-# modify agent config
-    sed -i "/^Server=/c\Server=${zabbix_server}" /usr/local/zabbix/etc/zabbix_agentd.conf
-    sed -i "/^ServerActive=/c\ServerActive=${zabbix_server}" /usr/local/zabbix/etc/zabbix_agentd.conf
-    sed -i "/^Hostname=/c\Hostname=${local_ip}" /usr/local/zabbix/etc/zabbix_agentd.conf
-    sed -i "/Timeout=3/c\Timeout=30" /usr/local/zabbix/etc/zabbix_agentd.conf
-    #sed -i "/Include=/c\Include=/usr/local/zabbix/etc/zabbix_agentd.conf.d/*.conf" /usr/local/zabbix/etc/zabbix_agentd.conf
-    sed -i "260i\Include=/usr/local/zabbix/etc/zabbix_agentd.conf.d/*.conf" /usr/local/zabbix/etc/zabbix_agentd.conf
-    systemctl daemon-reload
-    /etc/init.d/zabbix_agentd start
-    chkconfig zabbix_agentd on
-    #systemctl enable zabbix_agentd
-fi
 
-# modify agent start script
+echo "check os version..."
+sleep 1
+
+
+#version centos7
+cat /etc/*release | grep -q -i "centos\|rhel\|red hat\|redhat"
+if [[ $? -eq 0 ]];then
+    cat /etc/*release | grep -q -i "7\."
+    if [[ $? -eq 0 ]];then
+        sleep 1
+        rpm -ivh zabbix-3.0.14-1.el7.centos.x86_64.rpm
+        echo "modify the agentd configuration"
+        sleep 1
+        sed -i "/^Server=/c\Server=${zabbix_server}" /usr/local/zabbix/etc/zabbix_agentd.conf
+        sed -i "/^ServerActive=/c\ServerActive=${zabbix_server}" /usr/local/zabbix/etc/zabbix_agentd.conf
+        sed -i "/^Hostname=/c\Hostname=${local_ip}" /usr/local/zabbix/etc/zabbix_agentd.conf
+        sed -i "/Timeout=3/c\Timeout=30" /usr/local/zabbix/etc/zabbix_agentd.conf
+        sed -i "260i\Include=/usr/local/zabbix/etc/zabbix_agentd.conf.d/*.conf" /usr/local/zabbix/etc/zabbix_agentd.conf
+        systemctl daemon-reload
+        /etc/init.d/zabbix_agentd start
+        chkconfig zabbix_agentd on
+        echo "SUCCESSFUL !"
+        exit
+    fi
+fi
 
 ```

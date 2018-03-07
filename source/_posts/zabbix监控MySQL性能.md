@@ -13,7 +13,7 @@ copyright: true
 <!--more-->
 
 #### 安装agent 
-[查看此链接](http://dl1548.site/2017/04/18/zabbix-agent%E5%AE%89%E8%A3%85/)
+[查看此链接](http://blog.dl1548.site/2017/04/18/zabbix-agent%E5%AE%89%E8%A3%85/)
 
 ####  DB权限
 1. 在客户端的mysql里添加权限,使用zabbix账号连接本地的mysql
