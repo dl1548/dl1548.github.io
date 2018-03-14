@@ -109,6 +109,9 @@ Requires:      net-tools
 #gcc, gcc-c++       
 #安装rpm包时，所依赖的软件包
 
+#BuildRoot: %{_tmpdir}/%{name}-%{version}-%{release}
+#构建包的临时文件路径.centos5 不写会报错
+
 %description                                
 #定义rpm包的描述信息
 Zabbix agentd

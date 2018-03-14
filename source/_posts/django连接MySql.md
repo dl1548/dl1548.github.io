@@ -38,7 +38,7 @@ DATABASES = {
 
 #### 安装相关模块
 > python3 不在支持MySQLdb
->安装pymsql  `pip3 install pymysl`
+>安装pymsql  `pip3 install pymysql`
 
 ```
 #去项目下修改__init__.py,使其默认数据库模块为pymysql

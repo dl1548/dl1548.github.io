@@ -115,7 +115,25 @@ jenkins环境至此搭建完毕.
 #### 熟悉jenkins
 **系统设置**
    - 包括一些全局设置,工具的设置,证书创建,插件管理等等
+##### 全局工具设置
+JKD,GIT,MAVEN等,我的路径都是在`/usr/local/..` git要注意,写path../git/bin/git
 
+##### 安全设置
+如果要用api ,把访问控制的`Allow anonymous read access`.不然会报错.
+
+##### 认证配置
+Credentials --->System　---> Global credentials (unrestricted) ---> Add Credentials
+一般写用户名，密码描述即可．ＩＤ会自动生成且唯一
+
+##### 插件管理
+`Deploy to Containers` - 发布应用到tomcat(一般使用ssh)  
+`Maven Integration`  - maven 集成
+`Publish Over SSH` — 该插件远程ssh登录server执行命令
+
+`Git Plugin` — 该插件允许使用GIT作为一个构建SCM(源代码控制管理系统)，但必须使用Git 1.3.3及以上
+`Subversion Plugin` — 该插件增加对svn(通过SVNKit)的支持。
+
+以及其他按需安装的插件
 
 #### 部署静态页面
 ##### 部署到httpd
