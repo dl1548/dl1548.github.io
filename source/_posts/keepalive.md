@@ -28,16 +28,15 @@ Unit File的环境配置文件：/etc/sysconfig/keepalived
 ! Configuration File for keepalived
 
 global_defs {   #全局配置
-   notification_email {
-    lizili@xxxxxx.com   #出问题是,接收人邮件
-   }
-   notification_email_from lizili@xxxxxx.com #发件人邮箱
-   smtp_server smtp.xxxxxx.com
-   smtp_connect_timeout 30
-   router_id LVS_DEVEL
+   router_id haproxy1 #一般为hostnmae
 }
-# 这个邮件比较鸡肋,建议通过脚本发送.
 
+vrrp_script checkhaproxy
+{
+    script "/etc/keepalived/check.sh" #haproxy 健康检测
+    interval 3 #3秒检查一次
+    weight -10
+}
 vrrp_instance VI_1 {       #vrrp命名,多个的时候,命名要不一致.
     state MASTER         #虚拟机路由器状态MASTER/BACKUP
     interface eno16777984  #通过那个网卡发送vrrp广播
@@ -49,7 +48,10 @@ vrrp_instance VI_1 {       #vrrp命名,多个的时候,命名要不一致.
         auth_pass lizili
     }
     virtual_ipaddress {  #虚拟路由地址
-        10.1.27.21
+        10.1.27.21/24
+    }
+    track_script {
+        checkhaproxy  #执行健康检测脚本
     }
 }
 
@@ -60,31 +62,49 @@ vrrp_instance VI_1 {       #vrrp命名,多个的时候,命名要不一致.
 ! Configuration File for keepalived
 
 global_defs {
-   notification_email {
-    lizili@xxxxxx.com
-   }
-   notification_email_from lizili@xxxxxx.com
-   smtp_server smtp.xxxxxx.com
-   smtp_connect_timeout 30
-   router_id LVS_DEVEL
+   router_id haproxy2
 }
-
+vrrp_script checkhaproxy
+{
+    script "/etc/keepalived/check.sh"
+    interval 3
+    weight -10
+}
 vrrp_instance VI_1 {
     state BACKUP
     interface eno16777984
     virtual_router_id 51
-    priority 99
+    priority 90
     advert_int 1
     authentication {
         auth_type PASS
         auth_pass lizili
     }
     virtual_ipaddress {
-        10.1.27.21
+        10.1.27.21/24
     }
+    track_script {
+        checkhaproxy
+    }
+    
 }
 
 ```
+#### check脚本
+755权限
+vim /etc/keepalived/check.sh
+防止haproxy服务关闭keepalived不切,前提保证keepalive和haproxy都处于开启运行状态.
+```
+#!/bin/bash
+if [ $(ps -C haproxy --no-header | wc -l) -eq 0 ]; then
+     /etc/init.d/haproxy  start
+fi
+sleep 2
+if [ $(ps -C haproxy --no-header | wc -l) -eq 0 ]; then
+    systemctl stop keepalived.service
+fi
+```
+
 ##### 测试
 两台都安装httpd服务`yum -y install httpd`
 `vi /var/www/html/index.html`
@@ -92,6 +112,7 @@ vrrp_instance VI_1 {
 然后关闭master的keepalived服务,刷新网页,应该出现slave的地址
 
 #### 邮件告警
+建议一定加上.
 安装mailx
 ```
 #安装mailx邮件服务
@@ -151,6 +172,7 @@ vrrp_instance VI_2 {       #vrrp命名,多个的时候,命名要不一致.
 
 ```
 slave
+
 ```shell
 vrrp_instance VI_1 {
     state MASTER
@@ -169,8 +191,6 @@ vrrp_instance VI_1 {
 ```
 其实就是增加新的配置 VI_2 使用Server B 做主，如此 Server A、B 各自拥有主虚拟 IP，同时备份对方的虚拟 IP, 这个方案可以是不同的服务，或者是同一服务的访问分流(配合 DNS 使用)
 
-
->未完待续
 ___
 
 
