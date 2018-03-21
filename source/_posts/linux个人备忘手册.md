@@ -37,7 +37,8 @@ crontab -e
 
 #### ssh快捷登录
 ```
-zili@Ubuntu:~$ cat ~/.ssh/config 
+zili@Ubuntu:~$ cat ~/.ssh/config
+ServerAliveInterval 60 #60S发送一次存活信息,以免断开
 Host study
 User root
 Hostname 10.1.1.11
@@ -50,7 +51,50 @@ root@10.1.1.11's password:
 
 #### mysql开启远程
 
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'youpassword' WITH GRANT OPTION;
+`GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'youpassword' WITH GRANT OPTION;`
+
+#### 开启snmp
+`yum –y install net-snmp net-snmp-devel`
+若要使用snmpwalk进行安装检测，则还需要
+`yum –y install net-snmp-utils`
+
+`vi /etc/snmp/snmpd.conf`
+把`62`行中的`systemview`改为`mib2`
+把`89行的`#`去掉。
+然后在最后一行添加 `rwcommunity  ge.` 保存退出。
+防火墙添加策略,重启服务即可
+`snmpwalk -v 2c -c public localhost sysName.0`可做验证,默认社区号是`public`
+若需要修改则`41`行中`public`换为指定字符串即可
+
+
+#### openssl自签
+Key是私用秘钥，通常是RSA算法
+Csr是证书请求文件，用于申请证书。在制作csr文件时，必须使用自己的私钥来签署申，还可以设定一个密钥。
+crt是CA认证后的证书文，签署人用自己的key给你签署凭证。
+```
+# 生成一个RSA密钥
+openssl genrsa -des3 -out 33iq.key 1024
+ 
+# 拷贝一个不需要输入密码的密钥文件
+openssl rsa -in 33iq.key -out 33iq_nopass.key
+ 
+# 生成一个证书请求
+openssl req -new -key 33iq.key -out 33iq.csr
+ 
+# 自己签发证书
+openssl x509 -req -days 365 -in 33iq.csr -signkey 33iq.key -out 33iq.crt
+
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
