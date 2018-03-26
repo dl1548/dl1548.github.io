@@ -22,10 +22,21 @@ mysqldump -uusername -ppassword DatabaseName > /home/backup/DatabaseName_$(date 
 mysqldump -uusername -ppassword DatabaseName | gzip > /home/backup/DatabaseName_$(date +%Y%m%d_%H%M%S).sql.gz
 ```
 
+#### 定时备份
+
+```
+#!/usr/bin/bash
+cd /var/log/
+tar -zcf /var/log/haproxy_log_bk/$(date +%Y%m%d_%H%M%S).tar.gz haproxy.log
+echo "" > haproxy.log
+```
+
 #### -mtime
 ```
 查找 并移动3天前的
-find /net-log/ -mtime +3 -name "*.*" -exec mv {} /tmp/ \;
+find /net-log/ -mtime +3 -name "*.log" -exec mv {} /tmp/ \;
+删除
+find /net-log/ -mtime +3 -name "*.log" -exec rm -rf {} \;
 
 命令可写到定时任务中,对长时间不读取文件进行删除
 crontab -e

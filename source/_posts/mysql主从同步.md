@@ -2,7 +2,7 @@
 title: mysql主从同步
 date: 2017-09-04 14:49:47
 tags: mysql
-categories: 数据库
+categories: database
 copyright: true
 ---
 
