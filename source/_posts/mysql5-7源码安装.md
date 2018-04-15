@@ -91,7 +91,8 @@ vim /etc/my.cnf
 [mysqld]
 datadir=/usr/local/mysql/data
 socket=/usr/local/mysql/mysql.sock
-
+character-set-server=utf8
+max_connections=1000
 [mysqld_safe]
 log-error=/usr/local/mysql/logs/mysqld.log
 pid-file=/usr/local/mysql/pids/mysqld.pid

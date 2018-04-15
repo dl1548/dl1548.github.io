@@ -132,6 +132,8 @@ Credentials --->System　---> Global credentials (unrestricted) ---> Add Credent
 
 `Git Plugin` — 该插件允许使用GIT作为一个构建SCM(源代码控制管理系统)，但必须使用Git 1.3.3及以上
 `Subversion Plugin` — 该插件增加对svn(通过SVNKit)的支持。
+`Role-based Authorization Strategy` jenkins 用户权限管理
+  - 系统管理-Configure Global Security-授权策略-Role-Based Strategy，勾选Role-Based Strategy保存
 
 以及其他按需安装的插件
 

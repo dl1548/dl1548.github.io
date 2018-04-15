@@ -11,24 +11,146 @@ password: woshizhu
 docker
 <!--more-->
 
+Docker三个基本概念
+- 镜像（image）
+- 容器（container）
+- 仓库（rrepository)
+
+#### 安装
+不同系统安装方式不同，[详见](https://github.com/yeasy/docker_practice/blob/master/install/README.md)
+以`centos`为例(仅支持64位kernel >=3.10)建议使用国内源
+**卸载原有版本**
+`yum remove docker docker-common docker-selinux docker-engine`
+yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖
+`yum install -y yum-utils device-mapper-persistent-data lvm2`
+**添加yum源**
+```
+#中科大
+sudo yum-config-manager --add-repo https://mirrors.ustc.edu.cn/docker-ce/linux/centos/docker-ce.repo
+# 官方源
+# sudo yum-config-manager  --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+```
+查看版本
+` yum list docker-ce --showduplicates | sort -r`
+可选择版本进行安装。默认仓库只开放稳定版
+```
+sudo yum install docker-ce #默认安装最新稳定版
+sudo yum install docker-ce-17.12.0.ce #安装指定版本
+```
+然后启动并开机启动，`docker version`即可查看版本
+
+#### 创建用户组
+为了安全起见，docker只允许root和docker用户组的用户进行访问
+`groupadd docker`
+`usermod -G docker username`
+
+ #### 镜像加速
+`vim /etc/docker/daemon.json`
+```
+#docker国内镜像加速应该是挂了
+{
+  "registry-mirrors": ["https://registry.docker-cn.com"]
+}
+
+#阿里云镜像加速
+登陆[阿里云](https://cr.console.aliyun.com),获取专属加速地址
+类似 https://xxxx.mirror.aliyuncs.com 替换上面的地址
+
+```
+systemctl daemon-reload
+systemctl restart docker
+
+
+
 #### image
-docker images 
--a (显示包括中间层镜像)
+获取镜像
+`docker pull [选项] [ 仓库地址]  仓库名/标签` 默认从`docker hub` 中拉取
+例如 ： docker pull centos #默认就是从docker hub下载最新的
+如果需要下载制定tag的，可去官网查询
+`docker search xxxx` 不显示tag
+`docker pull centos:7.4.1708` 下载指定版本
 
-列出某个image之前(之后)的镜像
-`docker images -f since(或before)=image name`
+`docker images -a `  列出镜像 (显示包括中间层镜像)
+中间层镜像：是其他镜像所依赖的镜像，不能删除，否则会导致上层镜像因为依赖丢失报错，事实上也无需删除，相同的层只会存储一遍。
 
-删除虚悬镜像(dangling)
-`docker image prune`
-批量删除dangling
-`docker rmi $(docker images -q -f dangling=true)`
+`docker system df`  查看镜像,容器,数据卷占用空间
 
-运行容器,以某个image为基础
-`docker run --name webserver -d -p 80:80 nginx`
+`docker images -f since(或before)=image name` 列出某个image之前(之后)的镜像
+
+`docker image prune`删除虚悬镜像(dangling)
+ 虚悬镜像：也就是新旧镜像重名而导致的，pull和build都可能会出现这种情况，`docker image ls -f dangling=true`可 查看，虚悬镜像都是无价值的，可删除
+
+`docker rmi $(docker images -q -f dangling=true)`  批量删除dangling
+
+`docker run --name webserver -d -p 80:80 nginx`  以nginx镜像为基础，运行容器，也就是新建个容器
+
+##### 构建镜像
+暂时跳过
+
+
 
 #### 容器相关
+
+##### 新建容器
+`docker run` 此命令是用来新建容器
+例如：
+`docker run ubuntu /bin/echo 'test'` 会输出test后终止容器，终止容器并不是删除容器，所以容器还是存在的，添加`--rm` 则会临时性的执行，完后删除容器`docker run --rm ....`
+
+`docker run -it ubuntu /bin/bash` 会生成一个伪终端。可通过终端进行简单的操作。同样，此容器也是存在的。docker ps -a查看
+
+docker run流程
+- 检查本地是否存在指定的镜像，不存在就从公有仓库下载
+- 利用镜像创建并启动一个容器
+- 分配一个文件系统，并在只读的镜像层外面挂载一层可读写层
+- 从宿主主机配置的网桥接口中桥接一个虚拟接口到容器中去
+- 从地址池配置一个 ip 地址给容器
+- 执行用户指定的应用程序
+- 执行完毕后容器被终止,并不是删除，容器还可以再次启动
+
+##### 启动容器
+`docker container start -i container_id`会重新启动一个已终止的容器。
+
+**docker container 还有很多命令，建议使用 --help查看使用说明**
+
+##### 容器后台运行
+`docker run -d`
+不是用后台运行时，结果输出会到当前主机
+```
+[root@zili ~]# docker run ubuntu /bin/sh -c "while true; do echo test -d; sleep 1; done"
+test -d
+test -d
+test -d
+test -d
+```
+
+使用后台运行时候,容器将后台运行，那么如何查看结果呢？
+```
+[root@zili ~]# docker run -d ubuntu /bin/sh -c "while true; do echo test -d; sleep 1; done"
+69931b53bfea873daf9cfeb82c926be84980e41a3c0f62f966b039ffbaa0b1c1
+```
+
+`docker container log container_id` 可以来查看相关的容器输出
+```
+[root@zili ~]# docker container logs 699
+test -d
+test -d
+test -d
+test -d
+test -d
+test -d
+...
+```
+需要注意的是，容器是否能长久运行和指定的命令有关系，也就是说，命令结束，容器停止，和`-d`参数并无关系，它只是用来让容器后台运行而已。
+停止容器运行使用`docker container stop container_id`
+
+
+
+
+
+
+
 列出容器
-`docker ps`
+`docker ps -a`
 进入
 `docker exec option`
 进入容器,并生成伪终端,执行bash命令
@@ -40,7 +162,7 @@ docker images
 
 #### docker commit 
 > 慎用!后有说明(制作镜像推荐使用 Dockerfile)
-docker提供volume用于存储,commit可以将container存储层的数据保存下来成为image,换种说法就是在原有的image上加上container存储,构成新的image
+docker提供volume用于存储,commit可以将container存储层的数据保存下来成为image,换种说法就是在原有的image上加上container存储层,构成新的image
 
 语法:
 `docker commit [option] <container ID or name> [<repository >[:<tag>]]`
@@ -364,4 +486,281 @@ helcheck            hc                  2e024362b1d1        2 days ago          
 
 ```
 
+#### 数据卷
+volume 是一个可提供给一个或者多个容器使用的特殊目录.
+1. volume可在容器之间共享和重用
+2. 对volume的修改,立刻生效
+3. volume的更新,不会影响image
+4. volume 默认一致存在,即使container被删除.
 
+##### -v和--mount
+新手应该使用--mount .经验丰富的使用-v或者--volume ,但是推荐使用--mount
+
+
+
+##### 创建volume
+```
+[root@docker ~]# docker volume create hc
+hc
+[root@docker ~]# docker volume ls
+DRIVER              VOLUME NAME
+local               hc
+```
+查看volume信息
+```
+[root@docker ~]# docker volume 
+create   inspect  ls       prune    rm       
+[root@docker ~]# docker volume inspect hc
+[
+    {
+        "Driver": "local",
+        "Labels": {},
+        "Mountpoint": "/var/lib/docker/volumes/hc/_data",
+        "Name": "hc",
+        "Options": {},
+        "Scope": "local"
+    }
+]
+[root@docker ~]# 
+```
+##### 挂载卷
+使用`docker run`的时候,添加`--mount` 参数,将volume 挂载到容器.一次`docker run` 可以挂载多个`volume`
+```
+[root@docker ~]# docker run \ 
+--name volume-test -d -p 80:80 \  #容器名字
+--mount source=hc,target=/volume-test \ #加载数据卷hc到容器的/volume-test 下
+nginx
+```
+```
+[root@docker ~]# docker exec -it volume-test bash
+root@310825d9bce9:/# df -h
+Filesystem               Size  Used Avail Use% Mounted on
+overlay                   45G  2.9G   42G   7% /
+tmpfs                    3.9G     0  3.9G   0% /dev
+tmpfs                    3.9G     0  3.9G   0% /sys/fs/cgroup
+/dev/mapper/centos-root   45G  2.9G   42G   7% /volume-test
+shm                       64M     0   64M   0% /dev/shm
+tmpfs                    3.9G     0  3.9G   0% /sys/firmware
+
+#创建个文件
+root@310825d9bce9:/# cd /volume-test/
+root@310825d9bce9:/volume-test# touch 123
+#退出去卷组查看
+[root@docker _data]# pwd
+/var/lib/docker/volumes/hc/_data
+[root@docker _data]# ls
+123
+```
+##### 删除卷
+`docker volume rm NAME`
+volume是为了数据的持久化的.所以它独立于容器,容器删除,volume并不会被删除.如果需要删除容器的同时删除数据卷 添加 `-v`参数.
+`docker rm -v 容器名`
+
+
+##### 查看volume具体信息
+```
+[root@docker ~]# docker inspect volume-test 
+...
+"Mounts": [
+            {
+                "Type": "volume",
+                "Name": "hc",
+                "Source": "/var/lib/docker/volumes/hc/_data",
+                "Destination": "/volume-test",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+...
+```
+
+#### 挂载主机目录
+将本地目录`/root/qr` 挂载到container中的`/usr/share/nginx/html`
+本地路径必须是`绝对路径`,若不存在则会自动创建
+```
+docker run --name dir-test -d -p 80:80 \
+--mount type=bind,source=/root/qr,target=/usr/share/nginx/html \  #可添加readonly.文件挂载为只读模式
+nginx
+```
+两个目录已可做到同步
+```
+[root@docker qr]# docker exec -it dir-test bash
+root@dad7c498fdb4:/# cd /usr/share/nginx/html/
+root@dad7c498fdb4:/usr/share/nginx/html# ls
+css  fonts  images  index.html  js  test
+root@dad7c498fdb4:/usr/share/nginx/html# echo '123' > test 
+root@dad7c498fdb4:/usr/share/nginx/html# exit 
+exit
+[root@docker qr]# ls
+css  fonts  images  index.html  js  test
+[root@docker qr]# cat test 
+123
+[root@docker qr]# 
+```
+
+##### 挂载文件到主机
+`
+--mount type=bind,source=$HOME/.bash_history,target=/root/.bash_history
+`
+这样可以记录容器中的历史命令/
+
+#### 使用网络
+##### 指定/随机映射
+`docker network OPTION`
+docker run 的时候有用过`-p`参数.
+`docker run --name webserver -d -p 80:80 nginx`
+`-p` 指定的就是端口映射.其实还有个参数`-P` ,大写P的会随机映射中的一个端口到内部容器开放的网络端口中.
+
+`-p`可多次使用,指定多个映射
+```
+    docker  run -d  \
+                -p  5000:5000   \
+                -p  3000:80 \
+```
+
+```bash
+[root@docker ~]# docker run -d -P --name net-test nginx
+5493456c2472597ca711a30e3a49df795d4b00986ed93e73b3899d70c295254e
+[root@docker ~]# docker container ls 
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                   NAMES
+5493456c2472        nginx               "nginx -g 'daemon ..."   10 seconds ago      Up 10 seconds       0.0.0.0:32768->80/tcp   net-test
+```
+
+##### 指定地址和端口的映射
+默认类似`80:80`这样的映射,细心应该能发现,ip是`0.0.0.0`
+指定地址映射格式如下
+`docker run --name webserver -d -p 127.0.0.1:80:80 nginx`
+
+##### 指定地址随机端口
+`docker run --name webserver -d -p 127.0.0.1::80 nginx`
+
+`UDP`标记指定端口为`UDP`端口
+
+`docker run --name webserver -d -p 127.0.0.1:5000:5000/udp nginx`
+
+##### 查看端口
+`docker port NAMES`
+
+
+#### 容器互联
+通过自定义网络来连接多个容器
+
+新建网络
+`docker network create -d bridge my-net`
+新建容器1
+`docker run  -it --rm --name test1 --network my-net centos bash`
+新建容器2
+`docker run  -it --rm --name test1 --network my-net centos bash`
+查看容器
+```
+[root@docker ~]# docker container ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                    NAMES
+f76c89032d7f        centos              "bash"                   53 seconds ago       Up 52 seconds                                test2
+8e52a4bfce63        centos              "bash"                   About a minute ago   Up About a minute                            test1
+```
+互PING
+```
+[root@8e52a4bfce63 /]# ping test2
+PING test2 (172.18.0.3) 56(84) bytes of data.
+64 bytes from test2.my-net (172.18.0.3): icmp_seq=1 ttl=64 time=0.085 ms
+64 bytes from test2.my-net (172.18.0.3): icmp_seq=2 ttl=64 time=0.082 ms
+
+[root@f76c89032d7f /]# ping test1
+PING test1 (172.18.0.2) 56(84) bytes of data.
+64 bytes from test1.my-net (172.18.0.2): icmp_seq=1 ttl=64 time=0.049 ms
+64 bytes from test1.my-net (172.18.0.2): icmp_seq=2 ttl=64 time=0.073 ms
+```
+
+#### 高级网络设置
+docker 启动时候会自动创建一个`docker0`的网卡,可以理解为系统的一个桥接网卡.并会随机分配个地址给docker0,此后,容器的启动,ip地址均和docker0在同网段,
+容器创建的时候会创建一个`vethxxxx`格式的网络接口.用于和`docker0`通信.`veth`之间也是互通的,这样就做到了主机和容器,容器和容器间的通讯.
+把docker0 想象为一台交换机,vteh为接口,容器为设备即可.
+
+##### 配置指南
+1. 只能在docker服务启动时使用
+
+`-h HOSTNAME or --hostname=HOSTNAME` --配置容器主机名
+`--link=CONTAINER_NAME:ALIAS` --添加到另一个容器的连接,推荐使用`docker network`创建网络并指定
+`--net=bridge|none|container:NAME_or_ID|host` --配置容器的桥接模式
+`-p SPEC or --publish=SPEC` --映射容器端口到宿主主机
+`-P or --publish-all=true|false` --映射容器所有端口到宿主主机
+
+2. 既可以在启动服务时指定，也可以 Docker 容器启动（ docker run ）时候指定。在Docker 服务启动的时候指定则会成为默认值，后面执行 docker run 时可以覆盖设置的默认值.
+`--dns=IP_ADDRESS...` --使用指定的DNS服务器
+`--dns-search=DOMAIN...` --指定DNS搜索域
+
+3. 只能在`docker run`的时候使用.
+`-h HOSTNAME or --hostname=HOSTNAME` --配置容器主机名
+`--link=CONTAINER_NAME:ALIAS` --添加到另一个容器的连接
+`--net=bridge|none|container:NAME_or_ID|host` --配置容器的桥接模式
+`-p SPEC or --publish=SPEC` --映射容器端口到宿主主机
+`-P or --publish-all=true|false` --映射容器所有端口到宿主主机
+
+##### 配置DNS
+
+默认通过文件的挂载,来进行相关的配置
+容器中通过`mount`来查看挂载信息
+```
+/dev/mapper/centos-root on /etc/resolv.conf type xfs (rw,relatime,attr2,inode64,noquota)
+/dev/mapper/centos-root on /etc/hostname type xfs (rw,relatime,attr2,inode64,noquota)
+/dev/mapper/centos-root on /etc/hosts type xfs (rw,relatime,attr2,inode64,noquota)
+```
+这种机制可以让主机的DNS发生变化后,容器的能及时刷新.
+
+如果想要**手动指定**,可以`docker run`时使用如下配置
+`-h HOSTNAME or --hostname=HOSTNAME`
+设定容器的主机名，它会被写到容器内的 `/etc/hostname` 和 `/etc/hosts`。但它在容器外部看不到，既不会在 `docker ps` 中显示，也不会在其他的容器的 `etc/hosts` 看到。
+
+`--dns=IP_ADDRESS`
+添加 DNS 服务器到容器的 `/etc/resolv.conf `中，让容器用这个服务器来解析所有不在 `/etc/hosts` 中的主机名
+
+`--dns-search=DOMAIN`
+设定容器的搜索域，当设定搜索域为 `.example.com` 时，在搜索一个名为 host 的主机时，DNS 不仅搜索host，还会搜索 `host.example.com`  注意：如果没有上述最后 2 个选项，Docker 会默认用主机上的 `/etc/resolv.conf` 来配置容器。
+
+##### 容器访问控制
+访问控制,主要通过iptables来进行控制.
+
+**容器访问外部网络**
+容器想要访问外网,需要本地的转发支持,检查转发功能是否打开.
+```
+[root@docker ~]# sysctl net.ipv4.ip_forward
+net.ipv4.ip_forward = 1
+```
+`1`为打开,`0`为关闭.需要手动打开`sysctl -w net.ipv4.ip_forward=1`
+
+如果在启动docker服务的时候设定`--ip-forward=true`,docker会自动设定系统转发为开启`1`
+
+**容器之间访问**
+1. 容器间互联
+2. iptables 放行
+
+**访问所有端口**
+当启动 Docker 服务时候，默认会添加一条转发策略到 iptables 的 FORWARD 链上。策略为通过`（ACCEPT）`还是禁止`（DROP）`取决于配置`--icc=true`（缺省值）还是` --icc=false`。当然，如果手动指定` --iptables=false` 则不会添加 iptables 规则。
+可见，默认情况下，不同容器之间是允许网络互通的。如果为了安全考虑，可以在` /etc/default/docker `文件中配置` DOCKER_OPTS=--icc=false` 来禁止它。
+
+**访问指定端口**
+在通过 `-icc=false` 关闭网络访问后，还可以通过 `--link=CONTAINER_NAME:ALIAS` 选项来访问容器的开放端口。
+例如，在启动 Docker 服务时，可以同时使用 icc=false --iptables=true 参数来关闭允许相互的网络访问，并让 Docker 可以修改系统中的 iptables 规则。
+此时，系统中的 iptables 规则可能是类似
+```
+...
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination
+DROP   
+```
+之后，启动容器（docker run）时使用` --link=CONTAINER_NAME:ALIAS` 选项。Docker 会在 iptable 中为 两个容器分别添加一条 ACCEPT 规则，允许相互访问开放的端口（取决于 Dockerfile 中的 EXPOSE 行）。
+
+当添加了` --link=CONTAINER_NAME:ALIAS` 选项后，添加了 iptables 规则。
+```
+...
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination
+ACCEPT     tcp  --  172.17.0.2           172.17.0.3           tcp spt:80
+ACCEPT     tcp  --  172.17.0.3           172.17.0.2           tcp dpt:80
+DROP       all  --  0.0.0.0/0            0.0.0.0/0
+```
+`--link=CONTAINER_NAME:ALIAS` 中的 `CONTAINER_NAME` 目前必须是 Docker 分配的名字，或使用 `-name `参数指定的名字。主机名则不会被识别。
+
+##### 端口映射实现

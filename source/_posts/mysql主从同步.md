@@ -23,6 +23,11 @@ GRANT REPLICATION SLAVE ON *.* TO backup@'%' IDENTIFIED BY 'backup';
 log-bin=/var/lib/mysql/mysql-bin#二进制文件保存位置,这些文件是mysql的事务日志记录。
 server-id=1  #唯一标示
 
+#最大连接数,按需更改
+max_connections=10000
+
+character-set-server=utf8
+
 #每个bin-log最大大小，当此大小等于500M时会自动生成一个新的日志文件。一条记录不会写在2个日志文件中，所以有时日志文件会超过此大小。
 max_binlog_size = 500M
 
@@ -33,10 +38,10 @@ binlog_cache_size = 128K
 log-slave-updates
 
 #设置bin-log日志文件保存的天数，此参数mysql5.0以下版本不支持。
-expire_logs_day=30
+expire_logs_days=30
 
 #设置bin-log日志文件格式为：MIXED，可以防止主键重复。
-binlog_format=”MIXED”
+binlog_format="MIXED"
 
 #要同步的数据库,可指定多个,需复制此参数
 #binlog-do-db=zabbix 

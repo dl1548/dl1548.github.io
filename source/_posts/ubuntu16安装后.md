@@ -194,6 +194,16 @@ Markdown Editing // Markdown编辑和语法高亮支持
 Markdown Preview// Markdown导出html预览支持 
 shift+ctrl+p  输入mp可浏览器浏览
 
+align arguments
+ChineseLocalIzations
+ConvertToUTF8   #解决中文乱码
+Ctags
+filediff
+pretty json
+wordHighlight
+zzzzzzzz-localization
+
+
 Perference---->Package Settings------->SFTP------->setting user
 {
     "email": "xiaosong@xiaosong.me",
