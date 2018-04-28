@@ -172,4 +172,74 @@ tar xvf free.tar;
 保存,执行构建任务即可.
 ```
   
+#### 邮件提醒
+
+插件安装 `Email Extension Plugin`
+
+`Jenkins Location` 中设置默认 `系统管理员邮件地址`
+
+在`系统管理` >　` `系统设置`　中找到 `Extended E-mail Notification`
+
+```
+SMTP server : smtp.qiye.163.com
+Default user E-mail suffix : @company.com
+Default Content Type: HTML...
+
+
+Default Recipients  : 设置默认收件人
+Default Content　参考如下文
+```
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>${ENV, var="JOB_NAME"}-第${BUILD_NUMBER}次构建日志</title>
+</head>
+
+<body leftmargin="8" marginwidth="0" topmargin="8" marginheight="4"
+    offset="0">
+    <table width="95%" cellpadding="0" cellspacing="0"
+        style="font-size: 11pt; font-family: Tahoma, Arial, Helvetica, sans-serif">
+        <tr>
+            <td><br />
+            <b><font color="#0B610B">构建信息</font></b>
+            <hr size="2" width="100%" align="center" /></td>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    <li>项目名称 ： ${PROJECT_NAME}</li>
+                    <li>构建编号 ： 第${BUILD_NUMBER}次构建</li>
+                    <li>触发原因： ${CAUSE}</li>
+                    <li>构建日志： <a href="${BUILD_URL}console">${BUILD_URL}console</a></li>
+                    <li>构建  Url ： <a href="${BUILD_URL}">${BUILD_URL}</a></li>
+                    <li>工作目录 ： <a href="${PROJECT_URL}ws">${PROJECT_URL}ws</a></li>
+                    <li>项目  Url ： <a href="${PROJECT_URL}">${PROJECT_URL}</a></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><b><font color="#0B610B">变更集</font></b>
+            <hr size="2" width="100%" align="center" /></td>
+        </tr>
+        
+        <tr>
+            <td>${JELLY_SCRIPT,template="html"}<br/>
+            <hr size="2" width="100%" align="center" /></td>
+        </tr>
+    </table>
+</body>
+</html>
+```
+
+然后回到项目中．
+
+在构建后操作中`Editable Email Notification`
+
+`高级` --> `Triggers` --> `Add Trigger` ---> `Recipient List`这里写收件人,多个逗号分割 
+
+保存即可
+
 ___
