@@ -12,7 +12,7 @@ Keepalived模拟路由器的高可用，Heartbeat或Corosync的目的是实现Se
 
 <!--more-->
 
-#### 安装 
+#### 安装
 如无特殊需求,直接yum安装`yum install keepalived`
 ```
 主配置文件：/etc/keepalived/keepalived.conf
@@ -20,6 +20,7 @@ Keepalived模拟路由器的高可用，Heartbeat或Corosync的目的是实现Se
 Unit File：keepalived.service
 Unit File的环境配置文件：/etc/sysconfig/keepalived
 ```
+
 #### 单主模式
 10.1.27.23 主,27.24 备,vip:27.21
 ##### master
@@ -86,7 +87,7 @@ vrrp_instance VI_1 {
     track_script {
         checkhaproxy
     }
-    
+
 }
 
 ```
@@ -191,6 +192,22 @@ vrrp_instance VI_1 {
 ```
 其实就是增加新的配置 VI_2 使用Server B 做主，如此 Server A、B 各自拥有主虚拟 IP，同时备份对方的虚拟 IP, 这个方案可以是不同的服务，或者是同一服务的访问分流(配合 DNS 使用)
 
+#### 其他
+相关的内核参数
+HAProxy+Keepalived架构需要注意的内核参数有：
+```
+/etc/systcl.conf
+
+net.ipv4.ip_forward = 1 #开启IP转发功能
+net.ipv4.ip_nonlocal_bind = 1 #开启允许绑定非本机的IP
+
+systcl -p
+```
+如果使用LVS的DR或者TUN模式结合Keepalived需要在后端真实服务器上特别设置两个arp相关的参数。
+```
+net.ipv4.conf.lo.arp_ignore = 1
+net.ipv4.conf.lo.arp_announce = 2
+net.ipv4.conf.all.arp_ignore = 1
+net.ipv4.conf.all.arp_announce = 2
+```
 ___
-
-
