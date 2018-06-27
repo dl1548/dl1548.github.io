@@ -35,7 +35,8 @@ ssh root@192.168.1.55 /root/deploy.sh rollback monitor 80 /usr/local/tomcat-7.0.
 ```
 
 #### 脚本参考
-```
+
+```bash
 #!/bin/bash
 #JAVA
 export RUN_AS_USER=root

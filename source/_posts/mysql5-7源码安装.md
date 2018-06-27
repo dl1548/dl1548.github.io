@@ -30,7 +30,7 @@ cd mysql-5.7.19/
 创建用户
 ```
 groupadd mysql
-useradd -r -g mysql  #-r 系统用户, -g 指定所属组
+useradd mysql -r -g mysql  #-r 系统用户, -g 指定所属组
 ```
 
 #### 安装

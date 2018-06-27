@@ -43,3 +43,10 @@ pip3 install numpy
 pip install web.py -i http://pypi.douban.com/simple
 
 ```
+
+#### 字符串取数字
+
+```
+t = 'aaa18aaa'
+print(filter(str.isdigit, t))
+```

@@ -95,12 +95,15 @@ cat Dockerfile
 FROM nginx
 RUN echo '<h1>Dockerfile</h1>' >    > /usr/share/nginx/html/index.html
 ```
-`FROM image` 
+`FROM image`
 必写,定制镜像也是以镜像为基础的.这里就是选定一个基础镜像,可以以相关服务镜像为基础(nginx,mysql等),也可是是系统(ubuntu,centos等).
 另外,dicker还提供`FROM scratch` 意味不以任何镜像为基础.
+
 `RUN`
 shell格式 : 用来执行命令行命令.
 exec格式: `RUN ["可执行文件","参数1",    "参数2"]`这像是函数调用
+`RUN`命令常用来安装软件包
+
 
 ###### 构建
 `docker build [选项] <上下文路径/URL/->`
@@ -179,6 +182,7 @@ exec格式: `CMD    ["可执行文件",   "参数1",  "参数2"...]`
 参数列表格式: `CMD["参数1", "参数2"...]`在指定了  `ENTRYPOINT`        指令后,用    CMD指定具体的参数。
 
 Docker不是虚拟机,容器是进程.所以容器的启动需要指定运行程序和参数.`CMD` 就是用于指定默认容易主进程的启动命令
+或者这样理解,`CMD` 执行的是默认容器启动后执行的命令以及参数.一般`只允许使用一次CMD,常用于文件最后`
 
 命令格式上推荐使用`exec` , 默认情况下 shell 是会被封装成为`sh -c`
 如:
@@ -192,11 +196,27 @@ docker不是虚拟机,容器的应用也应该是以前台执行的,容器不存
 ###### ENTRYPOINT
 同样支持两种格式: `exec` 和`shell`
 
-当指定了`ENTRYPOINT`后`CMD`的含义就发生了变化,它不在直接运行命令,而是将内容传送给`ENTYRPOINT`运行,
+当指定了`ENTRYPOINT`后`CMD`的含义就发生了变化,它不在直接运行命令,而是将内容传送给`ENTYRPOINT`运行
+同`CMD`,一个文件只写一次.
+
 
 ###### ENV
 环境变量
 `ENV KEY VALUE` `ENV KEY=VALUE` 两种方式都可以
+下列指令可以支持环境变量展开：
+`ADD、COPY、ENV、EXPOSE、LABEL、USER、WORKDIR、VOLUME、STOPSIGNAL、ONBUILD`
+例:(node官方)
+```
+ENV NODE_VERSION 7.2.0
+
+RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
+  && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
+  && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \
+  && grep " node-v$NODE_VERSION-linux-x64.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
+  && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 \
+  && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt \
+  && ln -s /usr/local/bin/node /usr/local/bin/nodejs
+```
 
 ###### ARG变量
 
@@ -216,17 +236,40 @@ ARG变量不像ENV变量始终存在于镜像中。不过ARG变量会以类似�
 ###### WORKDIR
 指定工作目录
 `WORKDIR dir`
-用来指定工作目录
-比如
+用来指定工作目录,WORKDIR类似命令cd。
+WORKDIR参数后可以是相对路径或者带/的绝对路径，使用相对路径就依据上一个WORKDIR参数决定下面的Dockerfile工作目录。
+可以重复定义，以切换Dockerfile的工作目录。
+
 ```
 RUN cd  /app
 RUN echo    "hello" >   world.txt
 ```
 两个RUN 其实是运行了两个容器.第一个RUN并不会对第二个产生任何影响.所以第二个将会找不到路径,此时就需要设置工作目录 `WORKDIR /app`
 
+###### ONBUILD
+该命令实际上是个触发器,其参数是任意一个Dockerfile 指令
+`ONBUILD RUN mkdir /testdir`
+当我们在一个Dockerfile文件中加上ONBUILD指令，该指令对利用该Dockerfile构建镜像（比如为A镜像）不会产生实质性影响。
+但是当我们编写一个新的Dockerfile文件来基于A镜像构建一个镜像（比如为B镜像）时，这时构造A镜像的Dockerfile文件中的ONBUILD指令就生效了.
+
+
+
 ###### USER
 `USER username`
 `USER`会改变以后命令的执行用户.或者说,他就是切换用户的.前提,用户是存在的,否则失败.
+
+如果以 root 执行的脚本，在执行期间希望改变身份，比如希望以某个已经建立好的用户来运行某个服务进程
+不要使用 su 或者 sudo，这些都需要比较麻烦的配置，而且在 TTY 缺失的环境下经常出错。建议使用 gosu。
+```
+# 建立 redis 用户，并使用 gosu 换另一个用户执行命令
+RUN groupadd -r redis && useradd -r -g redis redis
+# 下载 gosu
+RUN wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64" \
+    && chmod +x /usr/local/bin/gosu \
+    && gosu nobody true
+# 设置 CMD，并以另外的用户执行
+CMD [ "exec", "gosu", "redis", "redis-server" ]
+```
 
 ###### HEALTHCHECK
 `HEALTHCHECK [option] CMD <command>`
@@ -245,6 +288,26 @@ RUN apt-get update  &&  apt-get install -y  curl    &&  rm  -rf /var/lib/apt/lis
 HEALTHCHECK --interval=15s  --timeout=5s    \
         CMD curl    -fs http://localhost/   ||  exit    1
 ```
+
+###### Dockerfile多阶段构建
+
+```
+FROM muninn/glide:alpine AS build-env
+ADD . /go/src/app
+WORKDIR /go/src/app
+RUN glide install
+RUN go build -v -o /go/src/app/app-server
+
+FROM alpine
+RUN apk add -U tzdata
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
+COPY --from=build-env /go/src/app/app-server /usr/local/bin/app-server
+EXPOSE 80
+CMD ["app-server"]
+```
+首先，第一个 `FROM` 后边多了个 `AS` 关键字，可以给这个阶段起个名字。
+第二部分用了官方的 alpine 镜像，改变时区到中国
+注意`COPY` 关键字，它现在可以接受 --from= 这样的参数，从上个我们起名字的阶段复制文件过来。
 
 
 
@@ -303,7 +366,7 @@ test -d
 停止容器运行使用`docker container stop container_id`
 
 ##### 进入容器
-`docker attach` 
+`docker attach`
 
 不建议使用,因为使用此命令,如果容器是`-d`后台运行,stdin退出时,容器运行状态将终止.也就是说,此命令进入容器,退出时会导致后台运行的容器终止
 
@@ -506,7 +569,7 @@ docker 网络分为 外部访问和容器互联两种情况
 ```
 [root@docker ~]# docker network create -d bridge web-net
 3a06ef1bde3ea75c16afe1d3024d1a161d33c3c9499646521f30a74992607407
-[root@docker ~]# docker network inspect web-net 
+[root@docker ~]# docker network inspect web-net
 [
     {
         "Name": "web-net",
@@ -540,10 +603,10 @@ docker 网络分为 外部访问和容器互联两种情况
 ```
 **容器关联网络**
 通过`--network` 参数指定容器网络
-`docker run --name web1 -d -P  --network web-net nginx` 
-`docker run --name web2 -d -P  --network web-net nginx` 
+`docker run --name web1 -d -P  --network web-net nginx`
+`docker run --name web2 -d -P  --network web-net nginx`
 ```
-[root@docker ~]# docker network inspect web-net 
+[root@docker ~]# docker network inspect web-net
 [
     {
         "Name": "web-net",
@@ -594,7 +657,7 @@ docker 网络分为 外部访问和容器互联两种情况
 ubuntu容器没有ping则安装
 ```
 apt-get update
-apt install net-tools       # ifconfig 
+apt install net-tools       # ifconfig
 apt install iputils-ping     # ping
 ```
 ```
@@ -638,17 +701,3 @@ root@0b8f77731024:~# mount
 
 #### Docker Compose
 Docker Compose 是 Docker 官方编排（Orchestration）项目之一，负责快速的部署分布式应用
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -307,6 +307,8 @@ salt-cp [options] '<target>' SOURCE DEST
 #例如
 salt-cp '*' testfile.html /tmp
 salt-cp 'test*' index.html /tmp/a.html
+
+#如果minion 是windows端 默认/ 指的是 C:\   /test = C:\test
 ```
 
 ##### salt-master
