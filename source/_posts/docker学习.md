@@ -5,7 +5,6 @@ tags: docker
 categories:
     - linux
 copyright: true
-password: woshizhu
 ---
 
 docker
@@ -224,7 +223,7 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 ARG指令定义的参数，在docker build命令中以--build-arg  key=value形式赋值。
 ARG变量不像ENV变量始终存在于镜像中。不过ARG变量会以类似的方式对构建缓存产生影响。如果Dockerfile中定义的ARG变量的值与之前定义的变量值不一样，那么就有可能产生“cache miss”。比如RUN指令使用ARG定义的变量时，ARG变量的值变了之后，就会导致缓存失效。
 
-##### VOLUME
+###### VOLUME
 `VOLUME path` `VOLUME ["path1","path2"]`
 容器运行,尽量让存储层不发生写操作,通常数据都存放在卷中,此命令可实现指定挂载某目录,以防用户忘记将动态文件目录挂载为卷.这样可以保证容器的正常运行,并且不会向存储写数据
 
@@ -309,7 +308,51 @@ CMD ["app-server"]
 第二部分用了官方的 alpine 镜像，改变时区到中国
 注意`COPY` 关键字，它现在可以接受 --from= 这样的参数，从上个我们起名字的阶段复制文件过来。
 
+##### Dockerfile文件解析
 
+```
+#docker build -t centos_nginx:v5 .
+#docker run --name web_5 -d -p 85:80 centos_nginx:v5 
+
+
+FROM centos
+
+MAINTAINER zili.li
+
+ADD nginx-1.12.2.tar.gz /usr/local/src
+
+RUN buildDeps='gcc gcc-c++ glib make autoconf openssl openssl-devel libxslt-devel gd gd-devel GeoIP GeoIP-devel pcre pcre-devel wget curl' \ 
+                && yum -y install $buildDeps \
+                && useradd -M -s /sbin/nologin nginx
+#多个用逗号分隔
+#docker inspect web_5 的 Mounts下可看到文件挂载信息.
+#docker exec -it web_5 /bin/bash 进入容器可查看到挂载的目录,其内容和Mounts是同步的
+VOLUME ["/usr/local/nginx/html"]
+
+WORKDIR /usr/local/src/nginx-1.12.2
+
+RUN ./configure --user=nginx --group=nginx --prefix=/usr/local/nginx --with-file-aio --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_xslt_module --with-http_image_filter_module --with-http_geoip_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_auth_request_module --with-http_random_index_module --with-http_secure_link_module --with-http_degradation_module --with-http_stub_status_module \
+                && make \
+                && make install \
+                && rm -rf /usr/local/src/nginx-1.12.2
+
+#指定了环境变量,所以生成容器的时候 不用在指定路径.直接nginx 即可
+ENV PATH /usr/local/nginx/sbin:$PATH                
+
+EXPOSE 80
+
+#当ENTRYPOINT和CMD连用时，CMD的命令是ENTRYPOINT命令的参数，两者连用相当于nginx -g "daemon off;"
+#如果CMD ["-g","daemon on;"] 那么生成的容器将不会处于up状态.但是执行run的时候加入 -g "daemon off;"此参数将会传入给ENTRYPOINT
+#容器中的应用都应该以前台执行,容器没有后台概念,-d 表示的后台,是程序的后台,程序完毕容器停止,而不是容器后台.容器都是前台的.
+ENTRYPOINT ["nginx"]
+
+#CMD service nginx start 这是初学经常搞模糊的地方!
+#对于容器而言，其启动程序就是容器应用进程，容器就是为了主进程而存在的，主进程退出，容器就失去了存在的意义，从而退出.
+# CMD service nginx start 会被理解为 CMD [ "sh", "-c", "service nginx start"]
+#因此主进程实际上是 sh,那么当 service nginx start 命令结束后，sh 也就结束，sh作为主进程退出了自然就会令容器退出
+#正确的做法是直接执行 nginx 可执行文件，并且要求以前台形式运行。比如：CMD ["nginx", "-g", "daemon off;"],或CMD /bin/sh -c 'nginx -g "daemon off;"'
+CMD ["-g","daemon off;"]
+```
 
 #### container
 
@@ -542,7 +585,7 @@ index.html
 ##### 挂载单个文件
 `docker run --name bindfile -d -p 80:80 \
 --mount type=bind,source=/root/web,target=/usr/share/nginx/html \
---mount type=bind,source=/root/a.html,target=/usr/share/nginx/html/index.html  nginx`
+--mount type=bind,source=/root/a.html,target=/usr/share/nginx/html/index.html nginx`
 第二个`--mount`是挂载单个文件,其会覆盖挂载的第一个目录下的index文件.
 - 单个文件的挂载要求容器内必须也存在此文件
 
@@ -697,7 +740,424 @@ root@0b8f77731024:~# mount
 
 
 ##### 高级网络配置
-[略](https://yeasy.gitbooks.io/docker_practice/content/advanced_network/)
+[略，参考链接](https://yeasy.gitbooks.io/docker_practice/content/advanced_network/)
 
 #### Docker Compose
 Docker Compose 是 Docker 官方编排（Orchestration）项目之一，负责快速的部署分布式应用
+
+我们知道通过Dockerfile可以实现单独的一个应用容器.
+实际,一个项目可能需要多个容器相互配合来完成.比如一个动态网站,除了页面还有数据库等等.
+
+compose两个重要的概念:
+    - 服务(service) : 一个应用容器，实际上可以包括若干运行相同镜像的容器实例
+    - 项目(project) :　一组关联容器组成的完整业务单元
+
+
+##### 安装
+
+二进制安装
+
+```
+sudo curl -L https://github.com/docker/compose/releases/download/1.17.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+
+sudo chmod +x /usr/local/bin/docker-compose
+```
+
+pip安装
+`sudo pip install -U docker-compose`
+
+容器中执行
+
+```
+curl -L https://github.com/docker/compose/releases/download/1.8.0/run.sh > /usr/local/bin/docker-compose
+
+chmod +x /usr/local/bin/docker-compose
+```
+
+##### 使用
+
+```
+├── docker_compose
+│   ├── app.py
+│   ├── docker-compose.yml
+│   └── Dockerfile
+```
+
+`app.py`
+
+```
+from flask import Flask
+from redis import Redis
+
+app = Flask(__name__)
+redis = Redis(host='redis', port=6379)
+
+@app.route('/')
+def hello():
+    count = redis.incr('hits')
+    return 'Hello World! 该页面已被访问 {} 次。\n'.format(count)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", debug=True)
+```
+
+`Dockerfile`
+
+```
+FROM python:3.6-alpine
+ADD . /code
+WORKDIR /code
+RUN pip install redis flask
+CMD ["python", "app.py"]
+```
+
+`docker-compose.yml`
+
+```
+version: '3'
+services:
+
+  web:
+    build: .
+    ports:
+     - "5000:5000"
+
+  redis:
+    image: "redis:alpine"
+```
+
+然后执行`docker-compose up` 即可
+
+##### 命令参数说明
+docker-compose
+
+    - `-f, --file FILE` 指定使用的 Compose 模板文件，默认为 `docker-compose.yml`，可以多次指定。
+    - `-p, --project-name NAME` 指定项目名称，默认将使用所在目录名称作为项目名。
+    - `--x-networking` 使用 Docker 的可拔插网络后端特性
+    - `--x-network-driver DRIVER` 指定网络后端的驱动，默认为 bridge
+    - `--verbose` 输出更多调试信息
+    - `-v, --version` 打印版本并退出
+
+
+docker-compose `build` 
+用来创建或重新创建服务使用的镜像
+docker-compose build service_a
+创建一个镜像名叫service_a
+
+docker-compose `kill`
+用于通过容器发送SIGKILL信号强行停止服务
+
+docker-compose `logs`
+显示service的日志信息
+
+docker-compose pause/unpause
+docker-compose pause #暂停服务
+docker-compose unpause #恢复被暂停的服务
+
+docker-compose `port`
+用于查看服务中的端口与物理机的映射关系
+docker-compose port nginx_web 80 
+查看服务中80端口映射到物理机上的那个端口
+
+dokcer-compose `ps`
+用于显示当前项目下的容器
+注意，此命令与docker ps不同作用，此命令会显示停止后的容器（状态为Exited），只征对某个项目。
+
+docker-compose `pull`
+用于拉取服务依赖的镜像
+
+docker-compose `restart`
+用于重启某个服务中的所有容器
+docker-compose restart service_name
+只有正在运行的服务可以使用重启命令，停止的服务是不可以重启
+
+docker-compose `rm`
+删除停止的服务（服务里的容器）
+```
+-f #强制删除
+-v #删除与容器相关的卷（volumes）
+```
+
+docker-compose `run`
+用于在服务中运行一个一次性的命令。这个命令会新建一个容器，它的配置和srvice的配置相同。
+但两者之间还是有两点不同之处
+```
+1、run指定的命令会直接覆盖掉service配置中指定的命令
+2、run命令启动的容器不会创建在service配置中指定的端口，如果需要指定使用--service-ports指定
+```
+
+docker-compose start/stop
+docker-compose start 启动运行某个服务的所有容器
+docker-compose stop 启动运行某个服务的所有容器
+
+docker-compose scale
+指定某个服务启动的容器个数
+
+
+##### 实例一
+```
+[root@docker web-nginx]# tree
+.
+├── docker-compose.yml
+├── nginx
+│   └── nginx.conf
+└── webserver
+    └── index.html
+```
+
+`nginx.conf`
+
+```
+#user  nginx;
+worker_processes  1;
+error_log  /var/log/nginx_error.log warn;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx_access.log  main;
+    client_max_body_size 10m;  
+    sendfile        on;
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+server {
+    listen       80;
+    server_name  localhost;
+
+    location / {
+        root   /webserver;
+        index  index.html index.htm;
+    }
+
+}
+    #include /usr/local/nginx/conf.d/*.conf;
+}
+```
+
+`index.html`
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>welcome to nginx web stie</title>
+</head>
+<body>
+   <h2>compose test1---1</h2>
+</body>
+</html>
+```
+
+`docker-compose.yml`
+
+```
+version: "3" #指定语法版本
+services: #定义服务
+  nginx:
+    container_name: web-nginx #容器名字
+    image: centos_nginx:v5 #依赖镜像
+    restart: always
+    ports:  #端口映射
+      - 80:80
+    volumes:
+      #映射文件到容器.第一个是web的,在nginx通过root指定路径.第二个是配置文件.
+      #如果不想指定web,可直接映射到nginx默认html路径.nginx配置不需要指定路径了
+      #- ./webserver:/usr/local/nginx/html
+      - ./webserver:/webserver
+      - ./nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf
+```
+
+##### 实例二
+
+创建自定义网络test`docker network create --subnet=172.88.0.0/16 test`
+网络名test和ip会在docker-compose中使用,用来指定网络和IP,同时IP与nginx负载有关
+
+###### 目录结构
+
+```
+├── docker-compose.yml
+├── etc
+│   └── localtime
+├── nginx
+│   ├── Dockerfile
+│   ├── nginx-1.12.2.tar.gz
+│   └── nginx.conf
+├── tomcat
+│   ├── apache-tomcat-8.5.24.tar.gz
+│   ├── Dockerfile
+│   └── jdk-8u45-linux-x64.tar.gz
+└── webserver
+    ├── tomcatA
+    │   └── index.jsp
+    └── tomcatB
+        └── index.jsp
+```
+
+###### nginx
+
+`nginx.conf`
+
+```
+#user  nginx;
+worker_processes  1;
+error_log  /var/log/nginx_error.log warn;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    upstream tomcat  { 
+      server 172.88.0.11:8080; 
+      server 172.88.0.22:8080; 
+    }
+
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx_access.log  main;
+    client_max_body_size 10m;  
+    sendfile        on;
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    server {
+        listen       80;
+        server_name  tomcat;
+
+        location / {
+            #root   /webserver;
+            proxy_pass http://tomcat;
+        }
+
+    }
+    #include /usr/local/nginx/conf.d/*.conf;
+}
+```
+
+`Dcokerfile`
+
+```
+FROM centos
+
+MAINTAINER zili.li
+
+ADD nginx-1.12.2.tar.gz /usr/local/src
+
+RUN buildDeps='gcc gcc-c++ glib make autoconf openssl openssl-devel libxslt-devel gd gd-devel GeoIP GeoIP-devel pcre pcre-devel wget curl' \ 
+                && yum -y install $buildDeps \
+                && useradd -M -s /sbin/nologin nginx
+
+VOLUME ["/usr/local/nginx/html"]
+
+WORKDIR /usr/local/src/nginx-1.12.2
+
+RUN ./configure --user=nginx --group=nginx --prefix=/usr/local/nginx --with-file-aio --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_xslt_module --with-http_image_filter_module --with-http_geoip_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_auth_request_module --with-http_random_index_module --with-http_secure_link_module --with-http_degradation_module --with-http_stub_status_module \
+                && make \
+                && make install \
+                && rm -rf /usr/local/src/nginx-1.12.2
+
+ENV PATH /usr/local/nginx/sbin:$PATH                
+
+EXPOSE 80
+
+ENTRYPOINT ["nginx"]
+
+CMD ["-g","daemon off;"]
+```
+
+###### tomcat
+
+`Dcokerfile`
+
+```
+FROM centos
+
+ADD jdk-8u45-linux-x64.tar.gz /usr/local
+
+ENV RUN_AS_USER=root
+ENV JAVA_HOME /usr/local/jdk1.8.0_45
+ENV CLASS_HOME=/usr/local/jdk1.8.0_45/lib:$JAVA_HOME/jre/lib
+ENV CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib:$CLASSPATH
+ENV PATH=$PATH:$JAVA_HOME/bin
+
+ADD apache-tomcat-8.5.24.tar.gz /usr/local
+
+EXPOSE 8080
+ENTRYPOINT ["/usr/local/apache-tomcat-8.5.24/bin/catalina.sh", "run"]
+```
+
+###### docker-compose
+
+`docker-compose.yml`
+
+```
+version: "3"
+services:
+  nginx:
+    hostname: nginx
+    build: ./nginx
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      test:
+        ipv4_address: 172.88.0.88
+    volumes:
+      - ./nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf
+      - ./etc/localtime:/etc/localtime
+    depends_on:
+      - tomcat1
+      - tomcat2
+
+  tomcat1:
+    hostname: tomcat1
+    build: ./tomcat
+    restart: always
+    volumes:
+      - ./webserver/tomcatA:/usr/local/apache-tomcat-8.5.24/webapps/ROOT
+      - ./etc/localtime:/etc/localtime
+    networks:
+      test:
+        ipv4_address: 172.88.0.11
+
+  tomcat2:
+    hostname: tomcat2
+    build: ./tomcat
+    restart: always
+    volumes:
+      - ./webserver/tomcatB/index.jsp:/usr/local/apache-tomcat-8.5.24/webapps/ROOT/index.jsp
+      - ./etc/localtime:/etc/localtime
+    networks:
+      test:
+        ipv4_address: 172.88.0.22
+
+networks:
+  test:
+    external: true
+```
+
+`docker-compose up`

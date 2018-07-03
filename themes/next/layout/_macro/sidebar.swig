@@ -171,8 +171,8 @@
       {% endif %}
 
 <!-- music -->
-  
+      <br><br>zili.li@foxmail.com
     </div>
-zili.li@foxmail.com
+
   </aside>
 {% endmacro %}
