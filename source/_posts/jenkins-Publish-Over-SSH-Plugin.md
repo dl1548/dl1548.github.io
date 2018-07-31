@@ -73,56 +73,101 @@ SSH Publishers
 前提要在目标主机新建文件夹`mkdir -p ~/war/bak`
 然后将脚本`scp`到目标主机,具体位置,根据上一步中`Exec command：~/deploy.sh monitor 80 /usr/local/tomcat-7.0.85` 而定.
 
-```
-#!/usr/bin/bash
+```bash
+#!/bin/bash
+#jenkins
+#jenkins需要做配置 send..ssh
 
-#导入JAVA
-export RUN_AS_USER=root
-export JAVA_HOME=/usr/local/jdk1.7.0_79
+#Remote directory : tmp/ 
+#这个相对路径取决于系统配置信息里面的ssh主机的 Remote Directory,建议tmp,因为备份在tmp  
 
-#默认变量值
-PROJECT="$1"
-TOMCAT_PORT="$2"
-TOMCAT_HOME="$3"
+#Exec command : ~/deploy.sh deploy cmdb $BUILD_NUMBER
 
-#参数检验./deploy.sh <projectname> [tomcat port] [tomcat home dir]
+#tomcat
+t_home_bin=`find / -name catalina.sh`
+t_home=${t_home_bin%*/bin/*}
+t_port=`cat $t_home/conf/server.xml | grep 'HTTP/1.1' | grep protocol | grep Connector |awk '{print $2}' | tr -cd "[0-9]"`
 
+#export
+source /etc/profile
+source $HOME/.bashrc
+#how to use
+#./deploy.sh <projectname> [tomcat port] [tomcat home dir] $BUILD_NUMBER
+#default var
+ACTION="$1"
+PROJECT="$2"
+TOMCAT_PORT=$t_port
+TOMCAT_HOME=$t_home
+VERSION="$3"
+#dir exist?
+if [ ! -d "/tmp/war/bak/" ];then
+mkdir -p /tmp/war/bak/
+fi
+#args num
 if [ $# -lt 3 ]; then
-  echo "you must use like this : ./deploy.sh <projectname> [tomcat port] [tomcat home dir]"  
+  echo "you must use like this : ./deploy.sh <action> <projectname> <version>"
   exit
 fi
-#根据端口查找tomcatpid,可能有多个,循环中判断
-tomcat_pid=`netstat -anp | grep $TOMCAT_PORT | awk '{printf $7}' | cut -d "/" -f 1`
+#search tomcatpid
+#tomcat_pid=`netstat -anp | grep $TOMCAT_PORT | awk '{printf $7}' | cut -d "/" -f 1`
+tomcat_p=`netstat -anp | grep $TOMCAT_PORT | awk '{printf $7}' | cut -d "/" -f 1`
+tomcat_pid=${tomcat_p#*-}
 echo "current :" $tomcat_pid
+
 while [ -n "$tomcat_pid" ]
 do
- sleep 5
- #进一步筛选
- tomcat_pid=`ps -ef | grep $tomcat_pid |grep $TOMCAT_HOME | grep -v 'grep\|tail\|more\|bash\|less'| awk '{print $2}'`
- echo "scan tomcat pid :" $tomcat_pid
- if [ -n "$tomcat_pid" ]; then
-   echo "kill tomcat :" $tomcat_pid
-   kill -9 $tomcat_pid
- fi
+  sleep 5
+  #进一步筛选
+  tomcat_pid=`ps -ef | grep $tomcat_pid |grep $TOMCAT_HOME | grep -v 'grep\|tail\|more\|bash\|less'| awk '{print $2}'`
+  echo "scan tomcat pid :" $tomcat_pid
+  if [ -n "$tomcat_pid" ]; then
+    echo "kill tomcat :" $tomcat_pid
+    kill -9 $tomcat_pid
+  fi
 done
 
-#备份路径
-BAK_DIR=$HOME/war/bak/$PROJECT/`date +%Y%m%d`
-mkdir -p "$BAK_DIR"
-cp "$TOMCAT_HOME"/webapps/$PROJECT.war "$BAK_DIR"/"$PROJECT"_`date +%H%M%S`.war
+#path for bakdir
+BAK_DIR=/tmp/war/bak/$PROJECT
+if [ ! -d "$BAK_DIR" ];then
+    mkdir -p $BAK_DIR
+fi
 
-#publish project
-echo "scan no tomcat pid,$PROJECT publishing"
+if [ $ACTION == 'deploy' ];then
+  cp /tmp/$PROJECT.war "$BAK_DIR"/"$PROJECT"_"$VERSION".war
+  #publish project
+  echo "+++++++++++++++++++++++++++++++++++++++++++++++++++"
+  echo "scan no tomcat pid,$PROJECT publishing...."
+  sleep 10
+  rm -rf "$TOMCAT_HOME"/webapps/$PROJECT
+  rm -rf "$TOMCAT_HOME"/webapps/$PROJECT.war
+  #this path is define by jenkins-after build-ssh-Remote directory
+  mv /tmp/$PROJECT.war "$TOMCAT_HOME"/webapps/$PROJECT.war
+fi
 
-rm -rf "$TOMCAT_HOME"/webapps/$PROJECT
-rm -rf "$TOMCAT_HOME"/webapps/$PROJECT.war
-#cp $HOME/war/$PROJECT.war "$TOMCAT_HOME"/webapps/$PROJECT.war
-mv $HOME/war/$PROJECT.war "$TOMCAT_HOME"/webapps/$PROJECT.war
-#remove tmp
-#rm -rf $HOME/war/$PROJECT.war
+if [ $ACTION == 'rollback' ];then
+  #delete project
+  rm -rf "$TOMCAT_HOME"/webapps/$PROJECT
+  rm -rf "$TOMCAT_HOME"/webapps/$PROJECT.war
+  cp "$BAK_DIR"/"$PROJECT"_"$VERSION".war "$TOMCAT_HOME"/webapps/$PROJECT.war
+  #publish project
+  echo "+++++++++++++++++++++++++++++++++++++++++++++++++++"
+  echo "rollback to the project $PROJECT $VERSION"
+  echo "+++++++++++++++++++++++++++++++++++++++++++++++++++"
+  sleep 3
+fi
 
-sleep 10
 #start tomcat
 "$TOMCAT_HOME"/bin/startup.sh
+echo "+++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo "tomcat is starting,please try to access $PROJECT conslone url"
+
+#del war
+echo "+++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo `date +%Y%m%d` "delete invalid war"
+find $BAK_DIR -mtime +7 -name "*.war";
+find $BAK_DIR -mtime +7 -name "*.war" -exec rm -rf {} \;
+echo "+++++++++++++++++++++++++++++++++++++++++++++++++++"
+echo "host address:" `/sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6 | awk '{print $2}' | tr -d "addr:"`
+echo "+++++++++++++++++++++++++++++++++++++++++++++++++++"
+
 ```

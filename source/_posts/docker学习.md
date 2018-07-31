@@ -1,6 +1,6 @@
 ---
 title: docker学习
-date: 2017-12-15 21:15:06
+date: 2018-05-15 21:15:06
 tags: docker
 categories:
     - linux
@@ -1161,3 +1161,45 @@ networks:
 ```
 
 `docker-compose up`
+
+
+#### docker machine
+
+##### 安装
+- linux
+  [官网](https://github.com/docker/machine/releases)下载相关安装包,安装即可 .
+
+```
+$ sudo curl -L https://github.com/docker/machine/releases/download/v0.13.0/docker-machine-`uname -s`-`uname -m` > /usr/local/bin/docker-machine
+$ sudo chmod +x /usr/local/bin/docker-machine
+```
+
+##### 使用
+
+```
+docker-machine create \
+    --driver vmwarevsphere \
+    --vmwarevsphere-vcenter=xxx.xxx.xxx.xxx \
+    --vmwarevsphere-username=xxxxx \
+    --vmwarevsphere-password=xxxxxxx \
+    --vmwarevsphere-cpu-count=1 \
+    --vmwarevsphere-memory-size=512 \
+    --vmwarevsphere-disk-size=10240 \
+    TestDcokerMa
+```
+`driver vmwarevsphere`
+我们的虚拟机 host 上安装的是 vmware 的产品 vSphere，因此需要给 Docker Machine 提供对应的驱动，这样才能够在上面安装新的虚拟机。
+`--vmwarevsphere-vcenter=xxx.xxx.xxx.xxx`
+`--vmwarevsphere-username=root `
+`--vmwarevsphere-password=12345678`
+上面三行分别指定了虚拟机 host 的 IP 地址、用户名和密码。
+
+`--vmwarevsphere-cpu-count=1`
+`--vmwarevsphere-memory-size=512`
+`--vmwarevsphere-disk-size=10240`
+上面三行则分别指定了新创建的虚拟机占用的 cpu、内存和磁盘资源。
+`TestDcokerMa`
+最后一个参数则是新建虚拟机的名称。
+
+[详细使用参考官网](https://docs.docker.com/machine/)
+​    

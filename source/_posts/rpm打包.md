@@ -187,6 +187,22 @@ rm -rf %{buildroot}
 
 ```
 
+#### 打包
+在`SPECS`文件夹下执行.
+`rpmbuild -bb xxx.spec`即可
+
+```
+-ba 既生成src.rpm又生成二进制rpm 
+-bs 只生成src的rpm 
+-bb 只生二进制的rpm 
+-bp 执行到pre 
+-bc 执行到 build段 
+-bi 执行install段 
+-bl 检测有文件没包含 
+```
+
+可以先`rpmbuild -bp`,再`-bc` 再`-bi`如果没问题`rpmbuild -bb/ba`生成二进制包或两个都生成
+
 脚本参考(主要针对centos7 内核)
 ```
 #/usr/bin/bash
@@ -240,3 +256,4 @@ if [[ $? -eq 0 ]];then
 fi
 
 ```
+

@@ -7,6 +7,11 @@ categories:
     - jenkins
 copyright: true
 ---
+
+jenkins-pipeline.png
+<img src="/images/jenkins-pipeline.png" alt="jenkins-pipeline" align=center />
+
+
 用写代码的形式配置jenkins项目
 支持两种语法格式`Declarative Pipeline`和`Scripted Pipeline`
 

@@ -8,6 +8,8 @@ categories:
 copyright: true
 ---
 
+<img src="/images/jenkins-sonarqube.png" alt="jenkins-sonarqube" align=center />
+
 SonarQube是一个用于代码质量管理的开源平台
 <!--more-->
 
