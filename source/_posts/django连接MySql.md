@@ -52,6 +52,17 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
+如果有类似如下报错
+```
+/usr/lib64/python2.7/site-packages/pymysql/cursors.py:165: Warning: (3135, u"'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.")
+  result = self._query(query)
+/usr/lib64/python2.7/site-packages/pymysql/cursors.py:165: Warning: (3090, u"Changing sql mode 'NO_AUTO_CREATE_USER' is deprecated. It will be removed in a future release.")
+  result = self._query(query)
+```
+
+更改 setting.py DATABASES 中 `'init_command': "SET sql_mode='traditional'",`
+
+
 
 #### 操纵models.py
 **数据库相关一般都写在这个模块下** 前提，应用要加到setting中

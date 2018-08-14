@@ -213,7 +213,7 @@ WantedBy=multi-user.target
 ##### uwsgi自启
 chmod +x /etc/rc.d/rc.local
 追加内容如下:(路径根据实际情况设置)
-cd /opt/cmdb/uwsgi && /usr/bin/uwsgi --ini uwsgi_http.ini
+`cd /opt/cmdb/uwsgi && /usr/bin/uwsgi --ini uwsgi_http.ini`
 
 需要注意的是,ini的配置要设置下后台`daemonize = /opt/cmdb/uwsgi/uwsgi_http.log`
 `
