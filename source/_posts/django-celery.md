@@ -264,7 +264,7 @@ app.conf.beat_schedule = {
 app.conf.timezone = 'UTC'
 
 ```
- 
+
 `crontab` 定时配置示例
 
 |格式|解释|
@@ -277,11 +277,11 @@ app.conf.timezone = 'UTC'
 |crontab(<br>minute='*/10',<br>hour='3,17',<br>day_of_week='thu,fri')|每周四周五的3-4,点17-18点,<br>每十分钟执行一次|
 |crontab(0, 0,day_of_month='11',month_of_year='5') | 每年的五月十一日|
 
-
 1: 在脚本同级目录执行`celery -A tasks worker -B` 即启动worker和beat服务
 2: 或者先用`celery -A proj worker –loglevel=INFO`启动worker
 再用`celery -A tasks beat -s /tmp/celerybeat-schedule`
-#这里的`-s /tmp/celerybeat-schedule` 指定一个记录文件  
+
+这里的`-s /tmp/celerybeat-schedule` 指定一个记录文件  
 
 
 测试脚本
@@ -351,7 +351,7 @@ CELERY_CREATE_DIRS=1
 
 下载`celerybeat` 其余同上,可使用同一个配置文件.
 
-#### django中使用
+#### django中使用(异步)
 
 Celery 4.0支持django1.8及以上的版本，低于1.8的项目使用Celery 3.1
 
@@ -425,15 +425,37 @@ def debug_task(self):
 from __future__ import absolute_import
 
 from celery import shared_task
-
+import time
 # 这里写定时的方法即可
 
 @shared_task
 def add(x, y):
+    time.sleep(10)
     return x + y
 ```
 
 然后在`views.py` 就可以调用此方法了. 
+
+```
+def celery_test(request):
+    x = request.GET['x']
+    y = request.GET['y']
+
+    from .tasks import add   #调用异步方法
+    
+    #delay函数实现异步
+    result = add.delay(x,y)
+
+    res = {'code':200, 'message':'ok', 'data':[{'x':x, 'y':y}]}
+    #result = add(2,5)
+
+    #return result
+    return render(request, 'zl/return_value.html', {'return_value': json.dumps(res)})
+    
+    #此时请求可直接返回定义的结果.然后继续下下去.而不需要等待执行结果出来再继续了.
+```
+
+
 
 ###### 同步数据库
 
@@ -462,6 +484,11 @@ Superuser created successfully.
 那么使用这个命令启动,即可.
 
 `export PYTHONOPTIMIZE=1 && celery -A zlcelery worker -l info -B` 
+
+动态增减 [参考](https://blog.csdn.net/vintage_1/article/details/47664297)
+
+`export PYTHONOPTIMIZE=1 && celery -A zlcelery worker --autoreload -l info -B`
+
 
 还有一种方法.未作真实性验证:
 
@@ -506,8 +533,3 @@ from djcelery.models import PeriodicTask, CrontabSchedule
 from djcelery.schedulers import ModelEntry, DatabaseScheduler
 from djcelery import loaders
 ```
-
-
-整个系统还是挺庞大的,暂时不集成
-参考git上的一个项目
-https://github.com/hanson007/YGOL/blob/master/scheduled_tasks/views.py

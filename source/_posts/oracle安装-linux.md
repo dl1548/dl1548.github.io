@@ -58,8 +58,8 @@ glibc-devel-2.5
 glibc-devel-2.5 (32 bit) 
 glibc-headers-2.5 
 ksh-20060214 
-libaio-0.3.106 l
-ibaio-0.3.106 (32 bit)
+libaio-0.3.106
+libaio-0.3.106 (32 bit)
 libaio-devel-0.3.106 
 libaio-devel-0.3.106 (32 bit) 
 libgcc-4.1.2libgcc-4.1.2 (32 bit) 

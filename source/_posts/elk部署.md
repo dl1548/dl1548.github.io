@@ -187,6 +187,9 @@ vim /etc/security/limits.conf
 * hard nofile 131072
 * soft nproc 2048
 * hard nproc 4096
+#普通用户可以使用内存锁
+* soft memlock unlimited   
+* hard memlock unlimited
 【2】虚拟内存太小
 #切换到root
 vi /etc/sysctl.conf
@@ -219,10 +222,34 @@ tcp6       0      0 :::9300                 :::*                    LISTEN      
   "tagline" : "You Know, for Search"
 }
 
+
 此时目录下会多个data文件夹，默认的数据目录
 ```
-
 #### elasticsearch配置文件详解
+
+[root@es-node-01 ~]# cat /usr/local/elasticsearch-6.6.2/config/elasticsearch.yml | grep ^[a-Z]
+# 集群名,多个节点定义统一名字
+cluster.name: zili-es-cluster
+#节点名,自定义
+node.name: zilies-1
+# 数据和日志目录.用户要有权限读写   
+path.data: /usr/local/elasticsearch-6.6.2/data
+path.logs: /usr/local/elasticsearch-6.6.2/logs
+# 内存锁定.普通用户支持内存所需另外设置
+bootstrap.memory_lock: true
+# 当前地址
+network.host: 192.168.1.130
+http.port: 9200
+# 集群内主机
+discovery.zen.ping.unicast.hosts: ["192.168.1.130", "192.168.1.131","192.168.1.132"]
+# (集群总节点数量/2)+1
+discovery.zen.minimum_master_nodes: 2
+
+# http://192.168.1.130:9200/_cluster/health?pretty  可查看集群相关信息
+=======================
+
+
+
 
 [此链接为出处](http://www.cnblogs.com/zlslch/p/6419948.html)
 

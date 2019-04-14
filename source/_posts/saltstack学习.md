@@ -41,25 +41,26 @@ copyright: true
 
 #### 安装salt
 
->   导入salt 
+>   导入salt 密钥
 
 ```bash
 7版本
 rpm --import https://repo.saltstack.com/yum/redhat/7/x86_64/latest/SALTSTACK-GPG-KEY.pub
 
+
 6版本
 rpm --import https://repo.saltstack.com/yum/redhat/6/x86_64/latest/SALTSTACK-GPG-KEY.pub
 
 
-#或者自己修改/etc/yum.repos.d/saltstack.repo
+#新增 /etc/yum.repos.d/saltstack.repo
 7 & 6版本
 
-[saltstack-repo]
-name=SaltStack repo for RHEL/CentOS $releasever
-baseurl=https://repo.saltstack.com/yum/redhat/$releasever/$basearch/latest
-enabled=1
-gpgcheck=1
-gpgkey=https://repo.saltstack.com/yum/redhat/$releasever/$basearch/latest/SALTSTACK-GPG-KEY.pub
+[saltstack-repo] 
+name = RHEL / CentOS $ releasever的
+SaltStack repo baseurl = https://repo.saltstack.com/yum/redhat/$releasever/$basearch/latest 
+enabled = 1 
+gpgcheck = 1 
+gpgkey = https：// repo.saltstack.com/yum/redhat/$releasever/$basearch/latest/SALTSTACK-GPG-KEY.pub
 ```
 
 >   安装 salt-minion, salt-master,或Salt components:
