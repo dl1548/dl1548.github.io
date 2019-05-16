@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if('woshizhu'){
+            if (prompt('请输入文章密码') !== 'woshizhu'){
+                alert('密码错误！');
+                location="http://blog.dl1548.site";
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="-个人备忘手册,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一些小命令的记录">
+<meta name="keywords" content="-个人备忘手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux个人备忘手册">
+<meta property="og:url" content="https://dl1548.github.io/1111/11/11/linux个人备忘手册/index.html">
+<meta property="og:site_name" content="zili的笔记">
+<meta property="og:description" content="一些小命令的记录">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-09T05:52:39.150Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux个人备忘手册">
+<meta name="twitter:description" content="一些小命令的记录">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":8,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://dl1548.github.io/1111/11/11/linux个人备忘手册/">
+
+
+
+
+
+  <title>linux个人备忘手册 | zili的笔记</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b292eae21b9892cd49051ddc886e6534";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zili的笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">好记性不如烂笔头~</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-board">
+          <a href="/board/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br>
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dl1548.github.io/1111/11/11/linux个人备忘手册/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zili">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/zili.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zili的笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linux个人备忘手册</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="1111-11-11T11:11:12+08:00">
+                1111-11-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/1111/11/11/linux个人备忘手册/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="1111/11/11/linux个人备忘手册/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>一些小命令的记录</p>
+</blockquote>
+<a id="more"></a>
+<h4 id="按当前日期命名文件"><a href="#按当前日期命名文件" class="headerlink" title="按当前日期命名文件"></a>按当前日期命名文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">创建备份Shell脚本:</span><br><span class="line">输入/粘贴以下内容：</span><br><span class="line">#!/bin/bash</span><br><span class="line">mysqldump -uusername -ppassword DatabaseName &gt; /home/backup/DatabaseName_$(date +%Y%m%d_%H%M%S).sql</span><br><span class="line">对备份进行压缩：</span><br><span class="line">#!/bin/bash</span><br><span class="line">mysqldump -uusername -ppassword DatabaseName | gzip &gt; /home/backup/DatabaseName_$(date +%Y%m%d_%H%M%S).sql.gz</span><br></pre></td></tr></table></figure>
+<h4 id="定时备份"><a href="#定时备份" class="headerlink" title="定时备份"></a>定时备份</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/bash</span><br><span class="line">cd /var/log/</span><br><span class="line">tar -zcf /var/log/haproxy_log_bk/$(date +%Y%m%d_%H%M%S).tar.gz haproxy.log</span><br><span class="line">echo &quot;&quot; &gt; haproxy.log</span><br></pre></td></tr></table></figure>
+<h4 id="mtime"><a href="#mtime" class="headerlink" title="-mtime"></a>-mtime</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">查找 并移动3天前的</span><br><span class="line">find /net-log/ -mtime +3 -name &quot;*.log&quot; -exec mv &#123;&#125; /tmp/ \;</span><br><span class="line">删除</span><br><span class="line">find /net-log/ -mtime +3 -name &quot;*.log&quot; -exec rm -rf &#123;&#125; \;</span><br><span class="line"></span><br><span class="line">命令可写到定时任务中,对长时间不读取文件进行删除</span><br><span class="line">crontab -e</span><br><span class="line">* * * * *  + 程序 +命令或脚本</span><br><span class="line">#如果是bash命令 可直接写.</span><br><span class="line">例:每天0点执行test.py</span><br><span class="line">0 0 * * *  /usr/bin/python3   /script/test.py</span><br></pre></td></tr></table></figure>
+<h4 id="ssh快捷登录"><a href="#ssh快捷登录" class="headerlink" title="ssh快捷登录"></a>ssh快捷登录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">zili@Ubuntu:~$ cat ~/.ssh/config</span><br><span class="line">ServerAliveInterval 60 #60S发送一次存活信息,以免断开</span><br><span class="line">Host study</span><br><span class="line">User root</span><br><span class="line">Hostname 10.1.1.11</span><br><span class="line">Port 21131</span><br><span class="line">#默认为22 有修改则填写</span><br><span class="line">#若有多个主机,直接复制修改即可</span><br><span class="line">zili@Ubuntu:~$ ssh study</span><br><span class="line">root@10.1.1.11&apos;s password:</span><br></pre></td></tr></table></figure>
+<h4 id="mysql开启远程"><a href="#mysql开启远程" class="headerlink" title="mysql开启远程"></a>mysql开启远程</h4><p><code>GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;youpassword&#39; WITH GRANT OPTION;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select user,host from mysql.user;</span><br><span class="line">+--------+-----------+</span><br><span class="line">| user   | host      |</span><br><span class="line">+--------+-----------+</span><br><span class="line">| root   | 127.0.0.1 |</span><br><span class="line">| root   | localhost |</span><br><span class="line">+--------+-----------+</span><br><span class="line"></span><br><span class="line">mysql&gt; show status like &apos;Threads%&apos;;</span><br><span class="line">+-------------------+-------+</span><br><span class="line">| Variable_name     | Value |</span><br><span class="line">+-------------------+-------+</span><br><span class="line">| Threads_cached    | 58    |</span><br><span class="line">| Threads_connected | 57    |   ###这个数值指的是打开的连接数</span><br><span class="line">| Threads_created   | 3676  |</span><br><span class="line">| Threads_running   | 4     |   ###这个数值指的是激活的连接数，这个数值一般远低于connected数值</span><br><span class="line">+-------------------+-------+</span><br><span class="line"></span><br><span class="line">Threads_connected 跟show processlist结果相同，表示当前连接数。准确的来说，Threads_running是代表当前并发数</span><br><span class="line"></span><br><span class="line">这是是查询数据库当前设置的最大连接数</span><br><span class="line">mysql&gt; show variables like &apos;%max_connections%&apos;;</span><br><span class="line">+-----------------+-------+</span><br><span class="line">| Variable_name   | Value |</span><br><span class="line">+-----------------+-------+</span><br><span class="line">| max_connections | 1000  |</span><br><span class="line">+-----------------+-------+</span><br><span class="line"></span><br><span class="line">可以在/etc/my.cnf里面设置数据库的最大连接数</span><br><span class="line">[mysqld]</span><br><span class="line">max_connections = 10000</span><br></pre></td></tr></table></figure>
+<h4 id="开启snmp"><a href="#开启snmp" class="headerlink" title="开启snmp"></a>开启snmp</h4><p><code>yum –y install net-snmp net-snmp-devel</code><br>若要使用snmpwalk进行安装检测，则还需要<br><code>yum –y install net-snmp-utils</code></p>
+<p><code>vi /etc/snmp/snmpd.conf</code><br>把<code>62</code>行中的<code>systemview</code>改为<code>mib2</code><br>把<code>89行的</code>#<code>去掉。
+然后在最后一行添加</code>rwcommunity  ge.<code>保存退出。
+防火墙添加策略,重启服务即可</code>snmpwalk -v 2c -c public localhost sysName.0<code>可做验证,默认社区号是</code>public<code>若需要修改则</code>41<code>行中</code>public`换为指定字符串即可</p>
+<h4 id="openssl自签"><a href="#openssl自签" class="headerlink" title="openssl自签"></a>openssl自签</h4><p>Key是私用秘钥，通常是RSA算法<br>Csr是证书请求文件，用于申请证书。在制作csr文件时，必须使用自己的私钥来签署申，还可以设定一个密钥。<br>crt是CA认证后的证书文，签署人用自己的key给你签署凭证。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 生成一个RSA密钥</span><br><span class="line">openssl genrsa -des3 -out 33iq.key 1024</span><br><span class="line"></span><br><span class="line"># 拷贝一个不需要输入密码的密钥文件</span><br><span class="line">openssl rsa -in 33iq.key -out 33iq_nopass.key</span><br><span class="line"></span><br><span class="line"># 生成一个证书请求</span><br><span class="line">openssl req -new -key 33iq.key -out 33iq.csr</span><br><span class="line"></span><br><span class="line"># 自己签发证书</span><br><span class="line">openssl x509 -req -days 365 -in 33iq.csr -signkey 33iq.key -out 33iq.crt</span><br></pre></td></tr></table></figure></p>
+<h4 id="pip源更换"><a href="#pip源更换" class="headerlink" title="pip源更换"></a>pip源更换</h4><p>pip国内的一些镜像</p>
+<pre><code>- 阿里云 http://mirrors.aliyun.com/pypi/simple/
+- 中国科技大学 https://pypi.mirrors.ustc.edu.cn/simple/
+- 豆瓣(douban) http://pypi.douban.com/simple/
+- 清华大学 https://pypi.tuna.tsinghua.edu.cn/simple/
+- 中国科学技术大学 http://pypi.mirrors.ustc.edu.cn/simple/
+</code></pre><p>临时使用：<br>可以在使用pip的时候在后面加上-i参数，指定pip源<br><code>pip install scrapy -i https://pypi.tuna.tsinghua.edu.cn/simple</code></p>
+<p>永久修改：<br>    linux:<br>    修改 ~/.pip/pip.conf (没有就创建一个)，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line">index-url = https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure></p>
+<h4 id="shell保留最近的N个文件"><a href="#shell保留最近的N个文件" class="headerlink" title="shell保留最近的N个文件"></a>shell保留最近的N个文件</h4><p><code>cd 指定目录 &amp;&amp; ls -lt | awk &#39;{if(NR&gt;=11){print $9}}&#39; | xargs rm -f</code></p>
+<h4 id="shell-for循环计数比对"><a href="#shell-for循环计数比对" class="headerlink" title="shell for循环计数比对"></a>shell for循环计数比对</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">get_disk()&#123;</span><br><span class="line">    i=1</span><br><span class="line">    for line in `iostat -d | awk -F &quot; *&quot; &apos;&#123;print $1&#125;&apos;`;do</span><br><span class="line">            i=$((i+1))</span><br><span class="line">    done</span><br><span class="line"></span><br><span class="line">    ii=1</span><br><span class="line">    printf &quot;&#123;\n&quot;</span><br><span class="line">    printf &quot;\t\&quot;data\&quot;:[\n&quot;</span><br><span class="line">    for line in `iostat -d | awk -F &quot; *&quot; &apos;&#123;print $1&#125;&apos;`;do</span><br><span class="line">            ii=$((ii+1))</span><br><span class="line">            disk=$line</span><br><span class="line">            if [ &quot;$ii&quot; == $i ];</span><br><span class="line">            then</span><br><span class="line">                printf &quot;\t&#123;\t\t\&quot;&#123;#DISK&#125;\&quot;:\&quot;$disk\&quot;\t&#125;&quot;;</span><br><span class="line">            else</span><br><span class="line">                printf &quot;\t&#123;\t\t\&quot;&#123;#DISK&#125;\&quot;:\&quot;$disk\&quot;\t&#125;,&quot;;</span><br><span class="line">            fi</span><br><span class="line">    done</span><br><span class="line">    printf &quot;\n\t]\n&quot;</span><br><span class="line">    printf &quot;&#125;\n&quot;</span><br><span class="line">&#125;</span><br><span class="line">echo $(get_disk)</span><br></pre></td></tr></table></figure>
+<h4 id="shell-统计指定文件ip数"><a href="#shell-统计指定文件ip数" class="headerlink" title="shell 统计指定文件ip数"></a>shell 统计指定文件ip数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">在/tmp下有大量文件access1.log,access2.log...，内容格式为:时间 IP,例:</span><br><span class="line"></span><br><span class="line">a1.log</span><br><span class="line">2018-01-01 127.0.0.1</span><br><span class="line">2018-01-02 127.0.0.1</span><br><span class="line">2018-01-02 127.0.0.1</span><br><span class="line">2018-01-02 10.10.2.2</span><br><span class="line">2018-01-03 192.168.1.1</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">取出最后十个文件,文件内容去重,并统计重复IP数,取第四行,存入count中</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">!/bin/bash</span><br><span class="line">for filename in find /tmp-type f -name &quot;access*.log&quot; | tail -n 10</span><br><span class="line">do</span><br><span class="line">  sed -n &apos;4p&apos; $filename | awk &apos;&#123;print $2&#125;&apos; | uniq -c &gt;&gt;count</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h4 id="shell-系统判断"><a href="#shell-系统判断" class="headerlink" title="shell 系统判断"></a>shell 系统判断</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">check_os_release()</span><br><span class="line">&#123;</span><br><span class="line">  while true</span><br><span class="line">  do</span><br><span class="line">    os_release=$(grep &quot;Red Hat Enterprise Linux Server release&quot; /etc/issue 2&gt;/dev/null)</span><br><span class="line">    os_release_2=$(grep &quot;Red Hat Enterprise Linux Server release&quot; /etc/redhat-release 2&gt;/dev/null)</span><br><span class="line">    if [ &quot;$os_release&quot; ] &amp;&amp; [ &quot;$os_release_2&quot; ]</span><br><span class="line">    then</span><br><span class="line">      if echo &quot;$os_release&quot;|grep &quot;release 5&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=redhat5</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      elif echo &quot;$os_release&quot;|grep &quot;release 6&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=redhat6</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      elif echo &quot;$os_release&quot;|grep &quot;release 7&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=redhat7</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      else</span><br><span class="line">        os_release=&quot;&quot;</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      fi</span><br><span class="line">      break</span><br><span class="line">    fi</span><br><span class="line">    os_release=$(grep &quot;Aliyun Linux release&quot; /etc/issue 2&gt;/dev/null)</span><br><span class="line">    os_release_2=$(grep &quot;Aliyun Linux release&quot; /etc/aliyun-release 2&gt;/dev/null)</span><br><span class="line">    if [ &quot;$os_release&quot; ] &amp;&amp; [ &quot;$os_release_2&quot; ]</span><br><span class="line">    then</span><br><span class="line">      if echo &quot;$os_release&quot;|grep &quot;release 5&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=aliyun5</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      elif echo &quot;$os_release&quot;|grep &quot;release 6&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=aliyun6</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      elif echo &quot;$os_release&quot;|grep &quot;release 7&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=aliyun7</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      else</span><br><span class="line">        os_release=&quot;&quot;</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      fi</span><br><span class="line">      break</span><br><span class="line">    fi</span><br><span class="line">    os_release_2=$(grep &quot;CentOS&quot; /etc/*release 2&gt;/dev/null)</span><br><span class="line">    if [ &quot;$os_release_2&quot; ]</span><br><span class="line">    then</span><br><span class="line">      if echo &quot;$os_release_2&quot;|grep &quot;release 5&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=centos5</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      elif echo &quot;$os_release_2&quot;|grep &quot;release 6&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=centos6</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      elif echo &quot;$os_release_2&quot;|grep &quot;release 7&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=centos7</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      else</span><br><span class="line">        os_release=&quot;&quot;</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      fi</span><br><span class="line">      break</span><br><span class="line">    fi</span><br><span class="line">    os_release=$(grep -i &quot;ubuntu&quot; /etc/issue 2&gt;/dev/null)</span><br><span class="line">    os_release_2=$(grep -i &quot;ubuntu&quot; /etc/lsb-release 2&gt;/dev/null)</span><br><span class="line">    if [ &quot;$os_release&quot; ] &amp;&amp; [ &quot;$os_release_2&quot; ]</span><br><span class="line">    then</span><br><span class="line">      if echo &quot;$os_release&quot;|grep &quot;Ubuntu 10&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=ubuntu10</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      elif echo &quot;$os_release&quot;|grep &quot;Ubuntu 12.04&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=ubuntu1204</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      elif echo &quot;$os_release&quot;|grep &quot;Ubuntu 12.10&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=ubuntu1210</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      elif echo &quot;$os_release&quot;|grep &quot;Ubuntu 14.04&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=ubuntu1204</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      elif echo &quot;$os_release&quot;|grep &quot;Ubuntu 16.04&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=ubuntu1604</span><br><span class="line">        echo &quot;$os_release&quot; </span><br><span class="line">      else</span><br><span class="line">        os_release=&quot;&quot;</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      fi</span><br><span class="line">      break</span><br><span class="line">    fi</span><br><span class="line">    os_release=$(grep -i &quot;debian&quot; /etc/issue 2&gt;/dev/null)</span><br><span class="line">    os_release_2=$(grep -i &quot;debian&quot; /proc/version 2&gt;/dev/null)</span><br><span class="line">    if [ &quot;$os_release&quot; ] &amp;&amp; [ &quot;$os_release_2&quot; ]</span><br><span class="line">    then</span><br><span class="line">      if echo &quot;$os_release&quot;|grep &quot;Linux 6&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=debian6</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      elif echo &quot;$os_release&quot;|grep &quot;Linux 7&quot; &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">      then</span><br><span class="line">        os_release=debian7</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      else</span><br><span class="line">        os_release=&quot;&quot;</span><br><span class="line">        echo &quot;$os_release&quot;</span><br><span class="line">      fi</span><br><span class="line">      break</span><br><span class="line">    fi</span><br><span class="line">    break</span><br><span class="line">    done</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">os_release=$(check_os_release)</span><br></pre></td></tr></table></figure>
+<h4 id="shell获取系统硬件资源信息"><a href="#shell获取系统硬件资源信息" class="headerlink" title="shell获取系统硬件资源信息"></a>shell获取系统硬件资源信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">#获取centos信息</span><br><span class="line">get_info()&#123;</span><br><span class="line">  os_sys=`uname -o`</span><br><span class="line">  product_id=`dmidecode -t 1 | grep Serial`</span><br><span class="line">  if [[ $os_release =~ &apos;ubuntu&apos; ]];then</span><br><span class="line">    os_version=`grep -i &quot;ubuntu&quot; /etc/issue | awk -F&apos; &apos; &apos;&#123;print $1$2$3&#125;&apos;`</span><br><span class="line">  elif [[ $os_release =~ &apos;centos&apos; ]];then</span><br><span class="line">    os_version=`cat /etc/redhat-release`</span><br><span class="line">  elif [[ $os_release =~ &apos;redhat&apos; ]];then</span><br><span class="line">    os_version=`cat /etc/redhat-release`</span><br><span class="line">  else</span><br><span class="line">    os_version=`cat /etc/redhat-release`</span><br><span class="line">  fi</span><br><span class="line">  os_kernel=`uname -r`</span><br><span class="line">  cpu_model=`grep &apos;model name&apos; /proc/cpuinfo |uniq |awk -F : &apos;&#123;print $2&#125;&apos;`</span><br><span class="line">  cpu_num=`cat /proc/cpuinfo| grep &apos;physical id&apos;| sort| uniq| wc -l`</span><br><span class="line">  cpu_core=`grep &apos;cpu cores&apos; /proc/cpuinfo |uniq |awk -F : &apos;&#123;print $2&#125;&apos;`</span><br><span class="line">  cpu_load=`cat /proc/loadavg | awk &apos;&#123;print $1&#125;&apos;`</span><br><span class="line">  #mem_total=`free -m |grep -i mem |awk &apos;&#123; print $2&#125;&apos;`</span><br><span class="line">  #系统总内存,与物理不符,因为系统初始化会保留一部分内存</span><br><span class="line">  mem_total=(`dmidecode -t memory | grep &apos;Installed Size&apos; | awk -F : &apos;NR==1&#123; print $2 &#125;&apos;`)</span><br><span class="line">  #disk_total=`lsblk | grep -E -i &apos;disk|磁盘&apos; | grep -E -i &apos;sd|vd&apos; | awk &apos;&#123; print $4 &#125;&apos; | sed &apos;s/G//g&apos;`</span><br><span class="line">  disk_total_o=`cat /proc/partitions | grep -w &quot;0&quot; |grep -E -i &apos;sd|vd&apos; | awk &apos;&#123;print $3&#125;&apos;`</span><br><span class="line">  disk_total=$[disk_total_o/1024/1024]</span><br><span class="line"></span><br><span class="line">  # SUSE lsblk -m | grep -E -i &apos;disk|磁盘&apos; | grep -E -i &apos;sd|vd&apos;  | awk &apos;NR==1&#123; print $2 &#125;&apos;</span><br><span class="line"></span><br><span class="line">#dict</span><br><span class="line">  echo &quot;&#123;\</span><br><span class="line">    \&quot;os_sys\&quot;:\&quot;$os_sys\&quot;,\</span><br><span class="line">    \&quot;os_version\&quot;:\&quot;$os_version\&quot;,\</span><br><span class="line">    \&quot;os_kernel\&quot;:\&quot;$os_kernel\&quot;,\</span><br><span class="line">    \&quot;cpu_model\&quot;:\&quot;$cpu_model\&quot;,\</span><br><span class="line">    \&quot;cpu_num\&quot;:\&quot;$cpu_num\&quot;,\</span><br><span class="line">    \&quot;cpu_core\&quot;:\&quot;$cpu_core\&quot;,\</span><br><span class="line">    \&quot;mem_total\&quot;:\&quot;$mem_total\&quot;,\</span><br><span class="line">    \&quot;product_id\&quot;:\&quot;$product_id\&quot;,\</span><br><span class="line">    \&quot;disk_total\&quot;:\&quot;$disk_total\&quot;\</span><br><span class="line">  &#125;&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo $(get_info)</span><br></pre></td></tr></table></figure>
+<h4 id="win7-centos双系统-引导修复"><a href="#win7-centos双系统-引导修复" class="headerlink" title="win7 centos双系统 引导修复"></a>win7 centos双系统 引导修复</h4><p>先有centos7 再有win7 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 修复grub引导</span><br><span class="line">grub2-install --root-directory=/mnt/sysimage /dev/sda</span><br><span class="line">sync</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+<p>先有win7 再有centos7</p>
+<p>需要安装<code>ntfs-3g</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line">yum -y install ntfs-3g</span><br><span class="line"></span><br><span class="line"># 修复启动项</span><br><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 设置默认启动win7，&quot;Windows 7&quot;是根据文件/boot/grub2/grub.cfg中得到的</span><br><span class="line"></span><br><span class="line"># 查找配置文件中的 menuentry &apos;xxxxxx&apos; 的项就是了, &apos;xxxxxx&apos;可随意更改。</span><br><span class="line">grub2-set-default  &quot;Windows 7&quot;</span><br><span class="line">grub2-editenv list</span><br></pre></td></tr></table></figure>
+<hr>
+
+      
+    </div>
+    
+    
+    
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/1111/11/11/linux个人备忘手册/">linux个人备忘手册</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 zili 的个人博客">zili</a></p>
+  <p><span>发布时间:</span>1111年11月11日 - 11:11</p>
+  <p><span>原始链接:</span><a href="/1111/11/11/linux个人备忘手册/" title="linux个人备忘手册">https://dl1548.github.io/1111/11/11/linux个人备忘手册/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://dl1548.github.io/1111/11/11/linux个人备忘手册/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果您觉得文章对您有帮助的话. 感谢支持~!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="zili 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="zili 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/个人备忘手册/" rel="tag"><i class="fa fa-tag"></i> -个人备忘手册</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/1111/11/11/zz常用配置文件示例/" rel="next" title="常用配置文件示例">
+                <i class="fa fa-chevron-left"></i> 常用配置文件示例
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/1111/11/11/windows常用命令/" rel="prev" title="windows常用命令">
+                windows常用命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/zili.jpg" alt="zili">
+            
+              <p class="site-author-name" itemprop="name">zili</p>
+              <p class="site-description motion-element" itemprop="description">众生皆苦</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/dl1548" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="暂" target="_blank">暂</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="无" target="_blank">无</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="友" target="_blank">友</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="链" target="_blank">链</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#按当前日期命名文件"><span class="nav-number">1.</span> <span class="nav-text">按当前日期命名文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定时备份"><span class="nav-number">2.</span> <span class="nav-text">定时备份</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mtime"><span class="nav-number">3.</span> <span class="nav-text">-mtime</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ssh快捷登录"><span class="nav-number">4.</span> <span class="nav-text">ssh快捷登录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql开启远程"><span class="nav-number">5.</span> <span class="nav-text">mysql开启远程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开启snmp"><span class="nav-number">6.</span> <span class="nav-text">开启snmp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#openssl自签"><span class="nav-number">7.</span> <span class="nav-text">openssl自签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pip源更换"><span class="nav-number">8.</span> <span class="nav-text">pip源更换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shell保留最近的N个文件"><span class="nav-number">9.</span> <span class="nav-text">shell保留最近的N个文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shell-for循环计数比对"><span class="nav-number">10.</span> <span class="nav-text">shell for循环计数比对</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shell-统计指定文件ip数"><span class="nav-number">11.</span> <span class="nav-text">shell 统计指定文件ip数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shell-系统判断"><span class="nav-number">12.</span> <span class="nav-text">shell 系统判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shell获取系统硬件资源信息"><span class="nav-number">13.</span> <span class="nav-text">shell获取系统硬件资源信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#win7-centos双系统-引导修复"><span class="nav-number">14.</span> <span class="nav-text">win7 centos双系统 引导修复</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+<!-- music -->
+      <br><br>cn.zili.lee@gmail.com
+    </div>
+
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zili 豫ICP备17037562号</span>
+
+  
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      已有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      位陌生人来过
+    </span>
+  
+
+  
+    <span class="site-pv">
+      已有
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次访问
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cythS3OwJ';
+      var conf = 'bb066f28faf1b1f48464e7f77b1e4c46';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                location="http://blog.dl1548.site";
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="zabbix,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言zabbx告警结合微信,可以更及时对故障响应,处理.">
+<meta name="keywords" content="zabbix">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zabbix-python-wechat告警推送">
+<meta property="og:url" content="https://dl1548.github.io/2017/03/31/zabbix-python-wechat告警推送/index.html">
+<meta property="og:site_name" content="zili的笔记">
+<meta property="og:description" content="前言zabbx告警结合微信,可以更及时对故障响应,处理.">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://dl1548.github.io/images/zabbix-text.jpg">
+<meta property="og:image" content="https://dl1548.github.io/images/zabbix-2.png">
+<meta property="og:image" content="https://dl1548.github.io/images/zabbix-3.jpg">
+<meta property="og:image" content="https://dl1548.github.io/images/zabbix-4.jpg">
+<meta property="og:image" content="https://dl1548.github.io/images/zabbix-5.jpg">
+<meta property="og:image" content="https://dl1548.github.io/images/zabbix-6.jpg">
+<meta property="og:image" content="https://dl1548.github.io/images/zabbix-7.jpg">
+<meta property="og:updated_time" content="2019-05-09T05:52:39.150Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zabbix-python-wechat告警推送">
+<meta name="twitter:description" content="前言zabbx告警结合微信,可以更及时对故障响应,处理.">
+<meta name="twitter:image" content="https://dl1548.github.io/images/zabbix-text.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":8,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://dl1548.github.io/2017/03/31/zabbix-python-wechat告警推送/">
+
+
+
+
+
+  <title>zabbix-python-wechat告警推送 | zili的笔记</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b292eae21b9892cd49051ddc886e6534";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zili的笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">好记性不如烂笔头~</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-board">
+          <a href="/board/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br>
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dl1548.github.io/2017/03/31/zabbix-python-wechat告警推送/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zili">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/zili.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zili的笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">zabbix-python-wechat告警推送</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-31T12:00:24+08:00">
+                2017-03-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/zabbix/" itemprop="url" rel="index">
+                    <span itemprop="name">zabbix</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/03/31/zabbix-python-wechat告警推送/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2017/03/31/zabbix-python-wechat告警推送/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/images/zabbix-text.jpg" alt="zbx-text" align="center"><br><strong>前言</strong><br>zabbx告警结合微信,可以更及时对故障响应,处理.<br><a id="more"></a></p>
+<hr>
+<p><strong>告警的模式分为两种,第一种就是本文消息的直接推送,第二种是图文推送,可做到交互,本文主要介绍第一种</strong></p>
+<h4 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h4><blockquote>
+<ol>
+<li>zabbix</li>
+<li>企业号</li>
+<li>脚本</li>
+</ol>
+</blockquote>
+<h4 id="企业号"><a href="#企业号" class="headerlink" title="企业号"></a>企业号</h4><h5 id="申请"><a href="#申请" class="headerlink" title="申请"></a>申请</h5><p>不赘述.</p>
+<h5 id="获取信息"><a href="#获取信息" class="headerlink" title="获取信息"></a>获取信息</h5><p>取得企业号的部门ID,应用ID, CorpID,Secret</p>
+<p><img src="/images/zabbix-2.png" alt="&#39;企业号信息&#39;"></p>
+<h4 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h4><p>脚本可以推送两种格式,文本和新闻.</p>
+<h5 id="推送文本"><a href="#推送文本" class="headerlink" title="推送文本"></a>推送文本</h5><p><strong>来自网上, 视情况修改4处 <code>self.__corpid</code> 和<code>self.__secret</code> <code>toparty</code> <code>agentid</code></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># coding: utf-8</span><br><span class="line"></span><br><span class="line">import urllib,urllib2,json</span><br><span class="line">import sys</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding( &quot;utf-8&quot; )</span><br><span class="line"></span><br><span class="line">class WeChat(object):</span><br><span class="line">    __token_id = &apos;&apos;</span><br><span class="line">    # init attribute</span><br><span class="line">    def __init__(self,url):</span><br><span class="line">        self.__url = url.rstrip(&apos;/&apos;)</span><br><span class="line">        #CorpID</span><br><span class="line">        self.__corpid = &apos;wx643f**********&apos;   </span><br><span class="line">        #Secret </span><br><span class="line">        self.__secret = &apos;YQOu7Qzad********hGJ9xHlby****_v1oF2WpBOlsy****TivMKAL***voA3MwKH&apos;</span><br><span class="line"></span><br><span class="line">    # Get TokenID</span><br><span class="line">    def authID(self):</span><br><span class="line">        params = &#123;&apos;corpid&apos;:self.__corpid, &apos;corpsecret&apos;:self.__secret&#125;</span><br><span class="line">        data = urllib.urlencode(params)</span><br><span class="line"></span><br><span class="line">        content = self.getToken(data)</span><br><span class="line"></span><br><span class="line">        try:</span><br><span class="line">            self.__token_id = content[&apos;access_token&apos;]</span><br><span class="line">            # print content[&apos;access_token&apos;]</span><br><span class="line">        except KeyError:</span><br><span class="line">            raise KeyError</span><br><span class="line"></span><br><span class="line">    # Establish a connection</span><br><span class="line">    def getToken(self,data,url_prefix=&apos;/&apos;):</span><br><span class="line">        url = self.__url + url_prefix + &apos;gettoken?&apos;</span><br><span class="line">        try:</span><br><span class="line">            response = urllib2.Request(url + data)</span><br><span class="line">        except KeyError:</span><br><span class="line">            raise KeyError</span><br><span class="line">        result = urllib2.urlopen(response)</span><br><span class="line">        content = json.loads(result.read())</span><br><span class="line">        return content</span><br><span class="line"></span><br><span class="line">    # Get sendmessage url</span><br><span class="line">    def postData(self,data,url_prefix=&apos;/&apos;):</span><br><span class="line">        url = self.__url + url_prefix + &apos;message/send?access_token=%s&apos; % self.__token_id</span><br><span class="line">        request = urllib2.Request(url,data)</span><br><span class="line">        try:</span><br><span class="line">            result = urllib2.urlopen(request)</span><br><span class="line">        except urllib2.HTTPError as e:</span><br><span class="line">            if hasattr(e,&apos;reason&apos;):</span><br><span class="line">                print &apos;reason&apos;,e.reason</span><br><span class="line">            elif hasattr(e,&apos;code&apos;):</span><br><span class="line">                print &apos;code&apos;,e.code</span><br><span class="line">            return 0</span><br><span class="line">        else:</span><br><span class="line">            content = json.loads(result.read())</span><br><span class="line">            result.close()</span><br><span class="line">        return content</span><br><span class="line"></span><br><span class="line">    # send message</span><br><span class="line">    def sendMessage(self,touser,message):</span><br><span class="line"></span><br><span class="line">        self.authID()</span><br><span class="line"></span><br><span class="line"># 具体可查看wechat接口文档http://qydev.weixin.qq.com/</span><br><span class="line">        data = json.dumps(&#123;</span><br><span class="line">            #&apos;touser&apos;:touser, #企业号中的用户帐号,如果没,则按部门推送.</span><br><span class="line">            &apos;toparty&apos;:&quot;3&quot;,  #部门ID </span><br><span class="line">            &apos;msgtype&apos;:&quot;text&quot;,</span><br><span class="line">            &apos;agentid&apos;:&quot;1&quot;, #应用ID</span><br><span class="line">            &apos;text&apos;:&#123;</span><br><span class="line">                &apos;content&apos;:message</span><br><span class="line">            &#125;,</span><br><span class="line">            &apos;safe&apos;:&quot;0&quot;</span><br><span class="line">        &#125;,ensure_ascii=False)</span><br><span class="line">        response = self.postData(data)</span><br><span class="line">        print response</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    a = WeChat(&apos;https://qyapi.weixin.qq.com/cgi-bin&apos;)</span><br><span class="line">    a.sendMessage(sys.argv[1], sys.argv[3])</span><br></pre></td></tr></table></figure></p>
+<h5 id="推送news"><a href="#推送news" class="headerlink" title="推送news"></a>推送news</h5><p><strong>同样的脚本,需要修改如下</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">##图文格式(推荐),修改脚本的data如下</span><br><span class="line">        data = json.dumps(&#123;</span><br><span class="line">            &apos;touser&apos;:touser, #企业号中的用户帐号</span><br><span class="line">            &apos;toparty&apos;:&quot;3&quot;,  #部门ID </span><br><span class="line">            &apos;msgtype&apos;:&quot;news&quot;,</span><br><span class="line">            &apos;agentid&apos;:&quot;1&quot;, #应用ID</span><br><span class="line">            &apos;news&apos;:&#123;</span><br><span class="line">                &quot;articles&quot;:[&#123;</span><br><span class="line">                    &quot;title&quot;:title,</span><br><span class="line">                    &quot;description&quot;:message</span><br><span class="line">                        &#125;]</span><br><span class="line">                &#125;,   </span><br><span class="line">            &quot;safe&quot;:0</span><br><span class="line">        &#125;,ensure_ascii=False)</span><br><span class="line">##end</span><br><span class="line">##修改</span><br><span class="line">1：import re</span><br><span class="line"></span><br><span class="line">2：</span><br><span class="line">def sendMessage(self,touser,message): 修改为</span><br><span class="line">def sendMessage(self,touser,title,message):</span><br><span class="line"></span><br><span class="line">3：</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    a = WeChat(&apos;https://qyapi.weixin.qq.com/cgi-bin&apos;)</span><br><span class="line">    a.sendMessage(sys.argv[1], sys.argv[3])</span><br><span class="line">修改为</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    a = WeChat(&apos;https://qyapi.weixin.qq.com/cgi-bin&apos;)</span><br><span class="line">    info = sys.argv[3]</span><br><span class="line">    info2 = re.split(&apos;[&amp;&amp;]&apos;,info)</span><br><span class="line">    a.sendMessage(sys.argv[1],info2[0],info2[2])</span><br><span class="line"></span><br><span class="line">4：</span><br><span class="line">zabbix页面的动作-默认信息中添加&amp;&amp; 用来进行信息分割</span><br></pre></td></tr></table></figure></p>
+<p>脚本放至zbx脚本目录下即可</p>
+<h4 id="zabbix"><a href="#zabbix" class="headerlink" title="zabbix"></a>zabbix</h4><h5 id="媒介配置"><a href="#媒介配置" class="headerlink" title="媒介配置"></a>媒介配置</h5><blockquote>
+<p>管理 —&gt; 媒介—&gt; 新建<br>名称随便,这里命名wechat<br>脚本名称要和上面的一致wechat.py<br>脚本参数要依次填写以下三个<br>这三个参数就是传给脚本的sys.argv[]</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;ALERT.SENDTO&#125;</span><br><span class="line">&#123;ALERT.SUBJECT&#125;</span><br><span class="line">&#123;ALERT.MESSAGE&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/zabbix-3.jpg" alt="&#39;zabbix媒介&#39;"></p>
+<h5 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h5><blockquote>
+<p>创建一个wechat用户,给予相关用户媒介权限(刚刚创建的媒介)<br>注意收件人,这个是脚本的第一个参数.也就是说这里要填写的是应该是微信用户，或者部门ID，这里填写部门ID 这样wechat.py脚本才能取得正确的值</p>
+</blockquote>
+<p><img src="/images/zabbix-4.jpg" alt="&#39;zabbix用户&#39;"></p>
+<h5 id="动作"><a href="#动作" class="headerlink" title="动作"></a>动作</h5><blockquote>
+<p>动作的 操作选项–&gt;选发送消息,添加相应的用户 或者群组就行了.<br>我是发送给wechat用户的,因为他关联了wechat.py媒介.所以所有的消息将传递给他,他的媒介连接脚本,脚本连接企业微信,整个流程就打通了.</p>
+</blockquote>
+<h6 id="参考配置"><a href="#参考配置" class="headerlink" title="参考配置"></a>参考配置</h6><p>告警:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;TRIGGER.SEVERITY&#125; : &#123;TRIGGER.NAME&#125;&amp;&amp;</span><br><span class="line">-------------------------------------------</span><br><span class="line">ID：&#123;EVENT.ID&#125;</span><br><span class="line">主机名称:&#123;HOST.NAME&#125;</span><br><span class="line">主机地址:&#123;HOST.IP&#125;</span><br><span class="line">告警时间:&#123;EVENT.DATE&#125;  -  &#123;EVENT.TIME&#125;</span><br><span class="line"></span><br><span class="line">告警描述:&#123;TRIGGER.DESCRIPTION&#125;</span><br><span class="line">---------------------------------</span><br></pre></td></tr></table></figure></p>
+<p>恢复:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">恢复 :  &#123;TRIGGER.NAME&#125;&amp;&amp;</span><br><span class="line">-------------------------------------------</span><br><span class="line">ID：&#123;EVENT.ID&#125;</span><br><span class="line">主机名称:&#123;HOST.NAME&#125;</span><br><span class="line">主机地址:&#123;HOST.IP&#125;</span><br><span class="line">告警时间:&#123;EVENT.DATE&#125;  -  &#123;EVENT.TIME&#125;</span><br><span class="line">恢复时间:&#123;EVENT.RECOVERY.DATE&#125;  -  &#123;EVENT.RECOVERY.TIME&#125;</span><br><span class="line">持续时间:&#123;EVENT.AGE&#125;</span><br><span class="line"></span><br><span class="line">告警等级: &#123;TRIGGER.SEVERITY&#125;</span><br><span class="line">告警描述:&#123;TRIGGER.DESCRIPTION&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/zabbix-5.jpg" alt="&#39;zabbix动作&#39;"></p>
+<h4 id="图文-参考"><a href="#图文-参考" class="headerlink" title="图文(参考)"></a>图文(参考)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line"># coding: utf-8</span><br><span class="line">import sys</span><br><span class="line">import requests</span><br><span class="line">from time import sleep</span><br><span class="line">import json</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">WX_CORPID = r&quot;wx643f8***********&quot;</span><br><span class="line">WX_CORPSECRET = r&quot;qwojyG*******************&quot;</span><br><span class="line">WX_TOKEN_FILE = &quot;/tmp/accesstoken&quot;</span><br><span class="line">AGENT_ID = &apos;100000*&apos;</span><br><span class="line">TOPARTY=&apos;*&apos;</span><br><span class="line">LOG_FILE=&quot;/tmp/zabbix_send_log&quot;</span><br><span class="line">def c_log(msg):</span><br><span class="line">    try:</span><br><span class="line">        perameter_file=open(LOG_FILE,&apos;a&apos;)</span><br><span class="line">        perameter_file.write(msg+&quot;\n&quot;)</span><br><span class="line">    except:</span><br><span class="line">        exit(1)</span><br><span class="line">    finally:</span><br><span class="line">        perameter_file.close()</span><br><span class="line">def refresh_token(corpid=WX_CORPID, corpsecrt=WX_CORPSECRET):</span><br><span class="line">    get_url = r&quot;https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=&quot; + WX_CORPID + &quot;&amp;corpsecret=&quot; + WX_CORPSECRET</span><br><span class="line">    for i in range(3):</span><br><span class="line">        try:</span><br><span class="line">            req_ret = requests.get(get_url, timeout=6)</span><br><span class="line">            jso_ret = req_ret.json()</span><br><span class="line">            file_tok = open(WX_TOKEN_FILE, &quot;w&quot;)</span><br><span class="line">            file_tok.write(jso_ret[&quot;access_token&quot;])</span><br><span class="line">            file_tok.close()</span><br><span class="line">            return jso_ret[&quot;access_token&quot;]</span><br><span class="line">        except requests.exceptions.ConnectTimeout:</span><br><span class="line">            sleep(10)</span><br><span class="line">        except Exception as exc:</span><br><span class="line">            print(exc.args)</span><br><span class="line">            return None</span><br><span class="line">    return None</span><br><span class="line"></span><br><span class="line">def get_token(corpid=WX_CORPID, corpsecrt=WX_CORPSECRET):</span><br><span class="line">    try:</span><br><span class="line">        file_tok = open(WX_TOKEN_FILE, &quot;r&quot;)</span><br><span class="line">        token = file_tok.read()</span><br><span class="line">        file_tok.close()</span><br><span class="line">        if len(token) !=64:</span><br><span class="line">            raise FileNotFoundError(r&quot;token length !=64&quot;)</span><br><span class="line">        return token</span><br><span class="line">    except FileNotFoundError:</span><br><span class="line">        get_url = r&quot;https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=&quot; + WX_CORPID + &quot;&amp;corpsecret=&quot; + WX_CORPSECRET</span><br><span class="line">        for i in range(3):</span><br><span class="line">            try:</span><br><span class="line">              req_ret = requests.get(get_url, timeout=6)</span><br><span class="line">              jso_ret = req_ret.json()</span><br><span class="line">              file_tok = open(WX_TOKEN_FILE, &quot;w&quot;)</span><br><span class="line">              file_tok.write(jso_ret[&quot;access_token&quot;])</span><br><span class="line">              file_tok.close()</span><br><span class="line">              return jso_ret[&quot;access_token&quot;]</span><br><span class="line">            except requests.exceptions.ConnectTimeout:</span><br><span class="line">                sleep(10)</span><br><span class="line">            except Exception as exc:</span><br><span class="line">                print(exc.args)</span><br><span class="line">                return None</span><br><span class="line">    except Exception as exc:</span><br><span class="line">            print(exc.args)</span><br><span class="line">    return None</span><br><span class="line"></span><br><span class="line">def create_articles():</span><br><span class="line">    msg_argv=sys.argv[3].split(&quot;&amp;&amp;&quot;)</span><br><span class="line">    if(msg_argv[0]==&quot;PROBLEM&quot;):</span><br><span class="line">        if(msg_argv[1]==&quot;灾难&quot;):</span><br><span class="line">            pic_url=&quot;图片地址&quot;</span><br><span class="line">        elif(msg_argv[1]==&quot;一般严重&quot;):</span><br><span class="line">            pic_url=&quot;图片地址&quot;</span><br><span class="line">        elif(msg_argv[1]==&quot;严重&quot;):</span><br><span class="line">            pic_url=&quot;图片地址&quot;</span><br><span class="line">        elif(msg_argv[1]==&quot;警告&quot;):</span><br><span class="line">            pic_url=&quot;图片地址&quot;</span><br><span class="line">        elif(msg_argv[1]==&quot;通知&quot;):</span><br><span class="line">            pic_url=&quot;图片地址&quot;</span><br><span class="line">        else:</span><br><span class="line">            pic_url=&quot;图片地址&quot;</span><br><span class="line">        ret = [</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;title&quot;: &quot;%s&quot;%(msg_argv[2]),</span><br><span class="line">                &quot;description&quot;:&quot;ID:%s\n告警时间: %s&quot;%(msg_argv[3],msg_argv[7]),</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;title&quot;:&quot;主机分类: %s \n主机名称: %s \n主机地址: %s&quot;%(msg_argv[4],msg_argv[5],msg_argv[6]),</span><br><span class="line">                &quot;picurl&quot;: &quot;%s&quot;%pic_url</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;title&quot;:&quot;告警描述:\n%s&quot;%(msg_argv[8]),</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">        return ret</span><br><span class="line">    elif(msg_argv[0]==&quot;OK&quot;):</span><br><span class="line">        if(msg_argv[1]==&quot;通知&quot;):</span><br><span class="line">            return None</span><br><span class="line">        else:</span><br><span class="line">            pic_url=&quot;图片地址&quot;</span><br><span class="line">            return [</span><br><span class="line">                &#123;</span><br><span class="line">                &quot;title&quot;: &quot;恢复-%s&quot;%(msg_argv[2]),</span><br><span class="line">                &quot;description&quot;:&quot;ID: %s\n持续时长：%s\n恢复时间: %s\n告警时间: %s&quot;%(msg_argv[3],msg_argv[10],msg_argv[7],msg_argv[9]),</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                &quot;title&quot;:&quot;主机分类: %s\n主机名称: %s\n主机地址: %s&quot;%(msg_argv[4],msg_argv[5],msg_argv[6]),</span><br><span class="line">                &quot;picurl&quot;: &quot;%s&quot;%pic_url</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                &quot;title&quot;:&quot;告警等级: %s\n告警描述: %s&quot;%(msg_argv[1],msg_argv[8])</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">    return None</span><br><span class="line"></span><br><span class="line">#def send_news(type,target,arti):</span><br><span class="line">def send_news(arti):</span><br><span class="line">    access_token = get_token()</span><br><span class="line">    if access_token == None:</span><br><span class="line">        return 1</span><br><span class="line">    send_msg_url = r&quot;https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=&quot;+access_token</span><br><span class="line">    msg_josn =&#123;&#125;</span><br><span class="line">    msg_josn[&quot;toparty&quot;] = TOPARTY</span><br><span class="line">    msg_josn[&quot;msgtype&quot;] = &quot;news&quot;</span><br><span class="line">    msg_josn[&quot;agentid&quot;] = AGENT_ID</span><br><span class="line"></span><br><span class="line">    msg_josn[&quot;news&quot;] = &#123;&quot;articles&quot;: arti&#125;</span><br><span class="line">    #print (msg_josn)</span><br><span class="line">    send_data = json.dumps(msg_josn, ensure_ascii=False).encode(encoding=&apos;UTF8&apos;,)   </span><br><span class="line">    #print(send_data)</span><br><span class="line">    for i in range(4):</span><br><span class="line">        try:</span><br><span class="line">            if i &gt;= 4:</span><br><span class="line">                return 1</span><br><span class="line">            req_ret = requests.post(send_msg_url, data=send_data, timeout=5)</span><br><span class="line">            c_log(req_ret.text)</span><br><span class="line">            jos_ret = req_ret.json()</span><br><span class="line"></span><br><span class="line">            if jos_ret[&quot;errcode&quot;] == 0:</span><br><span class="line">                return 0</span><br><span class="line">            elif jos_ret[&quot;errcode&quot;] == 40014:</span><br><span class="line">                token = refresh_token(WX_CORPID, WX_CORPSECRET)</span><br><span class="line">                if token == None:</span><br><span class="line">                    return 1</span><br><span class="line">                access_token = token</span><br><span class="line">                send_msg_url = r&quot;https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=&quot; + access_token</span><br><span class="line">            else:</span><br><span class="line">                return 1</span><br><span class="line">        except requests.exceptions.ConnectTimeout:</span><br><span class="line">            sleep(2)</span><br><span class="line">        except Exception as exc:</span><br><span class="line">            return 1</span><br><span class="line">    return 1</span><br><span class="line"></span><br><span class="line">if __name__==&quot;__main__&quot;:</span><br><span class="line">    articles=create_articles()</span><br><span class="line">    #if(articles==None):</span><br><span class="line">     #   exit(1)</span><br><span class="line">    #send_news(0,sys.argv[1],articles)</span><br><span class="line">#    send_news(articles)</span><br><span class="line">    if(send_news(articles)!=0):</span><br><span class="line">        exit(1)</span><br><span class="line"></span><br><span class="line">#告警</span><br><span class="line">&#123;TRIGGER.STATUS&#125;&amp;&amp;&#123;TRIGGER.SEVERITY&#125;&amp;&amp;&#123;HOST.NAME&#125;-&#123;TRIGGER.NAME&#125;&amp;&amp;&#123;EVENT.ID&#125;&amp;&amp;&#123;TRIGGER.HOSTGROUP.NAME&#125;&amp;&amp;&#123;HOST.NAME&#125;&amp;&amp;&#123;HOST.IP&#125;&amp;&amp;&#123;EVENT.DATE&#125;-&#123;EVENT.TIME&#125;&amp;&amp;&#123;TRIGGER.DESCRIPTION&#125;</span><br><span class="line"></span><br><span class="line">#恢复</span><br><span class="line">&#123;TRIGGER.STATUS&#125;&amp;&amp;&#123;TRIGGER.SEVERITY&#125;&amp;&amp;&#123;HOST.NAME&#125;-&#123;TRIGGER.NAME&#125;&amp;&amp;&#123;EVENT.ID&#125;&amp;&amp;&#123;TRIGGER.HOSTGROUP.NAME&#125;&amp;&amp;&#123;HOST.NAME&#125;&amp;&amp;&#123;HOST.IP&#125;&amp;&amp;&#123;EVENT.DATE&#125;  -  &#123;EVENT.TIME&#125;&amp;&amp;&#123;TRIGGER.DESCRIPTION&#125;&amp;&amp;&#123;EVENT.RECOVERY.DATE&#125;  -  &#123;EVENT.RECOVERY.TIME&#125;&amp;&amp;&#123;EVENT.AGE&#125;</span><br></pre></td></tr></table></figure>
+<p>可推送出类似如下格式的告警</p>
+<p><img src="/images/zabbix-6.jpg" width="30%" height="20%" align="center"></p>
+<h4 id="图文-参考-进阶"><a href="#图文-参考-进阶" class="headerlink" title="图文(参考)进阶"></a>图文(参考)进阶</h4><blockquote>
+<p>对web开发有一定了解,熟悉python,zabbix API,微信API,用Django做后台处理交互.可推出如下告警.<br>有想法的可研究,过程复杂,三言两语讲不清.</p>
+</blockquote>
+<p><img src="/images/zabbix-7.jpg" width="30%" height="20%" align="center"></p>
+<p>完</p>
+<hr>
+
+      
+    </div>
+    
+    
+    
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/03/31/zabbix-python-wechat告警推送/">zabbix-python-wechat告警推送</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 zili 的个人博客">zili</a></p>
+  <p><span>发布时间:</span>2017年03月31日 - 12:03</p>
+  <p><span>原始链接:</span><a href="/2017/03/31/zabbix-python-wechat告警推送/" title="zabbix-python-wechat告警推送">https://dl1548.github.io/2017/03/31/zabbix-python-wechat告警推送/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://dl1548.github.io/2017/03/31/zabbix-python-wechat告警推送/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果您觉得文章对您有帮助的话. 感谢支持~!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="zili 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="zili 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/zabbix/" rel="tag"><i class="fa fa-tag"></i> zabbix</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/30/zabbix-server-is-not-running/" rel="next" title="zabbix-server-is-not-running">
+                <i class="fa fa-chevron-left"></i> zabbix-server-is-not-running
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/08/php-ajax/" rel="prev" title="php-ajax">
+                php-ajax <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/zili.jpg" alt="zili">
+            
+              <p class="site-author-name" itemprop="name">zili</p>
+              <p class="site-description motion-element" itemprop="description">众生皆苦</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/dl1548" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="暂" target="_blank">暂</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="无" target="_blank">无</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="友" target="_blank">友</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="链" target="_blank">链</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前提条件"><span class="nav-number">1.</span> <span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#企业号"><span class="nav-number">2.</span> <span class="nav-text">企业号</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#申请"><span class="nav-number">2.1.</span> <span class="nav-text">申请</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#获取信息"><span class="nav-number">2.2.</span> <span class="nav-text">获取信息</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#脚本"><span class="nav-number">3.</span> <span class="nav-text">脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#推送文本"><span class="nav-number">3.1.</span> <span class="nav-text">推送文本</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#推送news"><span class="nav-number">3.2.</span> <span class="nav-text">推送news</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#zabbix"><span class="nav-number">4.</span> <span class="nav-text">zabbix</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#媒介配置"><span class="nav-number">4.1.</span> <span class="nav-text">媒介配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#用户"><span class="nav-number">4.2.</span> <span class="nav-text">用户</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#动作"><span class="nav-number">4.3.</span> <span class="nav-text">动作</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#参考配置"><span class="nav-number">4.3.1.</span> <span class="nav-text">参考配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图文-参考"><span class="nav-number">5.</span> <span class="nav-text">图文(参考)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图文-参考-进阶"><span class="nav-number">6.</span> <span class="nav-text">图文(参考)进阶</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+<!-- music -->
+      <br><br>cn.zili.lee@gmail.com
+    </div>
+
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zili 豫ICP备17037562号</span>
+
+  
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      已有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      位陌生人来过
+    </span>
+  
+
+  
+    <span class="site-pv">
+      已有
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次访问
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cythS3OwJ';
+      var conf = 'bb066f28faf1b1f48464e7f77b1e4c46';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

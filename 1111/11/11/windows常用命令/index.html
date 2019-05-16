@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if('woshizhu'){
+            if (prompt('请输入文章密码') !== 'woshizhu'){
+                alert('密码错误！');
+                location="http://blog.dl1548.site";
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="-个人备忘手册,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="wmic先决条件a. 启动Windows Management Instrumentation服务，开放TCP135端口。b. 本地安全策略的“网络访问: 本地帐户的共享和安全模式”应设为“经典-本地用户以自己的身份验证”。  wmic /node:”192.168.1.20” /user:”domain\administrator” /password:”123456”  硬件信息(管理)获取磁">
+<meta name="keywords" content="-个人备忘手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows常用命令">
+<meta property="og:url" content="https://dl1548.github.io/1111/11/11/windows常用命令/index.html">
+<meta property="og:site_name" content="zili的笔记">
+<meta property="og:description" content="wmic先决条件a. 启动Windows Management Instrumentation服务，开放TCP135端口。b. 本地安全策略的“网络访问: 本地帐户的共享和安全模式”应设为“经典-本地用户以自己的身份验证”。  wmic /node:”192.168.1.20” /user:”domain\administrator” /password:”123456”  硬件信息(管理)获取磁">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-09T05:52:39.150Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="windows常用命令">
+<meta name="twitter:description" content="wmic先决条件a. 启动Windows Management Instrumentation服务，开放TCP135端口。b. 本地安全策略的“网络访问: 本地帐户的共享和安全模式”应设为“经典-本地用户以自己的身份验证”。  wmic /node:”192.168.1.20” /user:”domain\administrator” /password:”123456”  硬件信息(管理)获取磁">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":8,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://dl1548.github.io/1111/11/11/windows常用命令/">
+
+
+
+
+
+  <title>windows常用命令 | zili的笔记</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b292eae21b9892cd49051ddc886e6534";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zili的笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">好记性不如烂笔头~</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-board">
+          <a href="/board/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br>
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dl1548.github.io/1111/11/11/windows常用命令/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zili">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/zili.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zili的笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">windows常用命令</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="1111-11-11T11:11:13+08:00">
+                1111-11-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/windows/" itemprop="url" rel="index">
+                    <span itemprop="name">windows</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/1111/11/11/windows常用命令/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="1111/11/11/windows常用命令/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="wmic"><a href="#wmic" class="headerlink" title="wmic"></a>wmic</h4><h5 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h5><p>a. 启动Windows Management Instrumentation服务，开放TCP135端口。<br>b. 本地安全策略的“网络访问: 本地帐户的共享和安全模式”应设为“经典-本地用户以自己的身份验证”。</p>
+<ol>
+<li>wmic /node:”192.168.1.20” /user:”domain\administrator” /password:”123456”</li>
+</ol>
+<h5 id="硬件信息-管理"><a href="#硬件信息-管理" class="headerlink" title="硬件信息(管理)"></a>硬件信息(管理)</h5><p>获取磁盘资料：<br><code>wmic DISKDRIVE get deviceid,Caption,size,InterfaceType</code></p>
+<p>获取分区资料：<br><code>wmic LOGICALDISK get name,Description,filesystem,size,freespace</code></p>
+<p>获取CPU资料:<br><code>wmic cpu get name,addresswidth,processorid</code></p>
+<p>获取主板资料:<br><code>wmic BaseBoard get Manufacturer,Product,Version,SerialNumber</code></p>
+<p>获取内存数:<br><code>wmic memlogical get totalphysicalmemory</code></p>
+<p>获得品牌机的序列号:<br><code>wmic csproduct get IdentifyingNumber</code></p>
+<p>获取声卡资料:<br><code>wmic SOUNDDEV get ProductName</code></p>
+<p>获取屏幕分辨率<br><code>wmic DESKTOPMONITOR where Status=&#39;ok&#39; get ScreenHeight,ScreenWidth</code></p>
+<h5 id="PROCESS-进程管理-："><a href="#PROCESS-进程管理-：" class="headerlink" title="PROCESS(进程管理)："></a>PROCESS(进程管理)：</h5><p>列出进程<br><code>wmic process list brief</code><br>(Full显示所有、Brief显示摘要、Instance显示实例、Status显示状态)</p>
+<p>wmic 获取进程路径:<br><code>wmic process where name=&quot;jqs.exe&quot; get executablepath</code></p>
+<p>wmic 创建新进程 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wmic process call create notepad</span><br><span class="line">wmic process call create &quot;C:\Program Files\Tencent\QQ\QQ.exe&quot; </span><br><span class="line">wmic process call create &quot;shutdown.exe -r -f -t 20&quot;</span><br></pre></td></tr></table></figure>
+<p>wmic 删除指定进程: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wmic process where name=&quot;qq.exe&quot; call terminate </span><br><span class="line">wmic process where processid=&quot;2345&quot; delete </span><br><span class="line">wmic process 2345 call terminate</span><br></pre></td></tr></table></figure>
+<p>wmic 删除可疑进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wmic process where &quot;name=&apos;explorer.exe&apos; and executablepath&lt;&gt;&apos;%SystemDrive%\windows\explorer.exe&apos;&quot; delete</span><br><span class="line"></span><br><span class="line">wmic process where &quot;name=&apos;svchost.exe&apos; and ExecutablePath&lt;&gt;&apos;C:\WINDOWS\system32\svchost.exe&apos;&quot; call Terminate</span><br></pre></td></tr></table></figure>
+<h5 id="USERACCOUNT-账号管理-："><a href="#USERACCOUNT-账号管理-：" class="headerlink" title="USERACCOUNT(账号管理)："></a>USERACCOUNT(账号管理)：</h5><p>更改当前用户名 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WMIC USERACCOUNT where &quot;name=&apos;%UserName%&apos;&quot; call rename newUserName </span><br><span class="line"></span><br><span class="line">WMIC USERACCOUNT create /?</span><br></pre></td></tr></table></figure>
+<h5 id="SHARE-共享管理-："><a href="#SHARE-共享管理-：" class="headerlink" title="SHARE(共享管理)："></a>SHARE(共享管理)：</h5><p>建立共享</p>
+<p><code>WMIC SHARE CALL Create &quot;&quot;,&quot;test&quot;,&quot;3&quot;,&quot;TestShareName&quot;,&quot;&quot;,&quot;c:\test&quot;,0</code><br>(可使用 WMIC SHARE CALL Create /? 查看create后的参数类型)</p>
+<p>删除共享<br><code>WMIC SHARE where name=&quot;C$&quot; call delete</code><br><code>WMIC SHARE where path=&#39;c:\\test&#39; delete</code></p>
+<h5 id="SERVICE-服务管理-："><a href="#SERVICE-服务管理-：" class="headerlink" title="SERVICE(服务管理)："></a>SERVICE(服务管理)：</h5><p>更改telnet服务启动类型[Auto|Disabled|Manual]<br><code>wmic SERVICE where name=&quot;tlntsvr&quot; set startmode=&quot;Auto&quot;</code></p>
+<p>运行telnet服务<br><code>wmic SERVICE where name=&quot;tlntsvr&quot; call startservice</code></p>
+<p>停止ICS服务<br><code>wmic SERVICE where name=&quot;ShardAccess&quot; call stopservice</code></p>
+<p>删除test服务<br><code>wmic SERVICE where name=&quot;test&quot; call delete</code></p>
+<h5 id="FSDIR-目录管理"><a href="#FSDIR-目录管理" class="headerlink" title="FSDIR(目录管理)"></a>FSDIR(目录管理)</h5><p>列出c盘下名为test的目录<br><code>wmic FSDIR where &quot;drive=&#39;c:&#39; and filename=&#39;test&#39;&quot; list</code></p>
+<p>删除c:\good文件夹<br><code>wmic fsdir &quot;c:\\test&quot; call delete</code></p>
+<p>重命名c:\test文件夹为abc<br><code>wmic fsdir &quot;c:\\test&quot; rename &quot;c:\abc&quot;</code><br><code>wmic fsdir where (name=&#39;c:\\test&#39;) rename &quot;c:\abc&quot;</code></p>
+<p>复制文件夹<br><code>wmic fsdir where name=&#39;d:\\test&#39; call copy &quot;c:\\test&quot;</code></p>
+<h5 id="datafile-文件管理"><a href="#datafile-文件管理" class="headerlink" title="datafile(文件管理)"></a>datafile(文件管理)</h5><p>重命名<br><code>wmic datafile &quot;c:\\test.txt&quot; call rename c:\abc.txt</code></p>
+<h5 id="任务计划："><a href="#任务计划：" class="headerlink" title="任务计划："></a>任务计划：</h5><p><code>wmic job call create &quot;notepad.exe&quot;,0,0,true,false,********154800.000000+480</code><br><code>wmic job call create &quot;explorer.exe&quot;,0,0,1,0,********154600.000000+480</code></p>
+<h5 id="自动脚本"><a href="#自动脚本" class="headerlink" title="自动脚本"></a>自动脚本</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">::get os data</span><br><span class="line">wmic os get Caption,Version,SerialNumber,InstallDate /value</span><br><span class="line">echo ---</span><br><span class="line">:: get ip data</span><br><span class="line">wmic nicconfig where &quot;IPEnabled  = True&quot; get Description,DefaultIPGateway,IPAddress,IPSubnet,MACAddress /value</span><br><span class="line">echo ---</span><br><span class="line">:: get system data</span><br><span class="line">wmic COMPUTERSYSTEM get Name,NumberOfLogicalProcessors,NumberOfProcessors,TotalPhysicalMemory /value</span><br><span class="line">echo ---</span><br><span class="line">:: get cpu data</span><br><span class="line">wmic CPU get NAME,DeviceID /value</span><br><span class="line">echo ---</span><br><span class="line">:: get phydisk data</span><br><span class="line">wmic diskdrive get serialnumber,DeviceID,Size /value</span><br><span class="line">echo ---</span><br><span class="line">:: get logicaldisk data</span><br><span class="line">wmic logicaldisk get DeviceID,FreeSpace,Size,VolumeSerialNumber /value</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">::wmic nicconfig where &quot;IPEnabled  = True&quot; get Description,DefaultIPGateway,IPAddress,IPSubnet,MACAddress /value|findstr [1-9]</span><br><span class="line">:: 可去除不相关的回车换行等</span><br></pre></td></tr></table></figure>
+<h4 id="cmd-bat"><a href="#cmd-bat" class="headerlink" title="cmd(bat)"></a>cmd(bat)</h4><h5 id="取ip"><a href="#取ip" class="headerlink" title="取ip"></a>取ip</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@echo off </span><br><span class="line">for /f &quot;tokens=2 delims=:&quot; %%b in (&apos;ipconfig^|find /i &quot;ip&quot;&apos;) do set minion=%%b</span><br><span class="line">echo %minion%</span><br></pre></td></tr></table></figure>
+<h4 id="powershell"><a href="#powershell" class="headerlink" title="powershell"></a>powershell</h4><h5 id="获取系统硬件信息"><a href="#获取系统硬件信息" class="headerlink" title="获取系统硬件信息"></a>获取系统硬件信息</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$os_version=Get-CimInstance -ClassName Win32_OperatingSystem | Select-Object -ExpandProperty Caption</span><br><span class="line">$os_kernel=Get-CimInstance -ClassName Win32_OperatingSystem | Select-Object -ExpandProperty version</span><br><span class="line">$cpu_model=Get-CimInstance Win32_processor | Select-Object -ExpandProperty name -Unique</span><br><span class="line">$cpu_num=(Get-CimInstance Win32_processor | Select-Object -ExpandProperty name).count</span><br><span class="line">$cpu_core=(Get-CimInstance Win32_processor | Select-Object -ExpandProperty processorid).count</span><br><span class="line">$mem_total=(get-CimInstance -class Win32_PhysicalMemory   -namespace &quot;root\cimv2&quot;).Capacity</span><br><span class="line">$disk_total=Get-CimInstance -class win32_logicaldisk | Measure-Object -Sum size | Select-Object -ExpandProperty sum</span><br><span class="line">$product_id=Get-CimInstance -ClassName Win32_OperatingSystem | Select-Object -ExpandProperty SerialNumber</span><br><span class="line"></span><br><span class="line">$os_info = @&quot;</span><br><span class="line">&#123;&quot;os_sys&quot;:&quot;Windows&quot;,&quot;os_version&quot;:&quot;$os_version&quot;,&quot;os_kernel&quot;:&quot;$os_kernel&quot;,&quot;cpu_model&quot;:&quot;$cpu_model&quot;,&quot;cpu_num&quot;:&quot;$cpu_num&quot;,&quot;cpu_core&quot;:&quot;$cpu_core&quot;,&quot;mem_total&quot;:&quot;$mem_total&quot;,&quot;disk_total&quot;:&quot;$disk_total&quot;,&quot;product_id&quot;:&quot;$product_id&quot;&#125;</span><br><span class="line">&quot;@</span><br><span class="line"></span><br><span class="line">$os_info</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/1111/11/11/windows常用命令/">windows常用命令</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 zili 的个人博客">zili</a></p>
+  <p><span>发布时间:</span>1111年11月11日 - 11:11</p>
+  <p><span>原始链接:</span><a href="/1111/11/11/windows常用命令/" title="windows常用命令">https://dl1548.github.io/1111/11/11/windows常用命令/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://dl1548.github.io/1111/11/11/windows常用命令/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果您觉得文章对您有帮助的话. 感谢支持~!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="zili 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="zili 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/个人备忘手册/" rel="tag"><i class="fa fa-tag"></i> -个人备忘手册</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/1111/11/11/linux个人备忘手册/" rel="next" title="linux个人备忘手册">
+                <i class="fa fa-chevron-left"></i> linux个人备忘手册
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/20/nginx-tomcat-redis实现负载与session/" rel="prev" title="Nginx+tomcat+redis实现负载与session">
+                Nginx+tomcat+redis实现负载与session <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/zili.jpg" alt="zili">
+            
+              <p class="site-author-name" itemprop="name">zili</p>
+              <p class="site-description motion-element" itemprop="description">众生皆苦</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/dl1548" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="暂" target="_blank">暂</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="无" target="_blank">无</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="友" target="_blank">友</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="链" target="_blank">链</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#wmic"><span class="nav-number">1.</span> <span class="nav-text">wmic</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#先决条件"><span class="nav-number">1.1.</span> <span class="nav-text">先决条件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#硬件信息-管理"><span class="nav-number">1.2.</span> <span class="nav-text">硬件信息(管理)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PROCESS-进程管理-："><span class="nav-number">1.3.</span> <span class="nav-text">PROCESS(进程管理)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#USERACCOUNT-账号管理-："><span class="nav-number">1.4.</span> <span class="nav-text">USERACCOUNT(账号管理)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SHARE-共享管理-："><span class="nav-number">1.5.</span> <span class="nav-text">SHARE(共享管理)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SERVICE-服务管理-："><span class="nav-number">1.6.</span> <span class="nav-text">SERVICE(服务管理)：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#FSDIR-目录管理"><span class="nav-number">1.7.</span> <span class="nav-text">FSDIR(目录管理)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#datafile-文件管理"><span class="nav-number">1.8.</span> <span class="nav-text">datafile(文件管理)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#任务计划："><span class="nav-number">1.9.</span> <span class="nav-text">任务计划：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#自动脚本"><span class="nav-number">1.10.</span> <span class="nav-text">自动脚本</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cmd-bat"><span class="nav-number">2.</span> <span class="nav-text">cmd(bat)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#取ip"><span class="nav-number">2.1.</span> <span class="nav-text">取ip</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#powershell"><span class="nav-number">3.</span> <span class="nav-text">powershell</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#获取系统硬件信息"><span class="nav-number">3.1.</span> <span class="nav-text">获取系统硬件信息</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+<!-- music -->
+      <br><br>cn.zili.lee@gmail.com
+    </div>
+
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zili 豫ICP备17037562号</span>
+
+  
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      已有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      位陌生人来过
+    </span>
+  
+
+  
+    <span class="site-pv">
+      已有
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次访问
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cythS3OwJ';
+      var conf = 'bb066f28faf1b1f48464e7f77b1e4c46';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

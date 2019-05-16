@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if('woshizhu'){
+            if (prompt('请输入文章密码') !== 'woshizhu'){
+                alert('密码错误！');
+                location="http://blog.dl1548.site";
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="docker,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="java 项目,前端nginx.">
+<meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker-lnmp-java">
+<meta property="og:url" content="https://dl1548.github.io/2018/07/31/docker-lnmp-java/index.html">
+<meta property="og:site_name" content="zili的笔记">
+<meta property="og:description" content="java 项目,前端nginx.">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-09T05:52:39.146Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker-lnmp-java">
+<meta name="twitter:description" content="java 项目,前端nginx.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":8,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://dl1548.github.io/2018/07/31/docker-lnmp-java/">
+
+
+
+
+
+  <title>docker-lnmp-java | zili的笔记</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b292eae21b9892cd49051ddc886e6534";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zili的笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">好记性不如烂笔头~</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-board">
+          <a href="/board/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br>
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dl1548.github.io/2018/07/31/docker-lnmp-java/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zili">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/zili.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zili的笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">docker-lnmp-java</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-31T08:31:21+08:00">
+                2018-07-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/07/31/docker-lnmp-java/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/07/31/docker-lnmp-java/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>java 项目,前端nginx.<br><a id="more"></a></p>
+<p>涉及知识点较多,本文主要写的是容器化的部分.<br>其余的知识点并不会做过多的解释.主要是容器相关的配置文件解释.<br>阅读前提,熟悉linux系统,具有一定docker知识.对compose编排有了解.熟悉zabbix,nginx的编译安装.清楚相关配置参数,依赖等.<br>如果对以上提到的几点有不清楚的,那么不建议阅读.</p>
+<h4 id="构建rpm包"><a href="#构建rpm包" class="headerlink" title="构建rpm包"></a>构建rpm包</h4><p>由于在容器内编译是需要很多组件以及依赖和工具.所以导致生成的容器以及镜像体积非常大.</p>
+<p>所以,建议下载相关的源码包,构建完毕后在容器内安装,这样整个包体积就缩小非常多!</p>
+<p>当然如果对整个编译依赖<code>非常非常清楚</code>,也可以在容器内编译,然后编译完毕后删除不需要的依赖包以及缓存等.</p>
+<p>具体rpm构建方式不赘述了.有兴趣可以<a href="http://blog.dl1548.site/2018/02/28/rpm%E6%89%93%E5%8C%85/" target="_blank" rel="noopener">点此阅读 </a>,相关的rpm构建配置文档如下</p>
+<h5 id="nginx-rpm包构建"><a href="#nginx-rpm包构建" class="headerlink" title="nginx rpm包构建"></a>nginx rpm包构建</h5><p>nginx.spec 文件配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">Name:   nginx                              </span><br><span class="line">Version:     1.12.2                           </span><br><span class="line">Release:    1%&#123;?dist&#125;                       </span><br><span class="line">Summary:    nginx-1.12.2                   </span><br><span class="line">Group:      nginx                          </span><br><span class="line">License:    GPL</span><br><span class="line"></span><br><span class="line">URL:        http://blog.dl1548.site</span><br><span class="line"></span><br><span class="line">Source0:    nginx-1.12.2.tar.gz</span><br><span class="line">Source1:    nginx.conf</span><br><span class="line">Source2:    fastcgi_params</span><br><span class="line">Source3:    index.php</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">BuildRequires:  openssl,openssl-devel,pcre,pcre-devel         </span><br><span class="line">#制作rpm包时，所依赖的基本库,很多,并未写完,具体的在dockerfile体现</span><br><span class="line"></span><br><span class="line">Requires:   openssl,openssl-devel,pcre,pcre-devel</span><br><span class="line"></span><br><span class="line">#BuildRoot: %&#123;_tmpdir&#125;/%&#123;name&#125;-%&#123;version&#125;</span><br><span class="line"></span><br><span class="line">%description                                </span><br><span class="line">creata by lizili</span><br><span class="line"></span><br><span class="line">%pre                                        </span><br><span class="line">grep nginx /etc/passwd &gt; /dev/null</span><br><span class="line">if [ $? != 0 ] </span><br><span class="line">then useradd nginx -M -s /sbin/nologin</span><br><span class="line">fi</span><br><span class="line">[ -d /usr/local/zabbix ]||rm -rf /usr/local/nginx*</span><br><span class="line"></span><br><span class="line">%post                                       </span><br><span class="line"></span><br><span class="line">%preun                                      </span><br><span class="line">/usr/local/nginx/sbin/nginx -s stop</span><br><span class="line"></span><br><span class="line">%postun                                     </span><br><span class="line">userdel  nginx</span><br><span class="line">rm -rf /usr/local/nginx</span><br><span class="line"></span><br><span class="line">%prep</span><br><span class="line">%setup -q                                   </span><br><span class="line"></span><br><span class="line">#这里就是nginx编译安装的相关配置信息</span><br><span class="line">%build                                      </span><br><span class="line">./configure --user=nginx --group=nginx --prefix=/usr/local/%&#123;name&#125; --with-file-aio --with-http_ssl_module \</span><br><span class="line">--with-http_realip_module --with-http_addition_module --with-http_xslt_module --with-http_image_filter_module \</span><br><span class="line">--with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module \</span><br><span class="line">--with-http_gzip_static_module --with-http_auth_request_module --with-http_random_index_module --with-http_secure_link_module \</span><br><span class="line">--with-http_degradation_module --with-http_stub_status_module</span><br><span class="line">make -j8 %&#123;?_smp_mflags&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">%install                                    </span><br><span class="line">test -L %&#123;buildroot&#125;/usr/local/%&#123;name&#125; &amp;&amp; rm -f %&#123;buildroot&#125;/usr/local/%&#123;name&#125;</span><br><span class="line">make install DESTDIR=%&#123;buildroot&#125;</span><br><span class="line"></span><br><span class="line">install -p -D -m 0755 %&#123;SOURCE1&#125;        %&#123;buildroot&#125;/usr/local/%&#123;name&#125;/conf/nginx.conf</span><br><span class="line">install -p -D -m 0755 %&#123;SOURCE2&#125;        %&#123;buildroot&#125;/usr/local/%&#123;name&#125;/conf/fastcgi_params</span><br><span class="line">install -p -D -m 0755 %&#123;SOURCE3&#125;        %&#123;buildroot&#125;/usr/local/%&#123;name&#125;/html/index.php</span><br><span class="line"></span><br><span class="line">%files</span><br><span class="line">%defattr (-,root,root,0755)                                      </span><br><span class="line"></span><br><span class="line">/usr/local/%&#123;name&#125;/*</span><br><span class="line"></span><br><span class="line">%changelog                                  </span><br><span class="line">#主要用于软件的变更日志。该选项可有可无</span><br><span class="line"></span><br><span class="line">%clean </span><br><span class="line">rm -rf %&#123;buildroot&#125;                         </span><br><span class="line">#清理临时文件</span><br></pre></td></tr></table></figure>
+<h5 id="zabbix-server-rpm包构建"><a href="#zabbix-server-rpm包构建" class="headerlink" title="zabbix_server rpm包构建"></a>zabbix_server rpm包构建</h5><p>zabbxi_server.spec</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">%define zabbix_user zabbix                  </span><br><span class="line">Name:   zabbix                              </span><br><span class="line">Version:    3.0.5                          </span><br><span class="line">Release:    1%&#123;?dist&#125;                       </span><br><span class="line">Summary:    zabbix_server                 </span><br><span class="line">Group:      zabbix                          </span><br><span class="line">License:    GPL</span><br><span class="line">URL:        http://blog.dl1548.site</span><br><span class="line">Source0:    zabbix-3.0.5.tar.gz</span><br><span class="line">BuildRequires: unixODBC </span><br><span class="line">#制作rpm包时，所依赖的基本库,依赖很多,简单写一个</span><br><span class="line"></span><br><span class="line">Requires: unixODBC</span><br><span class="line"></span><br><span class="line">#BuildRoot: %&#123;_tmpdir&#125;/%&#123;name&#125;-%&#123;version&#125;-%&#123;release&#125;</span><br><span class="line"></span><br><span class="line">%description                                </span><br><span class="line">Zabbix server 3.0.5</span><br><span class="line">creata by lizili</span><br><span class="line"></span><br><span class="line">%pre                                        </span><br><span class="line">grep zabbix /etc/passwd &gt; /dev/null</span><br><span class="line">if [ $? != 0 ] </span><br><span class="line">then useradd zabbix -M -s /sbin/nologin</span><br><span class="line">fi</span><br><span class="line">[ -d /usr/local/zabbix ]||rm -rf /usr/local/zabbix*</span><br><span class="line">rm -rf /etc/zabbix*</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">%post                                       </span><br><span class="line">#修改启动文件路径</span><br><span class="line">sed -i &quot;/BASEDIR=\/usr\/local/c\BASEDIR=\/usr\/local\/%&#123;name&#125;&quot; /etc/init.d/zabbix_agentd</span><br><span class="line">sed -i &quot;/BASEDIR=\/usr\/local/c\BASEDIR=\/usr\/local\/%&#123;name&#125;&quot; /etc/init.d/zabbix_server</span><br><span class="line"></span><br><span class="line">%preun                                      </span><br><span class="line">/etc/init.d/zabbix_server stop</span><br><span class="line"></span><br><span class="line">%postun                                     </span><br><span class="line">userdel  zabbix</span><br><span class="line">rm -rf /usr/local/zabbix*</span><br><span class="line"></span><br><span class="line">%prep</span><br><span class="line"></span><br><span class="line">%setup -q                                   </span><br><span class="line"></span><br><span class="line">%build                                      </span><br><span class="line">#定义编译软件包时的操作</span><br><span class="line">./configure --prefix=/usr/local/%&#123;name&#125; --enable-server --enable-agent --enable-ipv6 --with-mysql --with-net-snmp  --with-libcurl --with-openipmi --with-ldap --with-ssh2 --enable-java --with-libxml2</span><br><span class="line">make -j8 %&#123;?_smp_mflags&#125;</span><br><span class="line"></span><br><span class="line">%install                                    </span><br><span class="line">test -L %&#123;buildroot&#125;/usr/local/%&#123;name&#125; &amp;&amp; rm -f %&#123;buildroot&#125;/usr/local/%&#123;name&#125;</span><br><span class="line">install -d %&#123;buildroot&#125;/etc/profile.d</span><br><span class="line">install -d %&#123;buildroot&#125;/etc/init.d</span><br><span class="line">make install DESTDIR=%&#123;buildroot&#125;</span><br><span class="line"></span><br><span class="line">#复制启动脚本</span><br><span class="line">cp %&#123;_builddir&#125;/%&#123;name&#125;-%&#123;version&#125;/misc/init.d/fedora/core/zabbix_agentd  %&#123;buildroot&#125;/etc/init.d/zabbix_agentd</span><br><span class="line">cp %&#123;_builddir&#125;/%&#123;name&#125;-%&#123;version&#125;/misc/init.d/fedora/core/zabbix_server  %&#123;buildroot&#125;/etc/init.d/zabbix_server</span><br><span class="line"></span><br><span class="line">%files</span><br><span class="line">%defattr (-,root,root,0755)                                      </span><br><span class="line">#定义rpm包安装时创建的相关目录及文件</span><br><span class="line">/usr/local/%&#123;name&#125;/*</span><br><span class="line">/etc/init.d/zabbix_agentd</span><br><span class="line">/etc/init.d/zabbix_server</span><br><span class="line"></span><br><span class="line">%changelog                                  </span><br><span class="line">#主要用于软件的变更日志。该选项可有可无</span><br><span class="line"></span><br><span class="line">%clean </span><br><span class="line">rm -rf %&#123;buildroot&#125;                         </span><br><span class="line">#清理临时文件</span><br></pre></td></tr></table></figure>
+<p>事后会得到两个编译好的rpm包. 保存下来,给容器使用.</p>
+<h4 id="编排"><a href="#编排" class="headerlink" title="编排"></a>编排</h4><p>本文使用的docker官网的编排工具docker-compose</p>
+<p>编排的前提是,先要创建一个私有网络<code>docker network create -d bridge --subnet 172.1.0.0/16 jk</code>  </p>
+<p>这样,可以不用映射某些不必要的端口.<code>容器内可直接访问相关的地址</code>.</p>
+<p>当然,也可以配置通过映射访问.那么需要更改几个文件.</p>
+<p>建议容器内互联,这样,可不用进入容器内更改配置.而且不必要的端口不用曝露出来,增加安全性</p>
+<p>编排结构如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">├── docker-compose.yml</span><br><span class="line">├── monitor</span><br><span class="line">│   └── apache-tomcat-8.5.24.tar.gz</span><br><span class="line">│   └── Dockerfile                  </span><br><span class="line">│   └── jdk-8u45-linux-x64.tar.gz</span><br><span class="line">│   └── monitor.war</span><br><span class="line">├── mysql</span><br><span class="line">│   ├── cnf</span><br><span class="line">│   │   ├── 3.0.5</span><br><span class="line">│   │   │   ├── data.sql</span><br><span class="line">│   │   │   ├── images.sql</span><br><span class="line">│   │   │   ├── monitor.sql</span><br><span class="line">│   │   │   └── schema.sql</span><br><span class="line">│   │   ├── init_database.sql</span><br><span class="line">│   │   ├── init_db.sh</span><br><span class="line">│   │   └── mysqld.cnf</span><br><span class="line">│   ├── datadir</span><br><span class="line">│   └── Dockerfile</span><br><span class="line">├── nginx</span><br><span class="line">│   ├── Dockerfile</span><br><span class="line">│   ├── nginx-1.12.2-1.el7.centos.x86_64.rpm</span><br><span class="line">│   ├── nginx.conf</span><br><span class="line">│   └── zabbix</span><br><span class="line">│       ├── 3.0.5</span><br><span class="line">│       │   ├── logs</span><br><span class="line">│       │   │   └── zabbix_server.log</span><br><span class="line">│       │   ├── web</span><br><span class="line">│       │   │   └── zabbix.conf.php</span><br><span class="line">│       │   └── zabbix_server.conf</span><br><span class="line">│       └── zabbix-3.0.5-1.el7.centos.x86_64.rpm</span><br><span class="line">└── readme</span><br></pre></td></tr></table></figure>
+<p><code>monitor</code> 此文件夹下是monitor项目的Dockerfile需要的文件以及配置</p>
+<p><code>mysql</code> 此文件夹下是mysql项目的Dockerfile需要的文件以及配置</p>
+<p><code>nginx</code> 此文件夹下是nginx项目的Dockerfile需要的文件以及配置(包括zabbix)</p>
+<p><code>docker-compose.yml</code> 是编排文件,通过它来构建整个monitor的容器化</p>
+<h5 id="monitor"><a href="#monitor" class="headerlink" title="monitor"></a>monitor</h5><p>此文件夹下的先关配置用来构建公司monitor项目.</p>
+<p>Dockerfile如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line"></span><br><span class="line">ADD jdk-8u45-linux-x64.tar.gz /usr/local</span><br><span class="line"></span><br><span class="line">ENV RUN_AS_USER=root</span><br><span class="line">ENV JAVA_HOME /usr/local/jdk1.8.0_45</span><br><span class="line">ENV CLASS_HOME=/usr/local/jdk1.8.0_45/lib:$JAVA_HOME/jre/lib</span><br><span class="line">ENV CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib:$CLASSPATH</span><br><span class="line">ENV PATH=$PATH:$JAVA_HOME/bin</span><br><span class="line"></span><br><span class="line">ADD apache-tomcat-8.5.24.tar.gz /usr/local</span><br><span class="line"></span><br><span class="line">EXPOSE 8080</span><br><span class="line">ENTRYPOINT [&quot;/usr/local/apache-tomcat-8.5.24/bin/catalina.sh&quot;, &quot;run&quot;]</span><br></pre></td></tr></table></figure>
+<h5 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h5><p><code>cnf文件夹</code> 数据库相关配置文件.数据库配置就是<code>mysqld.cnf</code> Dockerfile 将此文件进行映射并赋权.</p>
+<p>这样在生成镜像的时候,相关的数据库配置就能生效了.不用去容器内修改.注意权限!</p>
+<p><code>3.0.5</code>  针对的是zabbix版本,存放的也是zabbix需要预先生成并导入的表.</p>
+<p><code>init_database.sql</code> 初始化数据的文件 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE IF NOT EXISTS zabbix default charset utf8 COLLATE utf8_general_ci;</span><br><span class="line">CREATE DATABASE IF NOT EXISTS monitor default charset utf8 COLLATE utf8_general_ci;</span><br></pre></td></tr></table></figure>
+<p><code>init_db.sh</code> 初始化数据库的脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#init db</span><br><span class="line">mysql -uroot -p$MYSQL_ROOT_PASSWORD &lt;&lt; EOF</span><br><span class="line">source $WORK_PATH/$FILE_0;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"># init zbx</span><br><span class="line">mysql -uroot -p$MYSQL_ROOT_PASSWORD zabbix &lt;&lt; EOF</span><br><span class="line">source $WORK_PATH/$FILE_1;</span><br><span class="line">source $WORK_PATH/$FILE_2;</span><br><span class="line">source $WORK_PATH/$FILE_3;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">#init monitor</span><br><span class="line">mysql -uroot -p$MYSQL_ROOT_PASSWORD monitor &lt;&lt; EOF</span><br><span class="line">source $WORK_PATH/$FILE_4;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p><code>datadir</code> 用来做数据持久化使用</p>
+<p>Dockerfile如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">FROM mysql:5.7.21</span><br><span class="line"></span><br><span class="line">MAINTAINER lizili(blog.dl1548.site)</span><br><span class="line"></span><br><span class="line">ENV WORK_PATH /usr/local/work</span><br><span class="line"></span><br><span class="line">#此目录下的脚本在生成容器是会自动执行.用来做初始化使用</span><br><span class="line">ENV AUTO_RUN_DIR /docker-entrypoint-initdb.d</span><br><span class="line"></span><br><span class="line">#定义sql文件名</span><br><span class="line">ENV FILE_0 init_database.sql </span><br><span class="line">ENV FILE_1 schema.sql</span><br><span class="line">ENV FILE_2 images.sql</span><br><span class="line">ENV FILE_3 data.sql</span><br><span class="line">ENV FILE_4 monitor.sql</span><br><span class="line">#定义shell文件名</span><br><span class="line">ENV INSTALL_DB_SHELL init_db.sh</span><br><span class="line"></span><br><span class="line">#把数据库初始化数据的文件复制到工作目录下</span><br><span class="line">COPY cnf/$FILE_0 $WORK_PATH/</span><br><span class="line">COPY cnf/3.0.5/$FILE_1 $WORK_PATH/</span><br><span class="line">COPY cnf/3.0.5/$FILE_2 $WORK_PATH/</span><br><span class="line">COPY cnf/3.0.5/$FILE_3 $WORK_PATH/</span><br><span class="line">COPY cnf/3.0.5/$FILE_4 $WORK_PATH/</span><br><span class="line">#把要执行的shell文件放到/docker-entrypoint-initdb.d/目录下，容器会自动执行这个shell</span><br><span class="line">COPY cnf/$INSTALL_DB_SHELL $AUTO_RUN_DIR/</span><br><span class="line"></span><br><span class="line">#mysql配置文件</span><br><span class="line">COPY cnf/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf</span><br><span class="line"></span><br><span class="line">#给执行文件增加可执行权限.权限一定要更改.否则配置不生效.这个权限困扰我一段时间..有点坑.</span><br><span class="line">RUN mkdir -p $WORK_PATH \</span><br><span class="line">    &amp;&amp; chown mysql:mysql /etc/mysql/mysql.conf.d/mysqld.cnf \</span><br><span class="line">    &amp;&amp; chmod 600 /etc/mysql/mysql.conf.d/mysqld.cnf \</span><br><span class="line">    &amp;&amp; chmod a+x $AUTO_RUN_DIR/$INSTALL_DB_SHELL</span><br></pre></td></tr></table></figure>
+<h5 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h5><p><code>nginx-1.12.2-1.el7.centos.x86_64.rpm</code> 前面构建的rpm安装包.</p>
+<p><code>nginx.conf</code> nginx配置文件,需要注意这里的nginx路径是由构建rpm是决定的.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">#user  nobody;</span><br><span class="line">worker_processes  auto;</span><br><span class="line"></span><br><span class="line">#error_log  logs/error.log;</span><br><span class="line">#error_log  logs/error.log  notice;</span><br><span class="line">#error_log  logs/error.log  info;</span><br><span class="line"></span><br><span class="line">#pid        logs/nginx.pid;</span><br><span class="line">events &#123;</span><br><span class="line">    use epoll;</span><br><span class="line">    worker_connections 51200;</span><br><span class="line">    multi_accept on;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">                      &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">                      &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line">    #access_log  logs/access.log  main;</span><br><span class="line">    sendfile        on;</span><br><span class="line">    client_max_body_size  500m;</span><br><span class="line"></span><br><span class="line">    tcp_nopush     on;</span><br><span class="line">    tcp_nodelay on;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    fastcgi_connect_timeout 300;</span><br><span class="line">    fastcgi_send_timeout 300;</span><br><span class="line">    fastcgi_read_timeout 300;</span><br><span class="line">    fastcgi_buffer_size 64k;</span><br><span class="line">    fastcgi_buffers 4 64k;</span><br><span class="line">    fastcgi_busy_buffers_size 128k;</span><br><span class="line">    fastcgi_temp_file_write_size 256k;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    gzip on;</span><br><span class="line">    gzip_min_length  1k;</span><br><span class="line">    gzip_buffers     4 16k;</span><br><span class="line">    gzip_http_version 1.1;</span><br><span class="line">    gzip_comp_level 2;</span><br><span class="line">    gzip_types     text/plain application/javascript application/x-javascript text/javascript text/css application/xml application/xml+rss;</span><br><span class="line">    gzip_vary on;</span><br><span class="line">    gzip_proxied   expired no-cache no-store private auth;</span><br><span class="line">    gzip_disable   &quot;MSIE [1-6]\.&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">        index index.html index.htm index.php;</span><br><span class="line">        root /usr/local/nginx/html;</span><br><span class="line"></span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location ~ [^/]\.php(/|$) &#123;</span><br><span class="line">            #try_files $uri =404;</span><br><span class="line">            root           /usr/local/nginx/html;</span><br><span class="line">            fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">            fastcgi_index  index.php;</span><br><span class="line">            #fastcgi_param  SCRIPT_FILENAME  /usr/local/nginx/html/$fastcgi_script_name;</span><br><span class="line">            include        fastcgi_params;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$ &#123;</span><br><span class="line">            expires      30d;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location ~ .*\.(js|css)?$ &#123;</span><br><span class="line">            expires      12h;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location ~ /\. &#123;</span><br><span class="line">            deny all;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        access_log logs/php_access.log;</span><br><span class="line">        error_log  logs/php_error.log  notice;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>zabbix</code> 此文件夹是用来搭建监控服务.</p>
+<p><code>3.0.5</code> 是为了zabbix版本分类使用</p>
+<p><code>web</code> 存放的是zabbix官方提供的监控前端php等文件.</p>
+<p><code>zabbix.conf.php</code> zabbix前端的配置文件.主要是指定连接的数据库地址,以及监控server地址</p>
+<p>此文件可直接在官网提供的前端文件中,复制,重命名,然后更改.</p>
+<p>注意我指定的数据库地址,就是容器内地址,可不通过端口映射访问,一定程度上讲,访问速度也有所提升.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">// Zabbix GUI configuration file.</span><br><span class="line">global $DB;</span><br><span class="line"></span><br><span class="line">$DB[&apos;TYPE&apos;]     = &apos;MYSQL&apos;;</span><br><span class="line">$DB[&apos;SERVER&apos;]   = &apos;172.1.0.33&apos;;</span><br><span class="line">$DB[&apos;PORT&apos;]     = &apos;3306&apos;;</span><br><span class="line">$DB[&apos;DATABASE&apos;] = &apos;zabbix&apos;;</span><br><span class="line">$DB[&apos;USER&apos;]     = &apos;root&apos;;</span><br><span class="line">$DB[&apos;PASSWORD&apos;] = &apos;123qweASD&apos;;</span><br><span class="line"></span><br><span class="line">// Schema name. Used for IBM DB2 and PostgreSQL.</span><br><span class="line">$DB[&apos;SCHEMA&apos;] = &apos;&apos;;</span><br><span class="line"></span><br><span class="line">$ZBX_SERVER      = &apos;192.168.1.244&apos;;</span><br><span class="line">$ZBX_SERVER_PORT = &apos;10051&apos;;</span><br><span class="line">$ZBX_SERVER_NAME = &apos;&apos;;</span><br><span class="line">$IMAGE_FORMAT_DEFAULT = IMAGE_FORMAT_PNG;</span><br></pre></td></tr></table></figure>
+<p><code>zabbix_server.conf</code>  zabbix_server服务配置.</p>
+<p>这个文件主要是要指定数据库为远程数据库.以及配置相关库和账户密码等</p>
+<p>主要更改的几个点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DBHost=172.1.0.33  #这里指定的也是容器内的地址.如果是端口映射,那么指定os地址.</span><br><span class="line">DBName=zabbix</span><br><span class="line">DBUser=root</span><br><span class="line">DBPassword=123qweASD</span><br></pre></td></tr></table></figure>
+<p><code>zabbix-3.0.5-1.el7.centos.x86_64.rpm</code>  前面构建的rpm安装包.</p>
+<p>Dockerfile 配置如下:</p>
+<p>这个dockerfile是最复杂的,安装了nginx,zabbix,php-fpm的运行环境以及依赖.</p>
+<p>安装了容器中文语言环境支持,用来支持zabbix的中文语言环境(需要做相关配置.具体公司操作文档有.可直接在web内的前端文件修改,docker会自动映射到容器内部),修改了一下配置文件,使zabbix可正常运行.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line"></span><br><span class="line">MAINTAINER zili.li(blog.dl1548.site)</span><br><span class="line"></span><br><span class="line">COPY nginx-1.12.2-1.el7.centos.x86_64.rpm /tmp/nginx-1.12.2-1.el7.centos.x86_64.rpm</span><br><span class="line">COPY zabbix/zabbix-3.0.5-1.el7.centos.x86_64.rpm /tmp/zabbix-3.0.5-1.el7.centos.x86_64.rpm</span><br><span class="line">#zabbix rpm</span><br><span class="line"></span><br><span class="line">WORKDIR /tmp</span><br><span class="line"></span><br><span class="line">#install server</span><br><span class="line">RUN nginxDeps=&apos;glib* autoconf openssl openssl-devel libxslt-devel gd gd-devel pcre pcre-devel &apos; \</span><br><span class="line">    &amp;&amp; phpDeps=&apos;php php-mysql php-common php-fpm php-gd php-ldap \</span><br><span class="line">            php-odbc php-pear php-xml php-mcrypt php-xmlrpc php-devel \</span><br><span class="line">            php-mbstring php-snmp php-soap curl curl-devel php-bcmath mod_ssl&apos; \</span><br><span class="line">    &amp;&amp; zbxDeps=&apos;fping mysql-connector-odbc mysql-devel libdbi-dbd-mysql \</span><br><span class="line">            libssh2 libxml2 libxml2-devel libssh2-devel unixODBC unixODBC-devel \</span><br><span class="line">            pam-devel net-snmp-devel net-snmp-utils  OpenIPMI OpenIPMI-devel rpm-build \</span><br><span class="line">            openldap openldap-devel libcurl-devel  java java-devel&apos; \</span><br><span class="line">    &amp;&amp; useradd -M -s /sbin/nologin nginx \</span><br><span class="line">    &amp;&amp; useradd -M -s /sbin/nologin php \</span><br><span class="line">    &amp;&amp; yum -y install epel-release \</span><br><span class="line">    &amp;&amp; yum clean all \</span><br><span class="line">    &amp;&amp; yum -y install $nginxDeps $phpDeps $zbxDeps kde-l10n-Chinese \ </span><br><span class="line">    &amp;&amp; rpm -ivh nginx-1.12.2-1.el7.centos.x86_64.rpm \</span><br><span class="line">    &amp;&amp; rpm -ivh zabbix-3.0.5-1.el7.centos.x86_64.rpm \</span><br><span class="line">    &amp;&amp; rm -rf /tmp/* \</span><br><span class="line">    &amp;&amp; rm -rf /var/cache/* \</span><br><span class="line">    &amp;&amp; sed -i &apos;s/upload_max_filesize = 2M/upload_max_filesize = 50M/g&apos; /etc/php.ini \</span><br><span class="line">    &amp;&amp; sed -i &apos;s/;date.timezone =/date.timezone =PRC/&apos; /etc/php.ini \</span><br><span class="line">    &amp;&amp; sed -i &apos;s/max_execution_time = 30/max_execution_time = 600/g&apos; /etc/php.ini \</span><br><span class="line">    &amp;&amp; sed -i &apos;s/max_input_time = 60/max_input_time = 600/g&apos; /etc/php.ini \</span><br><span class="line">    &amp;&amp; sed -i &apos;s/memory_limit = 128M/memory_limit = 256M/g&apos; /etc/php.ini \</span><br><span class="line">    &amp;&amp; sed -i &apos;s/post_max_size = 8M/post_max_size = 16M/g&apos; /etc/php.ini \</span><br><span class="line">    &amp;&amp; rm -rf /etc/localtime &amp;&amp; ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \</span><br><span class="line">    &amp;&amp; localedef -c -f UTF-8 -i zh_CN zh_CN.utf8</span><br><span class="line"></span><br><span class="line">#ENV TIME_ZONE Asia/Shanghai</span><br><span class="line">ENV PATH /usr/local/nginx/sbin:$PATH                </span><br><span class="line">ENV LC_ALL zh_CN.utf8</span><br><span class="line"></span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line">#ENTRYPOINT [&quot;nginx&quot;]</span><br><span class="line"></span><br><span class="line">CMD /usr/local/nginx/sbin/nginx &amp;&amp; /etc/init.d/zabbix_server start &amp;&amp; /etc/init.d/zabbix_agentd start &amp;&amp; /usr/sbin/php-fpm</span><br></pre></td></tr></table></figure>
+<h5 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">version: &quot;3&quot;</span><br><span class="line">services:</span><br><span class="line">  backserver:</span><br><span class="line">    hostname: MonitorBack</span><br><span class="line">    build: ./nginx</span><br><span class="line">    volumes:</span><br><span class="line">      - ./nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf:rw</span><br><span class="line">      - ./nginx/zabbix/3.0.5/web/:/usr/local/nginx/html/monitor:rw</span><br><span class="line">      - ./nginx/zabbix/3.0.5/zabbix_server.conf:/usr/local/zabbix/etc/zabbix_server.conf:rw</span><br><span class="line">    ports:</span><br><span class="line">      - 80:80</span><br><span class="line">      - 10050:10050 </span><br><span class="line">      - 10051:10051</span><br><span class="line">    networks:</span><br><span class="line">      jk:</span><br><span class="line">        ipv4_address: 172.1.0.80</span><br><span class="line">    restart: always</span><br><span class="line">    depends_on:</span><br><span class="line">      - dbserver</span><br><span class="line">      - webserver</span><br><span class="line"></span><br><span class="line">  webserver:</span><br><span class="line">    hostname: JKMonitor</span><br><span class="line">    build: ./monitor</span><br><span class="line">    restart: always</span><br><span class="line">    volumes:</span><br><span class="line">      - ./monitor/monitor.war:/usr/local/apache-tomcat-8.5.24/webapps/monitor.war</span><br><span class="line">    ports:</span><br><span class="line">      - 8080:8080</span><br><span class="line">    networks:</span><br><span class="line">      jk:</span><br><span class="line">        ipv4_address: 172.1.0.88</span><br><span class="line">    depends_on:</span><br><span class="line">      - dbserver</span><br><span class="line"></span><br><span class="line">  dbserver:</span><br><span class="line">    hostname: MonitorDB</span><br><span class="line">    build: ./mysql</span><br><span class="line">    volumes:</span><br><span class="line">      #- ./my.cnf:/etc/my.cnf.d/zili.cnf:rw #在dockerfile中配置并赋权</span><br><span class="line">      - ./mysql/datadir:/var/lib/mysql:rw</span><br><span class="line">    #ports:</span><br><span class="line">    #  - 3306:3306</span><br><span class="line">    networks:</span><br><span class="line">      jk:</span><br><span class="line">        ipv4_address: 172.1.0.33</span><br><span class="line">    restart: always</span><br><span class="line">    environment:</span><br><span class="line">      MYSQL_ROOT_PASSWORD: &apos;123qweASD&apos;</span><br><span class="line">      MYSQL_ROOT_HOST: &apos;%&apos;</span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">  jk:</span><br><span class="line">    external: true</span><br></pre></td></tr></table></figure>
+<p>进入jk下 执行<code>docker-compose up --build</code> 即可,后台加<code>-d</code></p>
+<p>完.</p>
+
+      
+    </div>
+    
+    
+    
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2018/07/31/docker-lnmp-java/">docker-lnmp-java</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 zili 的个人博客">zili</a></p>
+  <p><span>发布时间:</span>2018年07月31日 - 08:07</p>
+  <p><span>原始链接:</span><a href="/2018/07/31/docker-lnmp-java/" title="docker-lnmp-java">https://dl1548.github.io/2018/07/31/docker-lnmp-java/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://dl1548.github.io/2018/07/31/docker-lnmp-java/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果您觉得文章对您有帮助的话. 感谢支持~!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="zili 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="zili 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/22/uWSGI-Nginx部署Django项目/" rel="next" title="uWSGI+Nginx部署Django项目">
+                <i class="fa fa-chevron-left"></i> uWSGI+Nginx部署Django项目
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/02/django-celery/" rel="prev" title="django-celery">
+                django-celery <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/zili.jpg" alt="zili">
+            
+              <p class="site-author-name" itemprop="name">zili</p>
+              <p class="site-description motion-element" itemprop="description">众生皆苦</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/dl1548" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="暂" target="_blank">暂</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="无" target="_blank">无</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="友" target="_blank">友</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="链" target="_blank">链</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#构建rpm包"><span class="nav-number">1.</span> <span class="nav-text">构建rpm包</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#nginx-rpm包构建"><span class="nav-number">1.1.</span> <span class="nav-text">nginx rpm包构建</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#zabbix-server-rpm包构建"><span class="nav-number">1.2.</span> <span class="nav-text">zabbix_server rpm包构建</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编排"><span class="nav-number">2.</span> <span class="nav-text">编排</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#monitor"><span class="nav-number">2.1.</span> <span class="nav-text">monitor</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysql"><span class="nav-number">2.2.</span> <span class="nav-text">mysql</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#nginx"><span class="nav-number">2.3.</span> <span class="nav-text">nginx</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#docker-compose-yml"><span class="nav-number">2.4.</span> <span class="nav-text">docker-compose.yml</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+<!-- music -->
+      <br><br>cn.zili.lee@gmail.com
+    </div>
+
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zili 豫ICP备17037562号</span>
+
+  
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      已有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      位陌生人来过
+    </span>
+  
+
+  
+    <span class="site-pv">
+      已有
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次访问
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cythS3OwJ';
+      var conf = 'bb066f28faf1b1f48464e7f77b1e4c46';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#222">
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                location="http://blog.dl1548.site";
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ipmi,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="IPMI(Intelligent Platform Management Interface) 是独立于物理服务器CPU，电源，存储等独立工作的管理工具。其需要进入BISO先行设置。IPMI可监控服务器的物理状态，如温度、电压、电扇、电源等，以及一些远程管控等默认端口是623，UDP协议">
+<meta name="keywords" content="ipmi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ipmi">
+<meta property="og:url" content="https://dl1548.github.io/2018/01/21/ipmi/index.html">
+<meta property="og:site_name" content="zili的笔记">
+<meta property="og:description" content="IPMI(Intelligent Platform Management Interface) 是独立于物理服务器CPU，电源，存储等独立工作的管理工具。其需要进入BISO先行设置。IPMI可监控服务器的物理状态，如温度、电压、电扇、电源等，以及一些远程管控等默认端口是623，UDP协议">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-09T05:52:39.146Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ipmi">
+<meta name="twitter:description" content="IPMI(Intelligent Platform Management Interface) 是独立于物理服务器CPU，电源，存储等独立工作的管理工具。其需要进入BISO先行设置。IPMI可监控服务器的物理状态，如温度、电压、电扇、电源等，以及一些远程管控等默认端口是623，UDP协议">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":8,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://dl1548.github.io/2018/01/21/ipmi/">
+
+
+
+
+
+  <title>ipmi | zili的笔记</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b292eae21b9892cd49051ddc886e6534";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zili的笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">好记性不如烂笔头~</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-board">
+          <a href="/board/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br>
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dl1548.github.io/2018/01/21/ipmi/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zili">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/zili.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zili的笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ipmi</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-21T17:59:13+08:00">
+                2018-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/01/21/ipmi/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/01/21/ipmi/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>IPMI(Intelligent Platform Management Interface) 是独立于物理服务器CPU，电源，存储等独立工作的管理工具。其需要进入BISO先行设置。<br>IPMI可监控服务器的物理状态，如温度、电压、电扇、电源等，以及一些远程管控等<br>默认端口是623，UDP协议<br><a id="more"></a></p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>centos环境下<br><code>yum -y install ipmitool</code><br>也可以下载<code>ipmitool-version.tar.gz</code> 解压后<code>./configure &amp;&amp; make &amp;&amp; make install</code><br><code>service ipmi start</code><br>执行 内核加载,另：虚机不存在<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># modprobe ipmi_watchdog</span></span><br><span class="line">[root@localhost ~]<span class="comment"># modprobe ipmi_poweroff</span></span><br><span class="line">[root@localhost ~]<span class="comment"># modprobe ipmi_devintf</span></span><br><span class="line">[root@localhost ~]<span class="comment"># modprobe ipmi_si</span></span><br><span class="line">[root@localhost ~]<span class="comment"># modprobe ipmi_msghandler</span></span><br></pre></td></tr></table></figure></p>
+<p>查资料显示服务器 <code>第一块网卡</code> <code>第一个口</code> 接<code>交换机</code>，默认这个口集成了IPMI，目前dell如此。<br>其他厂商可能会有变，使用前请确认，并去<code>BIOS</code>开启。网口启动与否并不影响使用。</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>远程获取服务器监控信息时，需要加上远程服务器的地址：<br><code>ipmitool -I lanplus -H ipaddress -U username -P password command</code><br><code>-H</code>表示后面跟的是服务器的地址<br><code>-U</code>表示后面跟着用户名<br><code>-P</code>表示后面跟着用户密码<br><code>command</code>命令</p>
+<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">$ ipmitool -h</span><br><span class="line"></span><br><span class="line">usage: ipmitool [options...] &lt;command&gt;</span><br><span class="line"></span><br><span class="line">       -h             This help</span><br><span class="line">       -V             Show version information</span><br><span class="line">       -v             Verbose (can use multiple times)</span><br><span class="line">       -c             Display output in comma separated format</span><br><span class="line">       -d N           Specify a /dev/ipmiN device to use (default=0)</span><br><span class="line">       -I intf        Interface to use</span><br><span class="line">       -H hostname    Remote host name for LAN interface</span><br><span class="line">       -p port        Remote RMCP port [default=623]</span><br><span class="line">       -U username    Remote session username</span><br><span class="line">       -f file        Read remote session password from file</span><br><span class="line">       -z size        Change Size of Communication Channel (OEM)</span><br><span class="line">       -S sdr         Use local file for remote SDR cache</span><br><span class="line">       -D tty:b[:s]   Specify the serial device, baud rate to use</span><br><span class="line">                      and, optionally, specify that interface is the system one</span><br><span class="line">       -a             Prompt for remote password</span><br><span class="line">       -Y             Prompt for the Kg key for IPMIv2 authentication</span><br><span class="line">       -e char        Set SOL escape character</span><br><span class="line">       -C ciphersuite Cipher suite to be used by lanplus interface</span><br><span class="line">       -k key         Use Kg key for IPMIv2 authentication</span><br><span class="line">       -y hex_key     Use hexadecimal-encoded Kg key for IPMIv2 authentication</span><br><span class="line">       -L level       Remote session privilege level [default=ADMINISTRATOR]</span><br><span class="line">                      Append a &apos;+&apos; to use name/privilege lookup in RAKP1</span><br><span class="line">       -A authtype    Force use of auth type NONE, PASSWORD, MD2, MD5 or OEM</span><br><span class="line">       -P password    Remote session password</span><br><span class="line">       -E             Read password from IPMI_PASSWORD environment variable</span><br><span class="line">       -K             Read kgkey from IPMI_KGKEY environment variable</span><br><span class="line">       -m address     Set local IPMB address</span><br><span class="line">       -b channel     Set destination channel for bridged request</span><br><span class="line">       -t address     Bridge request to remote target address</span><br><span class="line">       -B channel     Set transit channel for bridged request (dual bridge)</span><br><span class="line">       -T address     Set transit address for bridge request (dual bridge)</span><br><span class="line">       -l lun         Set destination lun for raw commands</span><br><span class="line">       -o oemtype     Setup for OEM (use &apos;list&apos; to see available OEM types)</span><br><span class="line">       -O seloem      Use file for OEM SEL event descriptions</span><br><span class="line">       -N seconds     Specify timeout for lan [default=2] / lanplus [default=1] interface</span><br><span class="line">       -R retry       Set the number of retries for lan/lanplus interface [default=4]</span><br><span class="line"></span><br><span class="line">Interfaces:</span><br><span class="line">        open          Linux OpenIPMI Interface [default]</span><br><span class="line">        imb           Intel IMB Interface </span><br><span class="line">        lan           IPMI v1.5 LAN Interface </span><br><span class="line">        lanplus       IPMI v2.0 RMCP+ LAN Interface </span><br><span class="line">        serial-terminal  Serial Interface, Terminal Mode </span><br><span class="line">        serial-basic  Serial Interface, Basic Mode </span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">        raw           Send a RAW IPMI request and print response</span><br><span class="line">        i2c           Send an I2C Master Write-Read command and print response</span><br><span class="line">        spd           Print SPD info from remote I2C device</span><br><span class="line">        lan           Configure LAN Channels</span><br><span class="line">        chassis       Get chassis status and set power state</span><br><span class="line">        power         Shortcut to chassis power commands</span><br><span class="line">        event         Send pre-defined events to MC</span><br><span class="line">        mc            Management Controller status and global enables</span><br><span class="line">        sdr           Print Sensor Data Repository entries and readings</span><br><span class="line">        sensor        Print detailed sensor information</span><br><span class="line">        fru           Print built-in FRU and scan SDR for FRU locators</span><br><span class="line">        gendev        Read/Write Device associated with Generic Device locators sdr</span><br><span class="line">        sel           Print System Event Log (SEL)</span><br><span class="line">        pef           Configure Platform Event Filtering (PEF)</span><br><span class="line">        sol           Configure and connect IPMIv2.0 Serial-over-LAN</span><br><span class="line">        tsol          Configure and connect with Tyan IPMIv1.5 Serial-over-LAN</span><br><span class="line">        isol          Configure IPMIv1.5 Serial-over-LAN</span><br><span class="line">        user          Configure Management Controller users</span><br><span class="line">        channel       Configure Management Controller channels</span><br><span class="line">        session       Print session information</span><br><span class="line">        dcmi          Data Center Management Interface</span><br><span class="line">        sunoem        OEM Commands for Sun servers</span><br><span class="line">        kontronoem    OEM Commands for Kontron devices</span><br><span class="line">        picmg         Run a PICMG/ATCA extended cmd</span><br><span class="line">        fwum          Update IPMC using Kontron OEM Firmware Update Manager</span><br><span class="line">        firewall      Configure Firmware Firewall</span><br><span class="line">        delloem       OEM Commands for Dell systems</span><br><span class="line">        shell         Launch interactive IPMI shell</span><br><span class="line">        exec          Run list of commands from file</span><br><span class="line">        set           Set runtime variable for shell and exec</span><br><span class="line">        hpm           Update HPM components using PICMG HPM.1 file</span><br><span class="line">        ekanalyzer    run FRU-Ekeying analyzer using FRU files</span><br><span class="line">        ime           Update Intel Manageability Engine Firmware</span><br></pre></td></tr></table></figure>
+<h4 id="常用"><a href="#常用" class="headerlink" title="常用"></a>常用</h4><p>电源操作<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ipmitool -I lanplus -H 192.168.1.231 -U username -P password chassis power off</span><br><span class="line">ipmitool -I lanplus -H 192.168.1.231 -U username -P password chassis power reset</span><br><span class="line">ipmitool -I lanplus -H 192.168.1.231 -U username -P password chassis power on</span><br><span class="line">ipmitool -I lanplus -H 192.168.1.231 -U username -P password chassis power status</span><br></pre></td></tr></table></figure></p>
+<p>版本查看<br><code>ipmitool -V</code><br>设备信息<br><code>ipmitool -I lanplus -H 192.168.1.231 -U lenovo -P lenovo chassis status</code></p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ipmitool -I lanplus -H myserver.example.com -P mypass chassis power on</td>
+<td>打开服务器的电源</td>
+</tr>
+<tr>
+<td>ipmitool -I lanplus -H myserver.example.com -P mypass chassis power off</td>
+<td>关闭服务器的电源</td>
+</tr>
+<tr>
+<td>ipmitool -I lanplus -H myserver.example.com -P mypass chassis status</td>
+<td>检查服务器状态</td>
+</tr>
+<tr>
+<td>ipmitool -I lanplus -H myserver.example.com -P mypass chassis power cycle</td>
+<td>关闭服务器的电源，然后重新打开</td>
+</tr>
+<tr>
+<td>ipmitool -I lanplus -H myserver.example.com -P mypass sol activate  激活 SOL</td>
+<td>系统控制台</td>
+</tr>
+<tr>
+<td>ipmitool -I lanplus -H myserver.example.com -P mypass sol deactivate</td>
+<td>取消激活 SOL 系统控制台</td>
+</tr>
+<tr>
+<td>ipmitool -I lanplus -H myserver.example.com -P mypass sel list</td>
+<td>返回错误日志</td>
+</tr>
+<tr>
+<td>ipmitool -I lanplus -H myserver.example.com -P mypass sdr list</td>
+<td>列示所有传感器的状态</td>
+</tr>
+<tr>
+<td>ipmitool -I lanplus -H myserver.example.com -P mypass sol set retry-interval value</td>
+<td>设置缺省重试时间间隔值（以毫秒计）</td>
+</tr>
+<tr>
+<td>ipmitool -I lanplus -H myserver.example.com -P mypass fru print</td>
+<td>打印 FRU 信息</td>
+</tr>
+<tr>
+<td>ipmitool -I lanplus -H myserver.example.com -P mypass user list</td>
+<td>列示 IPMI 用户</td>
+</tr>
+</tbody>
+</table>
+<h4 id="详细"><a href="#详细" class="headerlink" title="详细"></a>详细</h4><p>查询SDR(Print Sensor Data Repository entries and readings)传感器数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">[root@centos-01 ~]# ipmitool -I lanplus -H 192.168.1.231 -U lenovo -P lenovo sdr list</span><br><span class="line">CPU1 Status      | 0x00              | ok</span><br><span class="line">CPU2 Status      | 0x00              | ok</span><br><span class="line">CPU1 Temp        | 42 degrees C      | ok</span><br><span class="line">CPU2 Temp        | 57 degrees C      | ok</span><br><span class="line">DIMM Zone1 Temp  | 33 degrees C      | ok</span><br><span class="line">DIMM Zone2 Temp  | 30 degrees C      | ok</span><br><span class="line">DIMM Zone3 Temp  | 28 degrees C      | ok</span><br><span class="line">DIMM Zone4 Temp  | 31 degrees C      | ok</span><br><span class="line">PCH Temp         | 48 degrees C      | ok</span><br><span class="line">PSU Inlet Temp   | 31 degrees C      | ok</span><br><span class="line">PCI Zone1 Temp   | 36 degrees C      | ok</span><br><span class="line">PCI Zone2 Temp   | 32 degrees C      | ok</span><br><span class="line">Inlet Amb Temp   | 17 degrees C      | ok</span><br><span class="line">3.3V Standby     | 3.23 Volts        | ok</span><br><span class="line">5V Standby       | 5.00 Volts        | ok</span><br><span class="line">3.3V             | 3.23 Volts        | ok</span><br><span class="line">5V               | 5.00 Volts        | ok</span><br><span class="line">12V              | 11.96 Volts       | ok</span><br><span class="line">3V Battery       | 3.12 Volts        | ok</span><br><span class="line">12V Standby      | 11.70 Volts       | ok</span><br><span class="line">Power Reading    | 228 Watts/hour    | ok</span><br><span class="line">PSU1 Status      | 0x00              | ok</span><br><span class="line">PSU2 Status      | 0x00              | ok</span><br><span class="line">Power Unit       | 0x00              | ok</span><br><span class="line">12V Ch A Fault   | 0x00              | ok</span><br><span class="line">12V Ch B Fault   | 0x00              | ok</span><br><span class="line">12V Ch C Fault   | 0x00              | ok</span><br><span class="line">12V Ch D Fault   | 0x00              | ok</span><br><span class="line">12V Ch E Fault   | 0x00              | ok</span><br><span class="line">12V Ch F Fault   | 0x00              | ok</span><br><span class="line">Watchdog         | 0x00              | ok</span><br><span class="line">Memory ECC       | Not Readable      | ns</span><br><span class="line">BIOS Event       | Not Readable      | ns</span><br><span class="line">PCI Riser1 Temp  | 32 degrees C      | ok</span><br><span class="line">PCI Riser2 Temp  | no reading        | ns</span><br><span class="line">FAN1             | 3840 RPM          | ok</span><br><span class="line">FAN2             | 3840 RPM          | ok</span><br><span class="line">FAN3             | 3780 RPM          | ok</span><br><span class="line">FAN4             | 3840 RPM          | ok</span><br><span class="line">FAN5             | 3840 RPM          | ok</span><br><span class="line">FAN6             | 3780 RPM          | ok</span><br><span class="line">Sys Pwr Monitor  | 0x00              | ok</span><br><span class="line">[root@centos-01 ~]#</span><br></pre></td></tr></table></figure>
+<p>-v 查询详细</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">[root@centos-01 ~]<span class="comment"># ipmitool -I lanplus -H 192.168.1.231 -U lenovo -P lenovo -v sdr list</span></span><br><span class="line">Running Get PICMG Properties my_addr 0x20, transit 0, target 0x20</span><br><span class="line">Error response 0xc1 from Get PICMG Properities</span><br><span class="line">Running Get VSO Capabilities my_addr 0x20, transit 0, target 0x20</span><br><span class="line">Invalid completion code received: Invalid <span class="built_in">command</span></span><br><span class="line">Discovered IPMB address 0x0</span><br><span class="line">Sensor ID              : CPU1 Status (0x1)</span><br><span class="line"> Entity ID             : 3.1 (Processor)</span><br><span class="line"> Sensor Type (Discrete): Processor (0x07)</span><br><span class="line"> Sensor Reading        : 0h</span><br><span class="line"> Event Message Control : Per-threshold</span><br><span class="line"> States Asserted       : Processor</span><br><span class="line">                         [Presence detected]</span><br><span class="line"> Assertion Events      : Processor</span><br><span class="line">                         [Presence detected]</span><br><span class="line"> Assertions Enabled    : Processor</span><br><span class="line">                         [Thermal Trip]</span><br><span class="line"> OEM                   : 0</span><br><span class="line"></span><br><span class="line">Sensor ID              : CPU2 Status (0x2)</span><br><span class="line"> Entity ID             : 3.2 (Processor)</span><br><span class="line"> Sensor Type (Discrete): Processor (0x07)</span><br><span class="line"> Sensor Reading        : 0h</span><br><span class="line"> Event Message Control : Per-threshold</span><br><span class="line"> States Asserted       : Processor</span><br><span class="line">                         [Presence detected]</span><br><span class="line"> Assertion Events      : Processor</span><br><span class="line">                         [Presence detected]</span><br><span class="line"> Assertions Enabled    : Processor</span><br><span class="line">                         [Thermal Trip]</span><br><span class="line"> OEM                   : 0</span><br><span class="line"></span><br><span class="line">Sensor ID              : CPU1 Temp (0x9)</span><br><span class="line"> Entity ID             : 3.1 (Processor)</span><br><span class="line"> Sensor Type (Threshold)  : Temperature (0x01)</span><br><span class="line"> Sensor Reading        : 46 (+/- 0) degrees C</span><br><span class="line"> Status                : ok</span><br><span class="line"> Nominal Reading       : 35.000</span><br><span class="line"> Upper critical        : 75.000</span><br><span class="line"> Upper non-critical    : 70.000</span><br><span class="line"> Positive Hysteresis   : Unspecified</span><br><span class="line"> Negative Hysteresis   : Unspecified</span><br><span class="line"> Minimum sensor range  : Unspecified</span><br><span class="line"> Maximum sensor range  : Unspecified</span><br><span class="line"> Event Message Control : Per-threshold</span><br><span class="line"> Readable Thresholds   : unc ucr </span><br><span class="line"> Settable Thresholds   : </span><br><span class="line"> Threshold Read Mask   : unc ucr </span><br><span class="line"> Assertion Events      : </span><br><span class="line"> Assertions Enabled    : unc+ ucr+ </span><br><span class="line"> Deassertions Enabled  : unc+ ucr+</span><br></pre></td></tr></table></figure>
+<p>这里要注意<code>Sensor ID</code> 可根据其查询相关信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@centos-01 ~]<span class="comment"># ipmitool -I lanplus -H 192.168.1.231 -U lenovo -P lenovo sdr get "CPU1 Status"</span></span><br><span class="line">Sensor ID              : CPU1 Status (0x1)</span><br><span class="line"> Entity ID             : 3.1 (Processor)</span><br><span class="line"> Sensor Type (Discrete): Processor (0x07)</span><br><span class="line"> Sensor Reading        : 0h</span><br><span class="line"> Event Message Control : Per-threshold</span><br><span class="line"> States Asserted       : Processor</span><br><span class="line">                         [Presence detected]</span><br><span class="line"> Assertion Events      : Processor</span><br><span class="line">                         [Presence detected]</span><br><span class="line"> Assertions Enabled    : Processor</span><br><span class="line">                         [Thermal Trip]</span><br><span class="line"> OEM                   : 0</span><br></pre></td></tr></table></figure>
+<p>另外注意<code>Entity ID</code> ，也可根据查询相关信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@centos-01 ~]<span class="comment"># ipmitool -I lanplus -H 192.168.1.231 -U lenovo -P lenovo sdr entity 3.1</span></span><br><span class="line">CPU1 Status      | 01h | ok  |  3.1 | Presence detected</span><br><span class="line">CPU1 Temp        | 09h | ok  |  3.1 | 43 degrees C</span><br></pre></td></tr></table></figure>
+<p>这些命令可以通过帮助进行查看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">[root@centos-01 ~]# ipmitool -I lanplus -H 192.168.1.231 -U lenovo -P lenovo sdr help</span><br><span class="line">usage: sdr &lt;command&gt; [options]</span><br><span class="line">               list | elist [option]</span><br><span class="line">                     all           All SDR Records</span><br><span class="line">                     full          Full Sensor Record</span><br><span class="line">                     compact       Compact Sensor Record</span><br><span class="line">                     event         Event-Only Sensor Record</span><br><span class="line">                     mcloc         Management Controller Locator Record</span><br><span class="line">                     fru           FRU Locator Record</span><br><span class="line">                     generic       Generic Device Locator Record</span><br><span class="line"></span><br><span class="line">               type [option]</span><br><span class="line">                     &lt;Sensor_Type&gt; Retrieve the state of specified sensor.</span><br><span class="line">                                   Sensor_Type can be specified either as</span><br><span class="line">                                   a string or a hex value.</span><br><span class="line">                     list          Get a list of available sensor types</span><br><span class="line"></span><br><span class="line">               get &lt;Sensor_ID&gt;</span><br><span class="line">                     Retrieve state of the first sensor matched by Sensor_ID</span><br><span class="line"></span><br><span class="line">               info</span><br><span class="line">                     Display information about the repository itself</span><br><span class="line"></span><br><span class="line">               entity &lt;Entity_ID&gt;[.&lt;Instance_ID&gt;]</span><br><span class="line">                     Display all sensors associated with an entity</span><br><span class="line"></span><br><span class="line">               dump &lt;file&gt;</span><br><span class="line">                     Dump raw SDR data to a file</span><br><span class="line"></span><br><span class="line">               fill &lt;option&gt;</span><br><span class="line">                     sensors       Creates the SDR repository for the current</span><br><span class="line">                                   configuration</span><br><span class="line">                     nosat         Creates the SDR repository for the current</span><br><span class="line">                                   configuration, without satellite scan</span><br><span class="line">                     file &lt;file&gt;   Load SDR repository from a file</span><br><span class="line">                     range &lt;range&gt; Load SDR repository from a provided list</span><br><span class="line">                                   or range. Use &apos;,&apos; for list or &apos;-&apos; for</span><br><span class="line">                                   range, eg. 0x28,0x32,0x40-0x44</span><br><span class="line">[root@centos-01 ~]#</span><br></pre></td></tr></table></figure>
+<hr>
+
+      
+    </div>
+    
+    
+    
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2018/01/21/ipmi/">ipmi</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 zili 的个人博客">zili</a></p>
+  <p><span>发布时间:</span>2018年01月21日 - 17:01</p>
+  <p><span>原始链接:</span><a href="/2018/01/21/ipmi/" title="ipmi">https://dl1548.github.io/2018/01/21/ipmi/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://dl1548.github.io/2018/01/21/ipmi/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果您觉得文章对您有帮助的话. 感谢支持~!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="zili 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="zili 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ipmi/" rel="tag"><i class="fa fa-tag"></i> ipmi</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/01/pysnmp使用/" rel="next" title="pysnmp使用">
+                <i class="fa fa-chevron-left"></i> pysnmp使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/21/ldapsearch/" rel="prev" title="ldap-zbx单点登录">
+                ldap-zbx单点登录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/zili.jpg" alt="zili">
+            
+              <p class="site-author-name" itemprop="name">zili</p>
+              <p class="site-description motion-element" itemprop="description">众生皆苦</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/dl1548" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="暂" target="_blank">暂</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="无" target="_blank">无</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="友" target="_blank">友</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com/" title="链" target="_blank">链</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数"><span class="nav-number">3.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用"><span class="nav-number">4.</span> <span class="nav-text">常用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#详细"><span class="nav-number">5.</span> <span class="nav-text">详细</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+<!-- music -->
+      <br><br>cn.zili.lee@gmail.com
+    </div>
+
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zili 豫ICP备17037562号</span>
+
+  
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      已有
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      位陌生人来过
+    </span>
+  
+
+  
+    <span class="site-pv">
+      已有
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次访问
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cythS3OwJ';
+      var conf = 'bb066f28faf1b1f48464e7f77b1e4c46';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
