@@ -115,7 +115,7 @@ scheme: Gemini
 # Value before `||` delimeter is the target permalink.
 # Value after `||` delimeter is the name of FontAwesome icon. If icon (with or without delimeter) is not specified, globe icon will be loaded.
 social:
-  微博: http://weibo.com/lizili958 || weibo
+  #微博: http://weibo.com/lizili958 || weibo
   GitHub: https://github.com/dl1548 || github
   #Google: https://plus.google.com/yourname || google
   #Twitter: https://twitter.com/yourname || twitter

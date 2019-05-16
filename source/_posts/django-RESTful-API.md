@@ -13,9 +13,8 @@ password: woshizhu
 开发中经常遇到前后端分离,实现就要借助API.
 API简单说就是开发人员提供编程接口被其他人调用,他们调用之后会返回数据供其使用
 API的类型有多种，但是现在比较主流且实用的就是RESTful API.
-
 本文用作个人记录
-
+<img src="/images/drf-api-docs.png" alt="drf-api-docs" align=center />
 <!-- more -->
 
 #### 依赖环境
