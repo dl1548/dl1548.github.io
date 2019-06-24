@@ -108,7 +108,8 @@ from data.models import * #导入data下的models
 class OsInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model =OsInfo
-        fields =('id','host_ip','os_sys','os_version','os_kernel','cpu_model','cpu_num','cpu_core','mem_total','disk_total','product_id')
+        #fields = '__all__'  # 所有
+        fields =('id','host_ip','os_sys','os_version',等等)
 
 #定义了针对数据库表数据的过滤筛选类
 ```
