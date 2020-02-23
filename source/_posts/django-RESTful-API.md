@@ -112,6 +112,16 @@ class OsInfoSerializer(serializers.ModelSerializer):
         fields =('id','host_ip','os_sys','os_version',等等)
 
 #定义了针对数据库表数据的过滤筛选类
+
+
+#=================第二种，post 推荐======================
+
+class FetchOsInfoSerializer(serializers.Serializer):
+    """
+    获取操作系统信息参数序列化
+    """
+    ip = serializers.CharField(min_length=7, max_length=15, label="主机ip",help_text='操作系统ip')
+
 ```
 
 ##### urls.py
@@ -130,7 +140,7 @@ urlpatterns = [
     url(r'^', include(router.urls)),
 ]
 ```
-##### views.py(api下)
+##### views.py
 
 ```
 # data db
@@ -158,6 +168,41 @@ class OsInfoOne(viewsets.ViewSet):
 
         if serializer.data == []:
             return Response('None')
+        else:
+            return Response(serializer.data)
+            
+            
+#=================第二种，post 推荐======================
+
+class OsInfoOne(mixins.CreateModelMixin,viewsets.GenericViewSet):
+    """
+    这里是接口描述
+    """
+    serializer_class = FetchOsInfoSerializer
+    
+    def create(self,request):
+        """
+        根据ip获取主机信息
+        """
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        post_data = serializer.validated_data
+        # print(post_data['ip'])
+
+        if post_data["ip"]:
+            try:
+                queryset = OsInfo.objects.filter(host_ip=post_data["ip"])
+                serializer = serializers.OsInfoSerializer(queryset, many=True)
+            except Exception as e:
+                return Response({"status":"failed","message":str(e)})
+        else:
+            try:
+                queryset = OsInfo.objects.all()
+                serializer = serializers.OsInfoSerializer(queryset, many=True)
+            except Exception as e:
+                return Response({"status":"failed","message":str(e)})
+        if serializer.data == []:
+            return Response({"status":"failed","message":'Data is empty'})
         else:
             return Response(serializer.data)
 ```

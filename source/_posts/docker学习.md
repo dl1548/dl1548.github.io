@@ -24,6 +24,9 @@ yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依�
 `yum install -y yum-utils device-mapper-persistent-data lvm2`
 **添加yum源**
 ```
+# 阿里源
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
 #中科大
 sudo yum-config-manager --add-repo https://mirrors.ustc.edu.cn/docker-ce/linux/centos/docker-ce.repo
 # 官方源

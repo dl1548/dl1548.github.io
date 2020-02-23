@@ -170,7 +170,7 @@ su - es
 /usr/local/elasticsearch-5.6.2/bin/elasticsearch
 /usr/local/elasticsearch-5.6.2/bin/elasticsearch -d #守护进程方式启动
 nohup /usr/local/elasticsearch-5.6.2/bin/elasticsearch > /var/log/es.log 2>&1 & #推荐
- ```
+```
 
 ##### es报错解决方案
 
@@ -197,7 +197,7 @@ vi /etc/sysctl.conf
 vm.max_map_count=655360
 #运行命令生效
 sysctl -p
-```
+ ```
 
 #### 检查es启动状态,并访问
 ```json
@@ -228,6 +228,8 @@ tcp6       0      0 :::9300                 :::*                    LISTEN      
 #### elasticsearch配置文件详解
 
 [root@es-node-01 ~]# cat /usr/local/elasticsearch-6.6.2/config/elasticsearch.yml | grep ^[a-Z]
+
+```
 # 集群名,多个节点定义统一名字
 cluster.name: zili-es-cluster
 #节点名,自定义
@@ -253,7 +255,7 @@ discovery.zen.minimum_master_nodes: 2
 
 [此链接为出处](http://www.cnblogs.com/zlslch/p/6419948.html)
 
-```bash
+​```bash
 elasticsearch-.yml（中文配置详解）
 
 # ======================== Elasticsearch Configuration =========================

@@ -6,6 +6,7 @@ tags:
 categories:
     - linux
 copyright: true
+password: woshizhu
 ---
 
 kubernetes集群部署
